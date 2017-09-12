@@ -9,7 +9,7 @@ together with the `cvmfs` tag.
 How to create and upload an image
 ---------------------------------
 
-The image for either CERN CentOS7 or Scientific Linux 6 is build using
+The image for either CERN CentOS 7 or Scientific Linux CERN 6 is build using
 
     docker build --pull <cc7|slc6>
 
