@@ -1,0 +1,54 @@
+stages:
+  - build_images
+
+build_cc7_master:
+  stage: build_images
+  tags: 
+    - docker-image-build
+  only: 
+    - master
+  variables:
+    CONTEXT_DIR: cc7
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/cc7
+
+  script:
+    - echo
+
+build_slc6_master:
+  stage: build_images
+  tags: 
+    - docker-image-build
+  only: 
+    - master
+  variables:
+    CONTEXT_DIR: slc6
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6
+
+  script:
+    - echo
+
+
+build_cc7:
+  stage: build_images
+  tags: 
+    - docker-image-build
+  except: 
+    - master
+  variables:
+    CONTEXT_DIR: cc7
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/${CI_COMMIT_REF_NAME}/cc7
+  script:
+    - echo
+
+      
+build_slc6:
+  stage: build_images
+  tags: 
+    - docker-image-build
+  except: 
+    - master
+  variables:
+    CONTEXT_DIR: slc6
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/${CI_COMMIT_REF_NAME}/slc6
+  script:
+    - echo
