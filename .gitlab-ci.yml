@@ -27,6 +27,17 @@ build_slc6_master:
   script:
     - echo
 
+build_check_master:
+  stage: build_images
+  tags: 
+    - docker-image-build
+  only: 
+    - master
+  variables:
+    CONTEXT_DIR: check
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check
+  script:
+    - echo
 
 build_cc7:
   stage: build_images
@@ -50,5 +61,17 @@ build_slc6:
   variables:
     CONTEXT_DIR: slc6
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/${CI_COMMIT_REF_NAME}/slc6
+  script:
+    - echo
+
+build_check:
+  stage: build_images
+  tags: 
+    - docker-image-build
+  except: 
+    - master
+  variables:
+    CONTEXT_DIR: check
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/${CI_COMMIT_REF_NAME}/check
   script:
     - echo
