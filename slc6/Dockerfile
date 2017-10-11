@@ -27,3 +27,8 @@ RUN yum -y install \
         libXpm-devel \
         openmotif-devel \
     && yum -y clean all
+# packages for deployment
+RUN yum -y install \
+        tar \
+        krb5-workstation\
+    && yum -y clean all
