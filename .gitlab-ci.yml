@@ -47,7 +47,7 @@ build_cc7:
     - master
   variables:
     CONTEXT_DIR: cc7
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/${CI_COMMIT_REF_NAME}/cc7
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/cc7:${CI_COMMIT_REF_NAME}
   script:
     - echo
 
@@ -60,7 +60,7 @@ build_slc6:
     - master
   variables:
     CONTEXT_DIR: slc6
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/${CI_COMMIT_REF_NAME}/slc6
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6:${CI_COMMIT_REF_NAME}
   script:
     - echo
 
@@ -72,6 +72,6 @@ build_check:
     - master
   variables:
     CONTEXT_DIR: check
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/${CI_COMMIT_REF_NAME}/check
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check:${CI_COMMIT_REF_NAME}
   script:
     - echo
