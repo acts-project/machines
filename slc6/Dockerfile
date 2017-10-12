@@ -21,14 +21,11 @@ RUN yum -y update \
         pkgconfig \
         which \
     && yum -y clean all
-# packages needed to run software from cvmfs
+# packages needed to run software from cvmfs and to deploy a tag
 RUN yum -y install \
         freeglut-devel \
         libXpm-devel \
         openmotif-devel \
-    && yum -y clean all
-# packages for deployment
-RUN yum -y install \
         tar \
         krb5-workstation\
     && yum -y clean all
