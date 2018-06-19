@@ -26,4 +26,5 @@ RUN yum -y install \
         freeglut-devel \
         libXpm-devel \
         motif-devel \
+        redhat-lsb-core \
     && yum -y clean all

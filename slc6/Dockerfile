@@ -28,4 +28,5 @@ RUN yum -y install \
         openmotif-devel \
         tar \
         krb5-workstation\
+        redhat-lsb-core \
     && yum -y clean all
