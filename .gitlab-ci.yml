@@ -1,8 +1,8 @@
 stages:
-  - build_images
+  - build_base_images
+  - build_derived_images
 
 .build: &template_build
-  stage: build_images
   tags: 
     - docker-image-build
   except: 
@@ -11,7 +11,6 @@ stages:
     - echo
 
 .build_master: &template_build_master
-  stage: build_images
   tags: 
     - docker-image-build
   only: 
@@ -22,30 +21,29 @@ stages:
 
 build_cc7_master:
   <<: *template_build_master
+  stage: build_base_images
   variables:
     CONTEXT_DIR: cc7
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/cc7
 
 build_slc6_master:
   <<: *template_build_master
+  stage: build_base_images
   variables:
     CONTEXT_DIR: slc6
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6
 
 build_check_master:
   <<: *template_build_master
+  stage: build_base_images
   variables:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check
 
-build_cc7-clang-tidy_master:
-  <<: *template_build_master
-  variables:
-    CONTEXT_DIR: static_analysis/cc7-clang-tidy
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/static_analysis/cc7-clang-tidy
 
 build_cc7:
   <<: *template_build
+  stage: build_base_images
   variables:
     CONTEXT_DIR: cc7
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/cc7:${CI_COMMIT_REF_NAME}
@@ -53,18 +51,34 @@ build_cc7:
       
 build_slc6:
   <<: *template_build
+  stage: build_base_images
   variables:
     CONTEXT_DIR: slc6
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6:${CI_COMMIT_REF_NAME}
 
 build_check:
   <<: *template_build
+  stage: build_base_images
   variables:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check:${CI_COMMIT_REF_NAME}
 
+
+### STATIC ANALYSIS
+
+# This depends on acts/machines/static_analysis/cc7-clang-tidy (i.e. upstream)
+# to be pushed before this runs. This will not work in a fork if you make
+# changes to the base image, since it doesn't push to the right registry
+build_cc7-clang-tidy_master:
+  <<: *template_build_master
+  stage: build_derived_images
+  variables:
+    CONTEXT_DIR: static_analysis/cc7-clang-tidy
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/static_analysis/cc7-clang-tidy
+
 build_cc7-clang-tidy:
   <<: *template_build
+  stage: build_derived_images
   variables:
     CONTEXT_DIR: static_analysis/cc7-clang-tidy
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/static_analysis/cc7-clang-tidy:${CI_COMMIT_REF_NAME}
