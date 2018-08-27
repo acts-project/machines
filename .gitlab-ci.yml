@@ -38,6 +38,12 @@ build_check_master:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check
 
+build_cc7-clang-tidy_master:
+  <<: *template_build_master
+  variables:
+    CONTEXT_DIR: static_analysis/cc7-clang-tidy
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/static_analysis/cc7-clang-tidy
+
 build_cc7:
   <<: *template_build
   variables:
@@ -56,3 +62,9 @@ build_check:
   variables:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check:${CI_COMMIT_REF_NAME}
+
+build_cc7-clang-tidy:
+  <<: *template_build
+  variables:
+    CONTEXT_DIR: static_analysis/cc7-clang-tidy
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/static_analysis/cc7-clang-tidy:${CI_COMMIT_REF_NAME}
