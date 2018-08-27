@@ -1,77 +1,58 @@
 stages:
   - build_images
 
-build_cc7_master:
+.build: &template_build
+  stage: build_images
+  tags: 
+    - docker-image-build
+  except: 
+    - master
+  script:
+    - echo
+
+.build_master: &template_build_master
   stage: build_images
   tags: 
     - docker-image-build
   only: 
     - master
+  script:
+    - echo
+
+
+build_cc7_master:
+  <<: *template_build_master
   variables:
     CONTEXT_DIR: cc7
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/cc7
 
-  script:
-    - echo
-
 build_slc6_master:
-  stage: build_images
-  tags: 
-    - docker-image-build
-  only: 
-    - master
+  <<: *template_build_master
   variables:
     CONTEXT_DIR: slc6
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6
 
-  script:
-    - echo
-
 build_check_master:
-  stage: build_images
-  tags: 
-    - docker-image-build
-  only: 
-    - master
+  <<: *template_build_master
   variables:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check
-  script:
-    - echo
 
 build_cc7:
-  stage: build_images
-  tags: 
-    - docker-image-build
-  except: 
-    - master
+  <<: *template_build
   variables:
     CONTEXT_DIR: cc7
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/cc7:${CI_COMMIT_REF_NAME}
-  script:
-    - echo
 
       
 build_slc6:
-  stage: build_images
-  tags: 
-    - docker-image-build
-  except: 
-    - master
+  <<: *template_build
   variables:
     CONTEXT_DIR: slc6
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6:${CI_COMMIT_REF_NAME}
-  script:
-    - echo
 
 build_check:
-  stage: build_images
-  tags: 
-    - docker-image-build
-  except: 
-    - master
+  <<: *template_build
   variables:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check:${CI_COMMIT_REF_NAME}
-  script:
-    - echo
