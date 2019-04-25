@@ -41,7 +41,7 @@ build_check_master:
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check
 
 build_check_llvm8_master:
-  <<: *build_base
+  <<: *template_build_master
   only: 
     - master
   variables:
@@ -49,7 +49,7 @@ build_check_llvm8_master:
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8:${CI_COMMIT_REF_NAME}
     
 build_llvm_master:
-  <<: *build_base
+  <<: *template_build_master
   only: 
     - master
   variables:
@@ -75,7 +75,7 @@ build_slc6:
     - echo
       
 build_ubuntu1804:
-  <<: *build_base
+  <<: *template_build
   except: 
     - master
   variables:
@@ -90,7 +90,7 @@ build_check:
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check:${CI_COMMIT_REF_NAME}
 
 build_check_llvm8:
-  <<: *build_base
+  <<: *template_build
   except: 
     - master
   variables:
