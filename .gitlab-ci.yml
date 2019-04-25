@@ -66,13 +66,13 @@ build_slc6:
   script:
     - echo
       
-build_llvm:
+build_ubuntu1804:
   <<: *build_base
   except: 
     - master
   variables:
     CONTEXT_DIR: llvm
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/llvm:${CI_COMMIT_REF_NAME}
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/ubuntu1804:${CI_COMMIT_REF_NAME}
 
 build_check:
   <<: *template_build
