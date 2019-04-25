@@ -47,6 +47,7 @@ build_check_llvm8_master:
     - master
   variables:
     CONTEXT_DIR: check
+    DOCKER_FILE: Dockerfile.llvm8
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8
     
 build_ubuntu1804_master:
@@ -99,6 +100,7 @@ build_check_llvm8:
     - master
   variables:
     CONTEXT_DIR: check
+    DOCKER_FILE: Dockerfile.llvm8
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8:${CI_COMMIT_REF_NAME}
 
 ### STATIC ANALYSIS
