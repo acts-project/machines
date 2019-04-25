@@ -40,6 +40,25 @@ build_check_master:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check
 
+build_check_llvm8_master:
+  <<: *template_build_master
+  stage: build_base_images
+  only: 
+    - master
+  variables:
+    CONTEXT_DIR: check
+    DOCKER_FILE: Dockerfile.llvm8
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8
+    
+build_ubuntu1804_master:
+  <<: *template_build_master
+  stage: build_base_images
+  only: 
+    - master
+  variables:
+    CONTEXT_DIR: llvm
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/ubuntu1804
+
 
 build_cc7:
   <<: *template_build
@@ -55,6 +74,17 @@ build_slc6:
   variables:
     CONTEXT_DIR: slc6
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6:${CI_COMMIT_REF_NAME}
+  script:
+    - echo
+      
+build_ubuntu1804:
+  <<: *template_build
+  stage: build_base_images
+  except: 
+    - master
+  variables:
+    CONTEXT_DIR: llvm
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/ubuntu1804:${CI_COMMIT_REF_NAME}
 
 build_check:
   <<: *template_build
@@ -63,6 +93,15 @@ build_check:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check:${CI_COMMIT_REF_NAME}
 
+build_check_llvm8:
+  <<: *template_build
+  stage: build_base_images
+  except: 
+    - master
+  variables:
+    CONTEXT_DIR: check
+    DOCKER_FILE: Dockerfile.llvm8
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8:${CI_COMMIT_REF_NAME}
 
 ### STATIC ANALYSIS
 
