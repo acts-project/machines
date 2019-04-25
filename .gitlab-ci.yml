@@ -39,6 +39,14 @@ build_check_master:
   variables:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check
+    
+build_llvm_master:
+  <<: *build_base
+  only: 
+    - master
+  variables:
+    CONTEXT_DIR: llvm
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/llvm
 
 
 build_cc7:
@@ -55,6 +63,16 @@ build_slc6:
   variables:
     CONTEXT_DIR: slc6
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6:${CI_COMMIT_REF_NAME}
+  script:
+    - echo
+      
+build_llvm:
+  <<: *build_base
+  except: 
+    - master
+  variables:
+    CONTEXT_DIR: llvm
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/llvm:${CI_COMMIT_REF_NAME}
 
 build_check:
   <<: *template_build
