@@ -39,6 +39,14 @@ build_check_master:
   variables:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check
+
+build_check_llvm8_master:
+  <<: *build_base
+  only: 
+    - master
+  variables:
+    CONTEXT_DIR: check
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8:${CI_COMMIT_REF_NAME}
     
 build_llvm_master:
   <<: *build_base
@@ -81,6 +89,13 @@ build_check:
     CONTEXT_DIR: check
     TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check:${CI_COMMIT_REF_NAME}
 
+build_check_llvm8:
+  <<: *build_base
+  except: 
+    - master
+  variables:
+    CONTEXT_DIR: check
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8:${CI_COMMIT_REF_NAME}
 
 ### STATIC ANALYSIS
 
