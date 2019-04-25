@@ -42,19 +42,21 @@ build_check_master:
 
 build_check_llvm8_master:
   <<: *template_build_master
+  stage: build_base_images
   only: 
     - master
   variables:
     CONTEXT_DIR: check
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8:${CI_COMMIT_REF_NAME}
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8
     
-build_llvm_master:
+build_ubuntu1804_master:
   <<: *template_build_master
+  stage: build_base_images
   only: 
     - master
   variables:
     CONTEXT_DIR: llvm
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/llvm
+    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/ubuntu1804
 
 
 build_cc7:
@@ -76,6 +78,7 @@ build_slc6:
       
 build_ubuntu1804:
   <<: *template_build
+  stage: build_base_images
   except: 
     - master
   variables:
@@ -91,6 +94,7 @@ build_check:
 
 build_check_llvm8:
   <<: *template_build
+  stage: build_base_images
   except: 
     - master
   variables:
