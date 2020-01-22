@@ -19,22 +19,25 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 # install clang
-RUN curl -SL http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz \
+ENV LLVM_VERSION=9.0.1
+RUN curl -SL https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/clang+llvm-${LLVM_VERSION}-x86_64-linux-gnu-ubuntu-16.04.tar.xz \
   | tar -xJC . \
-  && mv clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04 clang_9.0.0 \
-  && rsync -rv --links /clang_9.0.0/ /usr/local/ && rm -rf /clang_9.0.0
+  && mv clang+llvm-* clang+llvm \
+  && rsync -rv --links /clang+llvm/ /usr/local/ && rm -rf /clang+llvm
 
 ## install cmake
-RUN curl -SL https://github.com/Kitware/CMake/releases/download/v3.16.3/cmake-3.16.3-Linux-x86_64.tar.gz \
+ENV CMAKE_VERSION=3.16.3
+RUN curl -SL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz \
     | tar -xzC . \
-    && mv cmake-3.16.3-Linux-x86_64 cmake-3.16.3 \
-    && rsync -rv --links /cmake-3.16.3/ /usr/local/ && rm -rf /cmake-3.16.3
+    && mv cmake-* cmake \
+    && rsync -rv --links /cmake/ /usr/local/ && rm -rf /cmake
 
 ENV CXX=clang++ CC=clang
 
 # boost
-RUN export BOOST_VERSION="1.72.0" && export BOOST_VERSION_=${BOOST_VERSION//./_} && \
-    curl -SL boost-${BOOST_VERSION_}.tar.gz http://downloads.sourceforge.net/project/boost/boost/${BOOST_VERSION}/boost_${BOOST_VERSION_}.tar.gz \
+ENV BOOST_VERSION=1.72.0
+RUN export BOOST_VERSION_=${BOOST_VERSION//./_} && \
+    curl -SL boost-${BOOST_VERSION_}.tar.gz https://dl.bintray.com/boostorg/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION_}.tar.gz\
     | tar -xzC . && \
     cd boost_${BOOST_VERSION_}/ && \
     ./bootstrap.sh --prefix=/usr/local/ --with-toolset=clang --with-libraries=program_options,test && \
