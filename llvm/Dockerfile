@@ -25,15 +25,15 @@ RUN curl -SL http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ub
   && rsync -rv --links /clang_9.0.0/ /usr/local/ && rm -rf /clang_9.0.0
 
 ## install cmake
-RUN curl -SL https://github.com/Kitware/CMake/releases/download/v3.13.4/cmake-3.13.4-Linux-x86_64.tar.gz \
+RUN curl -SL https://github.com/Kitware/CMake/releases/download/v3.16.3/cmake-3.16.3-Linux-x86_64.tar.gz \
     | tar -xzC . \
-    && mv cmake-3.13.4-Linux-x86_64 cmake-3.13.4 \
-    && rsync -rv --links /cmake-3.13.4/ /usr/local/ && rm -rf /cmake-3.13.4
+    && mv cmake-3.16.3-Linux-x86_64 cmake-3.16.3 \
+    && rsync -rv --links /cmake-3.16.3/ /usr/local/ && rm -rf /cmake-3.16.3
 
 ENV CXX=clang++ CC=clang
 
 # boost
-RUN export BOOST_VERSION="1.69.0" && export BOOST_VERSION_=${BOOST_VERSION//./_} && \
+RUN export BOOST_VERSION="1.72.0" && export BOOST_VERSION_=${BOOST_VERSION//./_} && \
     curl -SL boost-${BOOST_VERSION_}.tar.gz http://downloads.sourceforge.net/project/boost/boost/${BOOST_VERSION}/boost_${BOOST_VERSION_}.tar.gz \
     | tar -xzC . && \
     cd boost_${BOOST_VERSION_}/ && \
