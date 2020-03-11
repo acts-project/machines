@@ -1,4 +1,8 @@
-FROM gitlab-registry.cern.ch/acts/machines/slc6_lcg_base
+FROM gitlab-registry.cern.ch/acts/machines/slc6
+
+RUN yum install -y http://linuxsoft.cern.ch/wlcg/sl6/x86_64/HEP_OSlibs_SL6-1.1.13-1.el6.x86_64.rpm \
+    && yum-config-manager --add-repo https://lcgpackages.web.cern.ch/lcgpackages/rpms/etc/yum.repos.d/lcg.repo \
+    && yum clean all
 
 ENV LCG_PREFIX=95apython3
 ENV PLATFORM=x86_64-slc6-gcc8-opt

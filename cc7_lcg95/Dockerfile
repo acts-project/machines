@@ -1,4 +1,9 @@
-FROM gitlab-registry.cern.ch/acts/machines/cc7_lcg_base
+FROM gitlab-registry.cern.ch/acts/machines/cc7
+
+RUN yum install -y http://linuxsoft.cern.ch/wlcg/centos7/x86_64/wlcg-repo-1.0.0-1.el7.noarch.rpm \
+    && yum install -y HEP_OSlibs \
+    && yum-config-manager --add-repo https://lcgpackages.web.cern.ch/lcgpackages/rpms/etc/yum.repos.d/lcg.repo \
+    && yum clean all
 
 ENV LCG_PREFIX=95apython3
 ENV PLATFORM=x86_64-centos7-gcc8-opt
