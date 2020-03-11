@@ -1,0 +1,16 @@
+name: Build images
+
+on:
+  - push
+
+jobs:
+  cc7:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: acts-trk/Publish-Docker-Github-Action@master
+      with:
+        name: gitlab-registry.cern.ch/acts/machines/cc7_lcg_base
+        username: ${{ secrets.DOCKER_USERNAME  }}
+        password: ${{ secrets.DOCKER_PASSWORD  }}
+        context: cc7_lcg_base
