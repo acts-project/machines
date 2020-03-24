@@ -1,4 +1,5 @@
-FROM gitlab-registry.cern.ch/acts/machines/cc7
+ARG branch
+FROM gitlab-registry.cern.ch/acts/machines/cc7:$branch
 
 RUN yum install -y http://linuxsoft.cern.ch/wlcg/centos7/x86_64/wlcg-repo-1.0.0-1.el7.noarch.rpm \
     && yum install -y HEP_OSlibs \
