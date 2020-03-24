@@ -7,33 +7,33 @@ jobs:
   cc7_lcg95:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: acts-trk/Publish-Docker-Github-Action@master
-      with:
-        registry: gitlab-registry.cern.ch
-        name: acts/machines/cc7_lcg95
-        username: ${{ secrets.DOCKER_USERNAME  }}
-        password: ${{ secrets.DOCKER_PASSWORD  }}
-        context: cc7_lcg95
+      - uses: actions/checkout@v1
+      - uses: acts-trk/Publish-Docker-Github-Action@master
+        with:
+          registry: gitlab-registry.cern.ch
+          name: acts/machines/cc7_lcg95
+          username: ${{ secrets.DOCKER_USERNAME  }}
+          password: ${{ secrets.DOCKER_PASSWORD  }}
+          context: cc7_lcg95
   cc7_lcg96:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: acts-trk/Publish-Docker-Github-Action@master
-      with:
-        registry: gitlab-registry.cern.ch
-        name: acts/machines/cc7_lcg96
-        username: ${{ secrets.DOCKER_USERNAME  }}
-        password: ${{ secrets.DOCKER_PASSWORD  }}
-        context: cc7_lcg96
+      - uses: actions/checkout@v1
+      - uses: acts-trk/Publish-Docker-Github-Action@master
+        with:
+          registry: gitlab-registry.cern.ch
+          name: acts/machines/cc7_lcg96
+          username: ${{ secrets.DOCKER_USERNAME  }}
+          password: ${{ secrets.DOCKER_PASSWORD  }}
+          context: cc7_lcg96
   slc6_lcg95:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: acts-trk/Publish-Docker-Github-Action@master
-      with:
-        registry: gitlab-registry.cern.ch
-        name: acts/machines/slc6_lcg95
-        username: ${{ secrets.DOCKER_USERNAME  }}
-        password: ${{ secrets.DOCKER_PASSWORD  }}
-        context: slc6_lcg95
+      - uses: actions/checkout@v1
+      - uses: acts-trk/Publish-Docker-Github-Action@master
+        with:
+          registry: gitlab-registry.cern.ch
+          name: acts/machines/slc6_lcg95
+          username: ${{ secrets.DOCKER_USERNAME  }}
+          password: ${{ secrets.DOCKER_PASSWORD  }}
+          context: slc6_lcg95
