@@ -62,9 +62,10 @@ jobs:
         dir:
           - cc7
           - slc6
+          - ubuntu
+          - ubuntu_llvm9
           # - check
           # - check_llvm8
-          # - ubuntu_llvm9
           # - cc7-clang-tidy
     steps:
       - uses: actions/checkout@v2
