@@ -64,7 +64,7 @@ jobs:
           - slc6
           # - check
           # - check_llvm8
-          - ubuntu_llvm9
+          # - ubuntu_llvm9
           # - cc7-clang-tidy
     steps:
       - uses: actions/checkout@v2
