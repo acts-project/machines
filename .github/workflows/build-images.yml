@@ -12,7 +12,7 @@ jobs:
       - name: Extract branch name
         shell: bash
         run: echo "::set-env name=branch::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
-      - uses: acts-trk/Publish-Docker-Github-Action@master
+      - uses: acts-project/Publish-Docker-Github-Action@master
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/cc7_lcg95
@@ -29,7 +29,7 @@ jobs:
       - name: Extract branch name
         shell: bash
         run: echo "::set-env name=branch::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
-      - uses: acts-trk/Publish-Docker-Github-Action@master
+      - uses: acts-project/Publish-Docker-Github-Action@master
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/cc7_lcg96
@@ -46,7 +46,7 @@ jobs:
       - name: Extract branch name
         shell: bash
         run: echo "::set-env name=branch::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
-      - uses: acts-trk/Publish-Docker-Github-Action@master
+      - uses: acts-project/Publish-Docker-Github-Action@master
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/slc6_lcg95
@@ -63,7 +63,7 @@ jobs:
       - name: Extract branch name
         shell: bash
         run: echo "::set-env name=branch::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
-      - uses: acts-trk/Publish-Docker-Github-Action@master
+      - uses: acts-project/Publish-Docker-Github-Action@master
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/static_analysis/cc7-clang-tidy
@@ -85,7 +85,7 @@ jobs:
           - check_llvm8
     steps:
       - uses: actions/checkout@v2
-      - uses: acts-trk/Publish-Docker-Github-Action@master
+      - uses: acts-project/Publish-Docker-Github-Action@master
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/${{ matrix.dir }}
