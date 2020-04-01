@@ -16,8 +16,8 @@ jobs:
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/cc7_lcg95
-          username: ${{ secrets.DOCKER_USERNAME  }}
-          password: ${{ secrets.DOCKER_PASSWORD  }}
+          username: ${s github.actor  }}
+          password: ${{ secrets.GITHUB_TOKEN  }}
           context: cc7_lcg95
           buildargs: branch
 
@@ -33,8 +33,8 @@ jobs:
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/cc7_lcg96
-          username: ${{ secrets.DOCKER_USERNAME  }}
-          password: ${{ secrets.DOCKER_PASSWORD  }}
+          username: ${{ github.actor  }}
+          password: ${{ secrets.GITHUB_TOKEN  }}
           context: cc7_lcg96
           buildargs: branch
 
@@ -50,8 +50,8 @@ jobs:
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/slc6_lcg95
-          username: ${{ secrets.DOCKER_USERNAME  }}
-          password: ${{ secrets.DOCKER_PASSWORD  }}
+          username: ${{ github.actor  }}
+          password: ${{ secrets.GITHUB_TOKEN  }}
           context: slc6_lcg95
           buildargs: branch
 
@@ -67,8 +67,8 @@ jobs:
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/static_analysis/cc7-clang-tidy
-          username: ${{ secrets.DOCKER_USERNAME  }}
-          password: ${{ secrets.DOCKER_PASSWORD  }}
+          username: ${{ github.actor  }}
+          password: ${{ secrets.GITHUB_TOKEN  }}
           context: check_llvm8
           buildargs: branch
 
@@ -89,7 +89,7 @@ jobs:
         with:
           registry: gitlab-registry.cern.ch
           name: acts/machines/${{ matrix.dir }}
-          username: ${{ secrets.DOCKER_USERNAME  }}
-          password: ${{ secrets.DOCKER_PASSWORD  }}
+          username: ${{ github.actor  }}
+          password: ${{ secrets.GITHUB_TOKEN  }}
           context: ${{ matrix.dir }}
 
