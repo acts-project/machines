@@ -29,15 +29,6 @@ RUN yum -y install \
         redhat-lsb-core \
     && yum -y clean all
 
-# RUN yum -y install \
-        # cvmfs \ 
-        # cvmfs-config-default \
-    # && yum -y clean all
-
-# COPY cvmfs_default.local /etc/cvmfs/default.local
-
-# RUN mkdir -p /etc/cvmfs \
-    # && cvmfs_config setup
 
 RUN curl -SL http://ccl.cse.nd.edu/software/files/cctools-7.0.22-x86_64-centos7.tar.gz \
     | tar -xzC . \
