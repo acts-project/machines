@@ -20,7 +20,7 @@ RUN yum install -y \
     && yum clean all
 
 RUN cd /opt/lcg \
-    && git clone https://gitlab.cern.ch/adye/lcgcmake.git \
+    && git clone https://gitlab.cern.ch/sft/lcgcmake.git \
     && /opt/lcg/lcgcmake/cmake/scripts/create_lcg_view.py \
        -l /opt/lcg \
        -r ${LCG_PREFIX} \
