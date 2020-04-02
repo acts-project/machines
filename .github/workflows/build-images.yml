@@ -16,7 +16,7 @@ jobs:
         with:
           registry: docker.pkg.github.com
           name: acts-project/machines/cc7_lcg95
-          username: ${s github.actor  }}
+          username: ${{ github.actor  }}
           password: ${{ secrets.GITHUB_TOKEN  }}
           context: cc7_lcg95
           buildargs: branch
@@ -92,4 +92,3 @@ jobs:
           username: ${{ github.actor  }}
           password: ${{ secrets.GITHUB_TOKEN  }}
           context: ${{ matrix.dir }}
-
