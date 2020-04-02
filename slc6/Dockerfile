@@ -1,32 +1,15 @@
 FROM cern/slc6-base:latest
 
+LABEL description="Scientific Linux CERN 6 with minimal LCG dependencies"
 LABEL maintainer="Moritz Kiehn <msmk@cern.ch>"
-LABEL version="1.0"
-LABEL description="Scientific Linux CERN 6 with minimal CVMFS dependencies"
+# increase whenever any of the RUN commands change
+LABEL version="4"
 
-# minimal development packages
+# Install all LCG dependencies from the system package manager by using the
+# HEP_OSlibs metapackage as described here
+#
+#     https://gitlab.cern.ch/linuxsupport/rpms/HEP_OSlibs
+#
 RUN yum -y update \
-    && yum -y install \
-        autoconf \
-        automake \
-        cmake \
-        doxygen \
-        gcc \
-        gcc-c++ \
-        gcc-fortran \
-        git \
-        libtool \
-        make \
-        patch \
-        pkgconfig \
-        which \
-    && yum -y clean all
-# packages needed to run software from cvmfs and to deploy a tag
-RUN yum -y install \
-        freeglut-devel \
-        libXpm-devel \
-        openmotif-devel \
-        tar \
-        krb5-workstation\
-        redhat-lsb-core \
-    && yum -y clean all
+  && yum -y install HEP_OSlibs_SL6 \
+  && yum -y clean all
