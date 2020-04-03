@@ -1,17 +1,22 @@
-Docker images for ACTS continous integration
-============================================
+Container images for Acts
+=========================
 
-The docker images are designed to run a full LCG release from CVMFS. The
-system contains only a minimal set of development packages. The resulting
-docker images are to be used in the Gitlab continous integration system
-together with the `cvmfs` tag.
+Two types of container images are available: images that contain all
+dependencies to build the Acts project and images intended for static checks.
+The images are intended to be used in the continuous integration pipeline.
 
-How to create and upload an image
----------------------------------
+The image definitions are usually split: the base image installs only
+dependencies available through the system package manager, the derived
+images contain all dependencies installed either via a custom built or
+through an LCG release.
 
-The image for either CERN CentOS 7 or Scientific Linux CERN 6 is build using
+How to build an image
+---------------------
 
-    docker build --pull <cc7|slc6>
+The following command builds an image based on CERN CentOS 7 with dependencies
+from LCG release 95apython3
+
+    docker build --pull centos7_lcg95apython3
 
 where `--pull` ensures that the latest version of all base images are used.
 This should result in the following output
@@ -20,15 +25,5 @@ This should result in the following output
     Successfully built <image_hash>
 
 The created image is now usable on your local machine using `<image_hash>` as
-the identifier. To upload it to the Gitlab container registry you first need
-to login
+the identifier.
 
-    docker login gitlab-registry.cern.ch
-
-The image needs to tagged to the correct registry path
-
-    docker tag <image_hash> gitlab-registry.cern.ch/acts/machines/<cc7|slc6>
-
-and can then be pushed to the registry itself
-
-    docker push gitlab-registry.cern.ch/acts/machines/<cc7|slc6>
