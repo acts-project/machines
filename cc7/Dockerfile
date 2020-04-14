@@ -28,3 +28,8 @@ RUN yum -y install \
         motif-devel \
         redhat-lsb-core \
     && yum -y clean all
+
+
+RUN curl -SL http://ccl.cse.nd.edu/software/files/cctools-7.0.22-x86_64-centos7.tar.gz \
+    | tar -xzC . \
+    && rsync -ruv cctools-*/ /usr/local

@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 # install clang
-ENV LLVM_VERSION=9.0.0
-RUN curl -SL https://releases.llvm.org/${LLVM_VERSION}/clang+llvm-${LLVM_VERSION}-x86_64-linux-gnu-ubuntu-18.04.tar.xz \
+ENV LLVM_VERSION=9.0.1
+RUN curl -SL https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/clang+llvm-${LLVM_VERSION}-x86_64-linux-gnu-ubuntu-16.04.tar.xz \
   | tar -xJC . \
   && mv clang+llvm-* clang+llvm \
   && rsync -rv --links /clang+llvm/ /usr/local/ && rm -rf /clang+llvm
