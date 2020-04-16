@@ -1,123 +1,71 @@
 stages:
-  - build_base_images
-  - build_derived_images
+  - build-base-images
+  - build-derived-images
 
-.build: &template_build
-  tags: 
-    - docker-image-build
-  except: 
-    - master
+# Build container image using Kaniko as recommended in
+#
+#   https://gitlab.cern.ch/gitlabci-examples/build_docker_image
+#
+.build-image:
+  image:
+    name: gitlab-registry.cern.ch/ci-tools/docker-image-builder
+    entrypoint: [""]
   script:
-    - echo
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context dir://${CI_PROJECT_DIR}/${CONTEXT} --destination ${CI_REGISTRY_IMAGE}/${CONTEXT}:${CI_COMMIT_REF_SLUG} --build-arg=REGISTRY=${CI_REGISTRY_IMAGE} --build-arg=TAG=${CI_COMMIT_REF_SLUG}
+.build-base-image:
+  extends: .build-image
+  stage: build-base-images
+.build-derived-image:
+  extends: .build-image
+  stage: build-derived-images
 
-.build_master: &template_build_master
-  tags: 
-    - docker-image-build
-  only: 
-    - master
-  script:
-    - echo
+# images based on standard distributions
 
-
-build_cc7_master:
-  <<: *template_build_master
-  stage: build_base_images
+format8:
+  extends: .build-base-image
   variables:
-    CONTEXT_DIR: cc7
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/cc7
+    CONTEXT: format8
 
-build_slc6_master:
-  <<: *template_build_master
-  stage: build_base_images
+ubuntu2004:
+  extends: .build-base-image
   variables:
-    CONTEXT_DIR: slc6
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6
+    CONTEXT: ubuntu2004
+  # includes manual builds which take a bit of time
+  timeout: 3h
 
-build_check_master:
-  <<: *template_build_master
-  stage: build_base_images
-  variables:
-    CONTEXT_DIR: check
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check
+# lcg base images with required packages from the system
 
-build_check_llvm8_master:
-  <<: *template_build_master
-  stage: build_base_images
-  only: 
-    - master
+centos7:
+  extends: .build-base-image
   variables:
-    CONTEXT_DIR: check
-    DOCKER_FILE: Dockerfile.llvm8
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8
-    
-build_ubuntu_llvm_master:
-  <<: *template_build_master
-  stage: build_base_images
-  only: 
-    - master
-  variables:
-    CONTEXT_DIR: ubuntu_llvm
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/ubuntu1804_llvm9
+    CONTEXT: centos7
 
-
-build_cc7:
-  <<: *template_build
-  stage: build_base_images
+slc6:
+  extends: .build-base-image
   variables:
-    CONTEXT_DIR: cc7
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/cc7:${CI_COMMIT_REF_NAME}
+    CONTEXT: slc6
 
-      
-build_slc6:
-  <<: *template_build
-  stage: build_base_images
-  variables:
-    CONTEXT_DIR: slc6
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/slc6:${CI_COMMIT_REF_NAME}
-  script:
-    - echo
-      
-build_ubuntu_llvm:
-  <<: *template_build
-  stage: build_base_images
-  except: 
-    - master
-  variables:
-    CONTEXT_DIR: ubuntu_llvm
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/ubuntu1804_llvm9:${CI_COMMIT_REF_NAME}
+# lcg images with dependencies from LCG releases
 
-build_check:
-  <<: *template_build
-  stage: build_base_images
+centos7-lcg95apython3:
+  extends: .build-derived-image
+  needs:
+    - centos7
   variables:
-    CONTEXT_DIR: check
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check:${CI_COMMIT_REF_NAME}
+    CONTEXT: centos7-lcg95apython3
 
-build_check_llvm8:
-  <<: *template_build
-  stage: build_base_images
-  except: 
-    - master
+centos7-lcg96:
+  extends: .build-derived-image
+  needs:
+    - centos7
   variables:
-    CONTEXT_DIR: check
-    DOCKER_FILE: Dockerfile.llvm8
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/check_llvm8:${CI_COMMIT_REF_NAME}
+    CONTEXT: centos7-lcg96
 
-### STATIC ANALYSIS
-
-# This depends on acts/machines/static_analysis/cc7-clang-tidy (i.e. upstream)
-# to be pushed before this runs. This will not work in a fork if you make
-# changes to the base image, since it doesn't push to the right registry
-build_cc7-clang-tidy_master:
-  <<: *template_build_master
-  stage: build_derived_images
+slc6-lcg95apython3:
+  extends: .build-derived-image
+  needs:
+    - slc6
   variables:
-    CONTEXT_DIR: static_analysis/cc7-clang-tidy
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/static_analysis/cc7-clang-tidy
+    CONTEXT: slc6-lcg95apython3
 
-build_cc7-clang-tidy:
-  <<: *template_build
-  stage: build_derived_images
-  variables:
-    CONTEXT_DIR: static_analysis/cc7-clang-tidy
-    TO: gitlab-registry.cern.ch/${CI_PROJECT_PATH}/static_analysis/cc7-clang-tidy:${CI_COMMIT_REF_NAME}
