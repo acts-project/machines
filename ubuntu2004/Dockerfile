@@ -16,6 +16,7 @@ RUN apt-get update -y \
     build-essential \
     cmake \
     curl \
+    gcovr \
     git \
     freeglut3-dev \
     libboost-dev \
