@@ -108,20 +108,27 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
+
 # DD4hep
 # requires Geant4 and ROOT and must come last
-#RUN mkdir src \
-#  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-11-02.tar.gz \
-#    | ${UNPACK_TO_SRC} \
-#  && cmake -B build -S src -GNinja \
-#    -DCMAKE_BUILD_TYPE=Release \
-#    -DCMAKE_CXX_STANDARD=17 \
-#    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-#    -DCMAKE_PREFIX_PATH=${PREFIX} \
-#    -DBUILD_TESTING=OFF \
-#    -DDD4HEP_IGNORE_GEANT4_TLS=ON \
-#    -DDD4HEP_USE_GEANT4=ON \
-#    -DDD4HEP_USE_XERCESC=ON \
-#  && cmake --build build -- install \
-#  && rm -rf build src
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+COPY dd4hep_1_11_2_tbb_fix.patch dd4hep_1_11_2_tbb_fix.patch
+RUN mkdir src \
+ && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-11-02.tar.gz \
+   | ${UNPACK_TO_SRC} \
+ && cd src \
+ && cat ../dd4hep_1_11_2_tbb_fix.patch | patch -p1 \
+ && cd .. \ 
+ && cmake -B build -S src -GNinja \
+   -DCMAKE_BUILD_TYPE=Release \
+   -DCMAKE_CXX_STANDARD=17 \
+   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+   -DCMAKE_PREFIX_PATH=${PREFIX} \
+   -DBUILD_TESTING=OFF \
+   -DBUILD_DOCS=OFF \
+   -DDD4HEP_IGNORE_GEANT4_TLS=ON \
+   -DDD4HEP_USE_GEANT4=ON \
+   -DDD4HEP_USE_XERCESC=ON \
+ && cmake --build build -- install \
+ && rm -rf build src
 
