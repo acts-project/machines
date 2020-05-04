@@ -110,18 +110,22 @@ RUN mkdir src \
 
 # DD4hep
 # requires Geant4 and ROOT and must come last
-#RUN mkdir src \
-#  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-11-02.tar.gz \
-#    | ${UNPACK_TO_SRC} \
-#  && cmake -B build -S src -GNinja \
-#    -DCMAKE_BUILD_TYPE=Release \
-#    -DCMAKE_CXX_STANDARD=17 \
-#    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-#    -DCMAKE_PREFIX_PATH=${PREFIX} \
-#    -DBUILD_TESTING=OFF \
-#    -DDD4HEP_IGNORE_GEANT4_TLS=ON \
-#    -DDD4HEP_USE_GEANT4=ON \
-#    -DDD4HEP_USE_XERCESC=ON \
-#  && cmake --build build -- install \
-#  && rm -rf build src
+#
+# environment variables needed for DD4hep to find ROOT libraries
+ENV LD_LIBRARY_PATH /usr/local/lib
+ENV PYTHON_PATH /usr/local/lib
+RUN mkdir src \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-11-02.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_PREFIX_PATH=${PREFIX} \
+    -DBUILD_TESTING=OFF \
+    -DDD4HEP_BUILD_PACKAGES="DDG4" \
+    -DDD4HEP_IGNORE_GEANT4_TLS=ON \
+    -DDD4HEP_USE_GEANT4=ON \
+    -DDD4HEP_USE_XERCESC=ON \
+  && cmake --build build -- install
 
