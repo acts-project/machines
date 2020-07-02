@@ -27,6 +27,11 @@ format8:
   variables:
     CONTEXT: format8
 
+format10:
+  extends: .build-base-image
+  variables:
+    CONTEXT: format10
+
 ubuntu2004:
   extends: .build-base-image
   variables:
