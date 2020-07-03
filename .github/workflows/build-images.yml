@@ -13,6 +13,7 @@ jobs:
       matrix:
         context:
           - format8
+          - format10
           - ubuntu2004
     steps:
       - name: 'Extract image tag'
