@@ -1,10 +1,12 @@
 name: Build images
 
 on:
-  # does not work with forks since the jobs will try to push to the target
-  # registry but run only with the privileges of the fork.
+  # on pull_request does not work with forks since the jobs will try to push
+  # to the target registry but run only with the privileges of the fork.
   #- pull_request
-  - push
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   image:
@@ -19,7 +21,7 @@ jobs:
       - name: 'Extract image tag'
         shell: bash
         # use extraction command from Publish-Docker-Github-Action
-        run: echo "::set-env name=TAG::$(echo ${GITHUB_REF} | sed -e 's/refs\/heads\///g' | sed -e 's/\//-/g')"
+        run: echo "::set-env name=TAG::$(echo ${GITHUB_REF} | sed -e 's/refs\/heads\///g' | sed -e 's/refs\/tags\///g' | sed -e 's/\//-/g')"
       - uses: actions/checkout@v2
       - uses: acts-project/Publish-Docker-Github-Action@master
         with:
