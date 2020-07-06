@@ -39,7 +39,6 @@ jobs:
       matrix:
         context:
           - centos7
-          - slc6
     steps:
       - name: 'Extract image tag'
         shell: bash
@@ -62,7 +61,6 @@ jobs:
         context:
           - centos7-lcg95apython3
           - centos7-lcg96
-          - slc6-lcg95apython3
     env:
       REGISTRY: docker.pkg.github.com/${{ github.repository }}
     steps:
