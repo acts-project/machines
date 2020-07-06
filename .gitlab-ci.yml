@@ -46,11 +46,6 @@ centos7:
   variables:
     CONTEXT: centos7
 
-slc6:
-  extends: .build-base-image
-  variables:
-    CONTEXT: slc6
-
 # lcg images with dependencies from LCG releases
 
 centos7-lcg95apython3:
@@ -66,11 +61,3 @@ centos7-lcg96:
     - centos7
   variables:
     CONTEXT: centos7-lcg96
-
-slc6-lcg95apython3:
-  extends: .build-derived-image
-  needs:
-    - slc6
-  variables:
-    CONTEXT: slc6-lcg95apython3
-
