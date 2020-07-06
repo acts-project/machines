@@ -16,9 +16,9 @@ How to build an image
 ---------------------
 
 The following command builds an image based on CERN CentOS 7 with dependencies
-from LCG release 95apython3
+from LCG release 96
 
-    docker build --pull centos7_lcg95apython3
+    docker build --pull centos7-lcg96
 
 where `--pull` ensures that the latest version of all base images are used.
 This should result in the following output
