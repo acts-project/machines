@@ -10,6 +10,8 @@ dependencies available through the system package manager, the derived
 images contain all dependencies installed either via a custom built or
 through an LCG release.
 
+The `archive` folder contains image definitions that are not actively used.
+
 How to build an image
 ---------------------
 
