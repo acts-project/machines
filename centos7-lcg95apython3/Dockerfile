@@ -5,10 +5,12 @@ FROM ${REGISTRY}/centos7:${TAG}
 LABEL description="CERN CentOS 7 with Acts dependencies from LCG 95apython3"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch>"
 # increase whenever any of the RUN commands change
-LABEL version="2"
+LABEL version="3"
 
 ENV LCG_RELEASE 95apython3
-ENV LCG_PLATFORM x86_64-centos7-gcc8-opt
+ENV LCG_PLATFORM_BASE x86_64-centos7
+ENV LCG_PLATFORM ${LCG_PLATFORM_BASE}-gcc8-opt
+ENV LCGCMAKE_BRANCH LCG_95a
 
 # Add the LCG rpm repository as described here
 #
@@ -19,9 +21,9 @@ RUN yum-config-manager --add-repo https://lcgpackages.web.cern.ch/lcgpackages/rp
   && yum -y install \
     LCG_${LCG_RELEASE}_Boost_1.69.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_CMake_3.11.1_${LCG_PLATFORM//-/_}.noarch \
-    LCG_${LCG_RELEASE}_cmaketools_1.8_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_DD4hep_01_10_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_eigen_3.3.7_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_gcc_8.2.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_Geant4_10.05_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_lcgenv_1.3.8_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_ninja_1.7.2.gcc0ea.kitware.dyndep_${LCG_PLATFORM//-/_}.noarch \
@@ -30,14 +32,20 @@ RUN yum-config-manager --add-repo https://lcgpackages.web.cern.ch/lcgpackages/rp
     LCG_${LCG_RELEASE}_tbb_2019_U1_${LCG_PLATFORM//-/_}.noarch \
   && yum -y clean all
 
+# Add missing directory links so the view creating script finds the compiler
+RUN mkdir --parents /opt/lcg/LCG_${LCG_RELEASE}/gcc/8 \
+  && ln --relative --symbol --verbose \
+    /opt/lcg/gcc/8.2.0-3fa06/${LCG_PLATFORM_BASE} \
+    /opt/lcg/LCG_${LCG_RELEASE}/gcc/8/${LCG_PLATFORM_BASE}
+
 # Create the LCG view. Use a fixed location since there is only one
 # release/platform combination. This way, images with different
 # configurations (including different compilers) can be easily substituted
 # without needing to know the specific contents.
 RUN git clone https://gitlab.cern.ch/sft/lcgcmake.git lcgcmake \
+    --branch=${LCGCMAKE_BRANCH} --depth=1 \
   && lcgcmake/cmake/scripts/create_lcg_view.py \
-    -l /opt/lcg \
-    -r ${LCG_RELEASE} \
+    -l /opt/lcg/LCG_${LCG_RELEASE} \
     -p ${LCG_PLATFORM} \
     /opt/lcg_view \
   && rm -rf lcgcmake
