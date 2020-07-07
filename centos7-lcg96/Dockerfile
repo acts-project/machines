@@ -19,11 +19,11 @@ ENV LCGCMAKE_BRANCH LCG_96
 # and use it to install all explicit Acts dependencies from an LCG release.
 RUN yum-config-manager --add-repo https://lcgpackages.web.cern.ch/lcgpackages/rpms/etc/yum.repos.d/lcg.repo \
   && yum -y install \
+    LCG_${LCG_RELEASE}_gcc_8.2.0_${LCG_PLATFORM_BASE//-/_}.noarch \
     LCG_${LCG_RELEASE}_Boost_1.70.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_CMake_3.14.3_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_DD4hep_01_10_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_eigen_3.3.7_${LCG_PLATFORM//-/_}.noarch \
-    LCG_${LCG_RELEASE}_gcc_8.2.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_Geant4_10.05.p01_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_hepmc3_3.1.1_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_lcgenv_1.3.8_${LCG_PLATFORM//-/_}.noarch \

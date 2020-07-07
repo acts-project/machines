@@ -19,11 +19,11 @@ ENV LCGCMAKE_BRANCH LCG_95a
 # and use it to install all explicit Acts dependencies from an LCG release.
 RUN yum-config-manager --add-repo https://lcgpackages.web.cern.ch/lcgpackages/rpms/etc/yum.repos.d/lcg.repo \
   && yum -y install \
+    LCG_${LCG_RELEASE}_gcc_8.2.0_${LCG_PLATFORM_BASE//-/_}.noarch \
     LCG_${LCG_RELEASE}_Boost_1.69.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_CMake_3.11.1_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_DD4hep_01_10_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_eigen_3.3.7_${LCG_PLATFORM//-/_}.noarch \
-    LCG_${LCG_RELEASE}_gcc_8.2.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_Geant4_10.05_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_lcgenv_1.3.8_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_ninja_1.7.2.gcc0ea.kitware.dyndep_${LCG_PLATFORM//-/_}.noarch \
