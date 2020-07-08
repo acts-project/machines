@@ -45,8 +45,9 @@ fi
 # Export package specific environmental variables
 
 # see https://gcc.gnu.org/onlinedocs/gcc/Environment-Variables.html
-export COMPILER_PATH="$BASE/libexec/gcc/x86_64-pc-linux-gnu/${__PKG_VERSION}-${__PKG_HASH}"
-export LIBRARY_PATH="$BASE/lib/gcc/x86_64-pc-linux-gnu/${__PKG_VERSION}-${__PKG_HASH}${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}"
+export COMPILER_PATH="${BASE}/libexec/gcc/x86_64-pc-linux-gnu/${__PKG_VERSION}-${__PKG_HASH}"
+export LIBRARY_PATH="${BASE}/lib/gcc/x86_64-pc-linux-gnu/${__PKG_VERSION}-${__PKG_HASH}${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}"
+export CPLUS_INCLUDE_PATH="${BASE}/include/c++/${__PKG_VERSION}-${__PKG_HASH}:${BASE}/include/c++/${__PKG_VERSION}-${__PKG_HASH}/x86_64-pc-linux-gnu:${BASE}/lib/gcc/x86_64-pc-linux-gnu/${__PKG_VERSION}-${__PKG_HASH}/include:${BASE}/lib/gcc/x86_64-pc-linux-gnu/${__PKG_VERSION}-${__PKG_HASH}/include-fixed"
 
 export FC=`which gfortran`
 export CC=`which gcc`
