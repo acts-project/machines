@@ -1,6 +1,6 @@
 ARG REGISTRY=gitlab-registry.cern.ch/acts/machines
 ARG TAG=latest
-FROM ${REGISTRY}_centos7:${TAG}
+FROM ${REGISTRY}/centos7:${TAG}
 
 LABEL description="CERN CentOS 7 with Acts dependencies from LCG 96"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch>"
