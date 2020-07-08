@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
         with:
-          repository: ci/${{ matrix.context }}
+          repository: actsproject/ci/${{ matrix.context }}
           registry: registry.hub.docker.com
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
         with:
-          repository: ci/${{ matrix.context }}
+          repository: actsproject/ci/${{ matrix.context }}
           registry: registry.hub.docker.com
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -74,11 +74,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
         with:
-          repository: ci/${{ matrix.context }}
+          repository: actsproject/ci/${{ matrix.context }}
           registry: registry.hub.docker.com
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          build_args: REGISTRY=registry.hub.docker.com/ci,TAG=${{ env.TAG }}
+          build_args: REGISTRY=registry.hub.docker.com/actsproject/ci,TAG=${{ env.TAG }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
