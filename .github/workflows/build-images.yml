@@ -25,9 +25,9 @@ jobs:
       - uses: docker/build-push-action@v1
         with:
           repository: ${{ github.repository }}/${{ matrix.context }}
-          registry: docker.pkg.github.com
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: registry.hub.docker.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
@@ -46,9 +46,9 @@ jobs:
       - uses: docker/build-push-action@v1
         with:
           repository: ${{ github.repository }}/${{ matrix.context }}
-          registry: docker.pkg.github.com
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: registry.hub.docker.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
@@ -75,10 +75,10 @@ jobs:
       - uses: docker/build-push-action@v1
         with:
           repository: ${{ github.repository }}/${{ matrix.context }}
-          registry: docker.pkg.github.com
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          build_args: REGISTRY=docker.pkg.github.com/${{ github.repository }},TAG=${{ env.TAG }}
+          registry: registry.hub.docker.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          build_args: REGISTRY=registry.hub.docker.com/${{ github.repository }},TAG=${{ env.TAG }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
