@@ -5,7 +5,7 @@ FROM ${REGISTRY}/centos7:${TAG}
 LABEL description="CERN CentOS 7 with Acts dependencies from LCG 95apython3"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch>"
 # increase whenever any of the RUN commands change
-LABEL version="3"
+LABEL version="4"
 
 ENV LCG_RELEASE 95apython3
 ENV LCG_PLATFORM_BASE x86_64-centos7
@@ -49,4 +49,3 @@ RUN git clone https://gitlab.cern.ch/sft/lcgcmake.git lcgcmake \
     -p ${LCG_PLATFORM} \
     /opt/lcg_view \
   && rm -rf lcgcmake
-
