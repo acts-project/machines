@@ -11,7 +11,7 @@ ENV LCG_RELEASE 96
 ENV LCG_PLATFORM_BASE x86_64-centos7
 ENV LCG_PLATFORM ${LCG_PLATFORM_BASE}-gcc8-opt
 # branch/tag/commit reference for lcgcmake. we need a specific version
-# to be able to create an RPM-base view.
+# to be able to create an RPM-based view.
 ENV LCGCMAKE_REF 16176752
 
 # Add the LCG rpm repository as described here
