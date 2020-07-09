@@ -5,13 +5,13 @@ FROM ${REGISTRY}/centos7:${TAG}
 LABEL description="CERN CentOS 7 with Acts dependencies from LCG 96"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch>"
 # increase whenever any of the RUN commands change
-LABEL version="3"
+LABEL version="4"
 
 ENV LCG_RELEASE 96
 ENV LCG_PLATFORM_BASE x86_64-centos7
 ENV LCG_PLATFORM ${LCG_PLATFORM_BASE}-gcc8-opt
 # branch/tag/commit reference for lcgcmake. we need a specific version
-# to be able to create an RPM-base view.
+# to be able to create an RPM-based view.
 ENV LCGCMAKE_REF 16176752
 
 # Add the LCG rpm repository as described here
@@ -28,18 +28,16 @@ RUN yum-config-manager --add-repo https://lcgpackages.web.cern.ch/lcgpackages/rp
     LCG_${LCG_RELEASE}_eigen_3.3.7_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_Geant4_10.05.p01_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_hepmc3_3.1.1_${LCG_PLATFORM//-/_}.noarch \
-    LCG_${LCG_RELEASE}_lcgenv_1.3.8_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_ninja_1.9.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_pythia8_240_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_ROOT_6.18.00_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_tbb_2019_U7_${LCG_PLATFORM//-/_}.noarch \
   && yum -y clean all
 
-# Add missing directory links so the view creating script finds the compiler
-RUN mkdir --parents /opt/lcg/LCG_${LCG_RELEASE}/gcc/8 \
-  && ln --relative --symbolic --verbose \
-    /opt/lcg/gcc/8.2.0-3fa06/${LCG_PLATFORM_BASE} \
-    /opt/lcg/LCG_${LCG_RELEASE}/gcc/8/${LCG_PLATFORM_BASE}
+# Add missing directory link so the view creating script finds the compiler
+RUN ln -rsv /opt/lcg/gcc/8.2.0-3fa06 /opt/lcg/gcc/8
+# Bugfix for broken setup script
+ADD fixed-gcc-setup.sh /opt/lcg/gcc/8.2.0-3fa06/x86_64-centos7/setup.sh
 
 # Create the LCG view. Use a fixed location since there is only one
 # release/platform combination. This way, images with different
