@@ -20,6 +20,7 @@ jobs:
           - format8
           - format10
           - ubuntu2004
+          - ubuntu1804_cuda
     steps:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
