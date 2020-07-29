@@ -63,6 +63,16 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
+# Boost 1.71.0, version in APT is too old
+RUN mkdir src \
+  && ${GET} https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cd src \
+  && ./bootstrap.sh --prefix=${PREFIX} \
+  && ./b2 install \
+  && cd .. \
+  && rm -rf src
+
 # Geant4
 RUN mkdir src \
   && ${GET} https://geant4-data.web.cern.ch/geant4-data/releases/geant4.10.06.p01.tar.gz \
@@ -152,15 +162,6 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
-# Boost 1.71.0, version in APT is too old
-RUN mkdir src \
-  && ${GET} https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && cd src \
-  && ./bootstrap.sh --prefix=${PREFIX} \
-  && ./b2 install \
-  && cd .. \
-  && rm -rf src
 
 
 
