@@ -18,10 +18,6 @@ RUN apt-get update -y \
     curl \
     git \
     freeglut3-dev \
-    libboost-dev \
-    libboost-filesystem-dev \
-    libboost-program-options-dev \
-    libboost-test-dev \
     libexpat-dev \
     libftgl-dev \
     libgl2ps-dev \
