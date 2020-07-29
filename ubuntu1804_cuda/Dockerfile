@@ -51,7 +51,7 @@ ENV PREFIX /usr/local
 RUN mkdir src \
   && ${GET} https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3-Linux-x86_64.tar.gz \
     | ${UNPACK_TO_SRC} \
-  && rsync -ruv src/ ${PREFIX}/cmake17 \
+  && rsync -ruv src/ ${PREFIX} \
   && cd .. \
   && rm -rf src
 
