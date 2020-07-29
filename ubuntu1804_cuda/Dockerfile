@@ -1,7 +1,7 @@
 FROM nvidia/cuda:10.2-devel-ubuntu18.04
 
 LABEL description="Ubuntu 18.04 with Acts dependencies"
-LABEL maintainer="Moritz Kiehn <msmk@cern.ch>"
+LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
 # increase whenever any of the RUN commands change
 LABEL version="1"
 
