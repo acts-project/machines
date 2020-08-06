@@ -60,6 +60,7 @@ RUN mkdir src \
   && ${GET} https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
   && cmake --build build -- install \
   && rm -rf build src
 
