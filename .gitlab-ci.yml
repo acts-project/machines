@@ -39,6 +39,13 @@ ubuntu2004:
   # includes manual builds which take a bit of time
   timeout: 3h
 
+ubuntu1804_cuda:
+  extends: .build-base-image
+  variables:
+    CONTEXT: ubuntu1804_cuda
+  # includes manual builds which take a bit of time
+  timeout: 3h
+
 # lcg base images with required packages from the system
 
 centos7:
