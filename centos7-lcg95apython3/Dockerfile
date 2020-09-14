@@ -1,4 +1,4 @@
-ARG REGISTRY=gitlab-registry.cern.ch/acts/machines
+ARG REGISTRY=ghcr.io/acts-project
 ARG TAG=latest
 FROM ${REGISTRY}/centos7:${TAG}
 
