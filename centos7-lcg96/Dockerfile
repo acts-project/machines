@@ -1,11 +1,9 @@
-ARG REGISTRY=ghcr.io/acts-project
-ARG TAG=latest
-FROM ${REGISTRY}/centos7:${TAG}
+FROM cern/cc7-base:latest
 
 LABEL description="CERN CentOS 7 with Acts dependencies from LCG 96"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch>"
 # increase whenever any of the RUN commands change
-LABEL version="4"
+LABEL version="5"
 
 ENV LCG_RELEASE 96
 ENV LCG_PLATFORM_BASE x86_64-centos7
@@ -14,6 +12,11 @@ ENV LCG_PLATFORM ${LCG_PLATFORM_BASE}-gcc8-opt
 # to be able to create an RPM-based view.
 ENV LCGCMAKE_REF 16176752
 
+# Install all LCG dependencies from the system package manager by using the
+# HEP_OSlibs metapackage as described here
+#
+#     https://gitlab.cern.ch/linuxsupport/rpms/HEP_OSlibs
+#
 # Add the LCG rpm repository as described here
 #
 #     https://lcgpackages.web.cern.ch
@@ -21,6 +24,7 @@ ENV LCGCMAKE_REF 16176752
 # and use it to install all explicit Acts dependencies from an LCG release.
 RUN yum-config-manager --add-repo https://lcgpackages.web.cern.ch/lcgpackages/rpms/etc/yum.repos.d/lcg.repo \
   && yum -y install \
+    HEP_OSlibs \
     LCG_${LCG_RELEASE}_gcc_8.2.0_${LCG_PLATFORM_BASE//-/_}.noarch \
     LCG_${LCG_RELEASE}_Boost_1.70.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_CMake_3.14.3_${LCG_PLATFORM//-/_}.noarch \
