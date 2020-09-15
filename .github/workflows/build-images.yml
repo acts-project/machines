@@ -11,12 +11,13 @@ on:
       - 'v*'
 
 jobs:
-  # standalone images
-  standalone:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         context:
+          - centos7-lcg95apython3
+          - centos7-lcg96
           - format8
           - format10
           - ubuntu1804_cuda
@@ -29,57 +30,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.CR_PAT }}
-          path: ${{ matrix.context }}
-          tag_with_ref: true
-          add_git_labels: true
-  # base system images for LCG installations
-  # these could be added to the `standalone` job, but then the dependent builds
-  # would only start once all jobs in the build matrix finish. this blocks the
-  # CI build on the longest Ubuntu build that takes ~2h.
-  lcg-base:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        context:
-          - centos7
-    steps:
-      - uses: actions/checkout@v2
-      - uses: docker/build-push-action@v1
-        with:
-          repository: ${{ github.repository_owner }}/${{ matrix.context }}
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.CR_PAT }}
-          path: ${{ matrix.context }}
-          tag_with_ref: true
-          add_git_labels: true
-  # LCG images
-  lcg:
-    runs-on: ubuntu-latest
-    needs: lcg-base
-    strategy:
-      matrix:
-        context:
-          - centos7-lcg95apython3
-          - centos7-lcg96
-    steps:
-      - name: 'Extract image tag'
-        shell: bash
-        # manually extract the git-ref in the same format described here:
-        #
-        #    https://github.com/docker/build-push-action#tag_with_ref
-        #
-        # TODO use job output from base job once the action exports the tag
-        # use extraction command from Publish-Docker-Github-Action
-        run: echo "::set-env name=TAG::$(echo ${GITHUB_REF} | sed -e 's/refs\/\(heads\|tags\)\///' | sed -e 's/refs\/pull\//pr-/' | sed -e 's/\//-/g')"
-      - uses: actions/checkout@v2
-      - uses: docker/build-push-action@v1
-        with:
-          repository: ${{ github.repository_owner }}/${{ matrix.context }}
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.CR_PAT }}
-          build_args: REGISTRY=ghcr.io/${{ github.repository_owner }},TAG=${{ env.TAG }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
