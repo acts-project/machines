@@ -19,16 +19,16 @@ jobs:
         context:
           - format8
           - format10
-          - ubuntu2004
           - ubuntu1804_cuda
+          - ubuntu2004
     steps:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
         with:
-          repository: ${{ github.repository }}/${{ matrix.context }}
-          registry: docker.pkg.github.com
+          repository: ${{ github.repository_owner }}/${{ matrix.context }}
+          registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.CR_PAT }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
@@ -46,10 +46,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
         with:
-          repository: ${{ github.repository }}/${{ matrix.context }}
-          registry: docker.pkg.github.com
+          repository: ${{ github.repository_owner }}/${{ matrix.context }}
+          registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.CR_PAT }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
@@ -75,11 +75,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
         with:
-          repository: ${{ github.repository }}/${{ matrix.context }}
-          registry: docker.pkg.github.com
+          repository: ${{ github.repository_owner }}/${{ matrix.context }}
+          registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          build_args: REGISTRY=docker.pkg.github.com/${{ github.repository }},TAG=${{ env.TAG }}
+          password: ${{ secrets.CR_PAT }}
+          build_args: REGISTRY=ghcr.io/${{ github.repository_owner }},TAG=${{ env.TAG }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
