@@ -1,6 +1,6 @@
 FROM cern/cc7-base:latest
 
-LABEL description="CERN CentOS 7 with Acts dependencies from LCG 98python3 gcc10"
+LABEL description="CERN CentOS 7 with Acts dependencies from LCG 97apython3 using GCC 9"
 LABEL maintainer="Moritz Kiehn <msmk@cern.ch>"
 # increase whenever any of the RUN commands change
 LABEL version="1"
@@ -15,21 +15,21 @@ LABEL version="1"
 #     https://lcgdocs.web.cern.ch
 #
 # and use it to install all explicit Acts dependencies from an LCG release.
-ENV LCG_RELEASE 98python3
-ENV LCG_PLATFORM x86_64-centos7-gcc10-opt
+ENV LCG_RELEASE 97apython3
+ENV LCG_PLATFORM x86_64-centos7-gcc9-opt
 ADD lcg.repo /etc/yum.repos.d/
 RUN yum -y install \
     HEP_OSlibs \
-    LCG_${LCG_RELEASE}_Boost_1.73.0_${LCG_PLATFORM//-/_}.noarch \
-    LCG_${LCG_RELEASE}_CMake_3.17.3_${LCG_PLATFORM//-/_}.noarch \
-    LCG_${LCG_RELEASE}_DD4hep_01_13_01_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_Boost_1.72.0_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_CMake_3.14.3_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_DD4hep_01_12_01_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_eigen_3.3.7_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_Geant4_10.06.p02_${LCG_PLATFORM//-/_}.noarch \
-    LCG_${LCG_RELEASE}_hepmc3_3.2.2_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_hepmc3_3.2.1_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_ninja_1.10.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_pythia8_244_${LCG_PLATFORM//-/_}.noarch \
-    LCG_${LCG_RELEASE}_ROOT_v6.22.00_${LCG_PLATFORM//-/_}.noarch \
-    LCG_${LCG_RELEASE}_tbb_2020_U2_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_ROOT_v6.20.06_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_tbb_2020_U1_${LCG_PLATFORM//-/_}.noarch \
   && yum -y clean all
 
 # Create the LCG view.
@@ -40,9 +40,9 @@ RUN yum -y install \
 # contents.
 #
 # Make the gcc version installed by LCG findable by the script
-RUN ln --relative --symbolic /opt/lcg/gcc/10.1.0 /opt/lcg/gcc/10
+RUN ln --relative --symbolic /opt/lcg/gcc/9.1.0 /opt/lcg/gcc/9
 RUN git clone https://gitlab.cern.ch/sft/lcgcmake.git lcgcmake \
-  && (cd lcgcmake; git checkout LCG_98) \
+  && (cd lcgcmake; git checkout LCG_97a) \
   && lcgcmake/cmake/scripts/create_lcg_view.py \
     --verbose \
     --lcgpath=/opt/lcg/LCG_${LCG_RELEASE} \
