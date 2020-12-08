@@ -18,7 +18,6 @@ jobs:
         context:
           - centos7-lcg97apython3
           - centos7-lcg98python3
-          - format8
           - format10
           - ubuntu1804_cuda
           - ubuntu2004
