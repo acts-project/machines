@@ -16,8 +16,8 @@ jobs:
     strategy:
       matrix:
         context:
-          - centos7-lcg95apython3
-          - centos7-lcg96
+          - centos7-lcg97apython3-gcc9
+          - centos7-lcg98python3-gcc10
           - format10
           - ubuntu1804_cuda
           - ubuntu2004
