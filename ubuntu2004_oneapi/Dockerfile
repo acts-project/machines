@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 LABEL description="Ubuntu 20.04 with Acts dependencies"
-LABEL maintainer="Moritz Kiehn <msmk@cern.ch>"
+LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch>"
 # increase whenever any of the RUN commands change
 LABEL version="1"
 
