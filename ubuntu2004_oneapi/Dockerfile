@@ -8,24 +8,11 @@ LABEL version="1"
 # DEBIAN_FRONTEND ensures non-blocking operation (tzdata is a problem)
 ENV DEBIAN_FRONTEND noninteractive
 
-# install dependencies from the package manager.
+
+
+
 RUN apt-get update -y \
-  && apt-get install -y \
-    build-essential \
-    cmake \
-    curl \
-    git \
-    libboost-dev \
-    libboost-filesystem-dev \
-    libboost-program-options-dev \
-    libboost-test-dev \
-    libeigen3-dev \
-    ninja-build \
-    python3 \
-    python3-dev \
-    python3-pip \
-    rsync \
-    zlib1g-dev \
+  && apt-get install -y gnupg2 curl \
   && apt-get clean -y
 
 RUN curl https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | apt-key add - \
@@ -33,5 +20,14 @@ RUN curl https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCT
 
 RUN apt-get update -y \
   && apt-get install -y \
-    intel-basekit \
+    intel-oneapi-compiler-dpcpp-cpp-2021.1.1 \
+    libstdc++-9-dev \
+    cmake \
+    git \
+    libboost-dev \
+    libboost-filesystem-dev \
+    libboost-program-options-dev \
+    libboost-test-dev \
+    libeigen3-dev \
+    ninja-build \
   && apt-get clean -y
