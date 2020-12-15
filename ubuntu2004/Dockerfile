@@ -54,7 +54,7 @@ ENV PREFIX /usr/local
 
 # Geant4
 RUN mkdir src \
-  && ${GET} https://geant4-data.web.cern.ch/geant4-data/releases/geant4.10.06.p01.tar.gz \
+  && ${GET} https://geant4-data.web.cern.ch/releases/geant4.10.06.p01.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -69,7 +69,7 @@ RUN mkdir src \
 
 # HepMC3
 RUN mkdir src \
-  && ${GET} https://hepmc.web.cern.ch/hepmc/releases/HepMC3-3.2.1.tar.gz \
+  && ${GET} https://hepmc.web.cern.ch/releases/HepMC3-3.2.1.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
