@@ -1,27 +1,27 @@
 [lcg]
 name=Legacy LCG Releases
-baseurl=https://lcgpackages.web.cern.ch/lcgpackages/rpms
+baseurl=https://lcgpackages.web.cern.ch/rpms
 enabled=1
 gpgcheck=0
 protect=0
 
 [lcg-updates]
 name=Legacy LCG Releases Updates
-baseurl=https://lcgpackages.web.cern.ch/lcgpackages/rpms_updates
+baseurl=https://lcgpackages.web.cern.ch/rpms_updates
 enabled=1
 gpgcheck=0
 protect=0
 
 [lcg-contrib]
 name=LCG contrib (gcc, clang, binutils, ...)
-baseurl=https://lcgpackages.web.cern.ch/lcgpackages/lcg/contrib/7/
+baseurl=https://lcgpackages.web.cern.ch/lcg/contrib/7/
 gpgcheck=0
 enabled=1
 protect=0
 
 [lcg-98]
 name=LCG 98 Releases
-baseurl=https://lcgpackages.web.cern.ch/lcgpackages/lcg/repo/7/LCG_98/
+baseurl=https://lcgpackages.web.cern.ch/lcg/repo/7/LCG_98/
 gpgcheck=0
 enabled=1
 protect=0
