@@ -21,6 +21,7 @@ jobs:
           - format10
           - ubuntu1804_cuda
           - ubuntu2004
+          - ubuntu2004_oneapi
     steps:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
