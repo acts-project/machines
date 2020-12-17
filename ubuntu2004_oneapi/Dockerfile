@@ -21,7 +21,12 @@ RUN curl https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCT
 RUN apt-get update -y \
   && apt-get install -y \
     intel-oneapi-compiler-dpcpp-cpp-2021.1.1 \
-    libstdc++-9-dev \
+  && apt-get clean -y
+
+RUN apt-get update -y \
+  && apt-get install -y \
+    g++-8 \
+    libstdc++-8-dev \
     cmake \
     git \
     libboost-dev \
@@ -30,4 +35,7 @@ RUN apt-get update -y \
     libboost-test-dev \
     libeigen3-dev \
     ninja-build \
+  # We don't want gcc9 to be present, because clang will pick it up
+  && apt-get remove -y gcc-9 \
+  && apt-get autoremove -y \
   && apt-get clean -y
