@@ -20,6 +20,7 @@ jobs:
           - centos7-lcg98python3-gcc10
           - format10
           - ubuntu1804_cuda
+          - ubuntu1804_rocm
           - ubuntu2004
           - ubuntu2004_oneapi
     steps:
