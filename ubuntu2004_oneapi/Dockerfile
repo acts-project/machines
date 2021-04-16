@@ -20,7 +20,7 @@ RUN curl https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCT
 
 RUN apt-get update -y \
   && apt-get install -y \
-    intel-oneapi-compiler-dpcpp-cpp-2021.1.1 \
+    intel-oneapi-compiler-dpcpp-cpp-2021.2.0 \
   && apt-get clean -y
 
 RUN apt-get update -y \
