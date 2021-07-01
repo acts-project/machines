@@ -1,0 +1,28 @@
+[lcg]
+name=Legacy LCG Releases
+baseurl=https://lcgpackages.web.cern.ch/rpms
+enabled=1
+gpgcheck=0
+protect=0
+
+[lcg-updates]
+name=Legacy LCG Releases Updates
+baseurl=https://lcgpackages.web.cern.ch/rpms_updates
+enabled=1
+gpgcheck=0
+protect=0
+
+[lcg-contrib]
+name=LCG contrib (gcc, clang, binutils, ...)
+baseurl=https://lcgpackages.web.cern.ch/lcg/contrib/7/
+gpgcheck=0
+enabled=1
+protect=0
+
+[lcg-100]
+name=LCG 100 Releases
+baseurl=https://lcgpackages.web.cern.ch/lcg/repo/7/LCG_100/
+gpgcheck=0
+enabled=1
+protect=0
+
