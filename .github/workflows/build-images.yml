@@ -32,7 +32,7 @@ jobs:
           repository: ${{ github.repository_owner }}/${{ matrix.context }}
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.CR_PAT }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
