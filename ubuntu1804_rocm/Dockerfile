@@ -110,7 +110,7 @@ RUN mkdir src \
 # Pythia8
 # requires rsync; installation uses `rsync` instead of `install`
 RUN mkdir src \
-  && ${GET} http://home.thep.lu.se/~torbjorn/pythia8/pythia8244.tgz \
+  && ${GET} https://pythia.org/download/pythia82/pythia8244.tgz \
     | ${UNPACK_TO_SRC} \
   && cd src \
   && ./configure --enable-shared --prefix=${PREFIX} \
