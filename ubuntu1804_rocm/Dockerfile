@@ -69,7 +69,8 @@ RUN mkdir src \
 
 # Boost 1.71.0, version in APT is too old
 RUN mkdir src \
-  && ${GET} https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.gz \
+  && ${GET} https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.gz \
+
     | ${UNPACK_TO_SRC} \
   && cd src \
   && ./bootstrap.sh --prefix=${PREFIX} \
