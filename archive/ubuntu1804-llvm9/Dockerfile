@@ -37,7 +37,7 @@ ENV CXX=clang++ CC=clang
 # boost
 ENV BOOST_VERSION=1.72.0
 RUN export BOOST_VERSION_=${BOOST_VERSION//./_} && \
-    curl -SL boost-${BOOST_VERSION_}.tar.gz https://dl.bintray.com/boostorg/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION_}.tar.gz\
+    curl -SL boost-${BOOST_VERSION_}.tar.gz https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION}/source/boost_{BOOST_VERSION_}.tar.gz \
     | tar -xzC . && \
     cd boost_${BOOST_VERSION_}/ && \
     ./bootstrap.sh --prefix=/usr/local/ --with-toolset=clang --with-libraries=program_options,test && \

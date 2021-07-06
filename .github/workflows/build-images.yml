@@ -18,6 +18,8 @@ jobs:
         context:
           - centos7-lcg97apython3-gcc9
           - centos7-lcg98python3-gcc10
+          - centos7-lcg100-gcc10
+          - centos8-lcg100-gcc10
           - format10
           - ubuntu1804_cuda
           - ubuntu1804_rocm
@@ -30,7 +32,7 @@ jobs:
           repository: ${{ github.repository_owner }}/${{ matrix.context }}
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.CR_PAT }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           path: ${{ matrix.context }}
           tag_with_ref: true
           add_git_labels: true
