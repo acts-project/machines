@@ -35,6 +35,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       - name: Prepare
         id: prep
