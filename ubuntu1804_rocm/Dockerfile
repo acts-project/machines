@@ -11,6 +11,10 @@ ENV DEBIAN_FRONTEND noninteractive
 # Add the ROCm/HIP binaries to the path.
 ENV PATH /opt/rocm/bin:${PATH}
 
+# In their infinite wisdom, AMD have modified their apt repo signing key.
+ADD rocm.gpg.key .
+RUN apt-key add rocm.gpg.key
+
 # install dependencies from the package manager.
 #
 # see also https://root.cern.ch/build-prerequisites
