@@ -88,7 +88,7 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cd src \
   && ./configure --enable-shared --prefix=${PREFIX} \
-  && make install \
+  && make -j$(nproc) install \
   && cd .. \
   && rm -rf src
 
@@ -129,3 +129,4 @@ RUN mkdir src \
     -DDD4HEP_USE_XERCESC=ON \
   && cmake --build build -- install
 
+COPY download_geant4_data.sh /usr/local/bin
