@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.4.1-devel-ubuntu20.04
+FROM nvidia/cuda:11.3.0-devel-ubuntu20.04
 
 LABEL description="Ubuntu 20.04 with Acts dependencies and CUDA"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
