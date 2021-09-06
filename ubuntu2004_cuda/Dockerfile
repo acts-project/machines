@@ -53,7 +53,7 @@ ENV PREFIX /usr/local
 # CMake 3.17.3 version in APT is too old
 # requires rsync; installation uses `rsync` instead of `install`
 RUN mkdir src \
-  && ${GET} https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3-Linux-x86_64.tar.gz \
+  && ${GET} https://github.com/Kitware/CMake/releases/download/v3.21.2/cmake-3.21.2-Linux-x86_64.tar.gz \
     | ${UNPACK_TO_SRC} \
   && rsync -ruv src/ ${PREFIX} \
   && cd .. \
