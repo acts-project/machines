@@ -26,6 +26,7 @@ jobs:
           - ubuntu1804_cuda
           - ubuntu1804_rocm
           - ubuntu2004
+          - ubuntu2004_cuda
           - ubuntu2004_oneapi
     steps:
       - uses: actions/checkout@v2
