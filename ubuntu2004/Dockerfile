@@ -92,9 +92,17 @@ RUN mkdir src \
   && cd .. \
   && rm -rf src
 
+# nlohmann's JSON
+RUN mkdir src \
+  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v3.10.2.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+  && cmake --build build -- install \
+  && rm -rf build src
+
 # ROOT
 RUN mkdir src \
-  && ${GET} https://root.cern/download/root_v6.20.04.source.tar.gz \
+  && ${GET} https://root.cern/download/root_v6.24.06.source.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -115,7 +123,7 @@ RUN mkdir src \
 ENV LD_LIBRARY_PATH /usr/local/lib
 ENV PYTHON_PATH /usr/local/lib
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-11-02.tar.gz \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-17.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \

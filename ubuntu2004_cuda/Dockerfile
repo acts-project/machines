@@ -50,7 +50,7 @@ ENV GET curl --location --silent --create-dirs
 ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
 
-# CMake 3.17.3 version in APT is too old
+# CMake 3.16.3 version in APT is too old
 # requires rsync; installation uses `rsync` instead of `install`
 RUN mkdir src \
   && ${GET} https://github.com/Kitware/CMake/releases/download/v3.21.2/cmake-3.21.2-Linux-x86_64.tar.gz \
@@ -109,10 +109,17 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
+# nlohmann's JSON
+RUN mkdir src \
+  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v3.10.2.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+  && cmake --build build -- install \
+  && rm -rf build src
 
 # ROOT
 RUN mkdir src \
-  && ${GET} https://root.cern/download/root_v6.20.04.source.tar.gz \
+  && ${GET} https://root.cern/download/root_v6.24.06.source.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -133,7 +140,7 @@ RUN mkdir src \
 ENV LD_LIBRARY_PATH /usr/local/lib
 ENV PYTHON_PATH /usr/local/lib
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-11-02.tar.gz \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-17.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
