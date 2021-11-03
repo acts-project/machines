@@ -1,0 +1,15 @@
+[lcg-contrib]
+name=LCG contrib (gcc, clang, binutils, ...)
+baseurl=https://lcgpackages.web.cern.ch/lcg/contrib/8/
+gpgcheck=0
+enabled=1
+protect=0
+
+[lcg-101]
+name=LCG 100 Releases
+baseurl=https://lcgpackages.web.cern.ch/lcg/repo/8/LCG_101/
+gpgcheck=0
+enabled=1
+protect=0
+module_hotfixes=1
+
