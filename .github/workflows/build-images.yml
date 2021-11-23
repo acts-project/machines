@@ -21,7 +21,9 @@ jobs:
           - centos7-lcg97apython3-gcc9
           - centos7-lcg98python3-gcc10
           - centos7-lcg100-gcc10
+          - centos7-lcg101-gcc11
           - centos8-lcg100-gcc10
+          - centos8-lcg101-gcc11
           - format10
           - ubuntu1804_cuda
           - ubuntu1804_rocm
