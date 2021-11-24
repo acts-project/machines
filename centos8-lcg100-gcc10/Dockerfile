@@ -56,3 +56,5 @@ RUN git clone https://gitlab.cern.ch/sft/lcgcmake.git lcgcmake \
 
 # LCIO sets it's root include path for cmake absolute, remedy this with a symlink
 RUN ln -s /opt/lcg/LCIO /LCIO 
+
+RUN /opt/lcg/gcc/10/x86_64-centos8/libexec/gcc/x86_64-pc-linux-gnu/10.1.0/install-tools/mkheaders
