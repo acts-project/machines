@@ -104,15 +104,6 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
-# # Nvidia NCCL
-# RUN mkdir src \
-#   && ${GET} https://github.com/NVIDIA/nccl/archive/refs/tags/v2.11.4-1.tar.gz \
-#     | ${UNPACK_TO_SRC} \
-#   && cd src \
-#   && make install PREFIX=${PREFIX} NVCC_GENCODE="-gencode=arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH}" \
-#   && cd .. \
-#   && rm -rf src
-
 # cugraph
 RUN mkdir src \
   && ${GET} https://github.com/rapidsai/cugraph/archive/refs/tags/v22.02.00.tar.gz \
@@ -127,23 +118,7 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
-# onnx
-#RUN mkdir src \
-#  && ${GET} https://github.com/microsoft/onnxruntime/archive/refs/tags/v1.10.0.tar.gz \
-#    | ${UNPACK_TO_SRC} \
-#  && ./src/build.sh \
-#    --config MinSizeRel \
-#    --build_shared_lib \
-#    --build_dir build \
-#    --cuda_home /usr/local/cuda \
-#    --cudnn_home /usr/local/cuda \
-#    --parallel 1 \
-#    --skip_tests \
-#    --use_cuda \
-#    --cmake_extra_defines CMAKE_INSTALL_PREFIX=${PREFIX} \
-#  && cmake --build build -- install \
-#  && rm -rf build src
-
+# Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
 RUN git clone https://github.com/microsoft/onnxruntime src \
   && (cd src && git checkout v1.10.0) \
   && ./src/build.sh \
@@ -155,6 +130,8 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --cudnn_home /usr/local/cuda \
 #    --parallel 1 \
     --skip_tests \
-    --cmake_extra_defines CMAKE_INSTALL_PREFIX=${PREFIX} \
+    --cmake_extra_defines \
+      CMAKE_INSTALL_PREFIX=${PREFIX} \
+      CMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
   && cmake --build build/MinSizeRel -- install \
   && rm -rf build src
