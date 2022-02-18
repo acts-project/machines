@@ -26,14 +26,15 @@ jobs:
           - centos8-lcg101-gcc11
           - format10
           - ubuntu1804_cuda
+          - ubuntu1804_cuda_oneapi
           - ubuntu1804_rocm
           - ubuntu2004
           - ubuntu2004_cuda
           - ubuntu2004_oneapi
-          - ubuntu2004_exatrkx 
+          - ubuntu2004_exatrkx
     steps:
       - uses: actions/checkout@v2
-      - uses: docker/login-action@v1 
+      - uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
