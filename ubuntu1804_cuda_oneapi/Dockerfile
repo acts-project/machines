@@ -17,7 +17,7 @@ RUN git clone https://github.com/intel/llvm.git ${LLVM_SOURCE_DIR} &&          \
        -DCMAKE_INSTALL_LIBDIR=lib                                              \
        -DLLVM_TARGETS_TO_BUILD="X86;NVPTX"                                     \
        -DLLVM_EXTERNAL_PROJECTS="sycl;llvm-spirv;opencl;libdevice;xpti;xptifw" \
-       -DLLVM_ENABLE_PROJECTS="clang;sycl;llvm-spirv;opencl;libdevice;xpti;xptifw;libclc;lld" \
+       -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;sycl;llvm-spirv;opencl;libdevice;xpti;xptifw;libclc;lld" \
        -DLLVM_EXTERNAL_LLVM_SPIRV_SOURCE_DIR=${LLVM_SOURCE_DIR}/llvm-spirv     \
        -DLLVM_EXTERNAL_SYCL_SOURCE_DIR=${LLVM_SOURCE_DIR}/sycl                 \
        -DLLVM_EXTERNAL_LIBDEVICE_SOURCE_DIR=${LLVM_SOURCE_DIR}/libdevice       \
