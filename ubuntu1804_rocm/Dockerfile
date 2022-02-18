@@ -1,4 +1,4 @@
-FROM rocm/dev-ubuntu-18.04:4.0.1
+FROM rocm/dev-ubuntu-18.04:4.2
 
 LABEL description="Ubuntu 18.04 with Acts and HIP dependencies"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
@@ -74,11 +74,12 @@ RUN mkdir src \
 # Boost 1.71.0, version in APT is too old
 RUN mkdir src \
   && ${GET} https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.gz \
-
     | ${UNPACK_TO_SRC} \
   && cd src \
-  && ./bootstrap.sh --prefix=${PREFIX} \
-  && ./b2 install \
+  && echo "using gcc : 8 : /usr/bin/g++-8 ;" > tools/build/src/user-config.jam \
+  && echo "using python : 3.6 : /usr/bin/python3 : /usr/include/python3.6 : /usr/lib ;" >> tools/build/src/user-config.jam \
+  && ./bootstrap.sh --prefix=${PREFIX} variant=release link=shared cxxflags="-std=c++17" \
+  && ./b2 install variant=release link=shared cxxflags="-std=c++17" \
   && cd .. \
   && rm -rf src
 
@@ -141,6 +142,7 @@ RUN mkdir src \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_STANDARD=17 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DPYTHON_EXECUTABLE=/usr/bin/python3 \
     -Dfail-on-missing=ON \
     -Dgminimal=ON \
     -Dgdml=ON \
