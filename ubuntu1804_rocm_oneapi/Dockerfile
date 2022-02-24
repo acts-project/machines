@@ -4,7 +4,7 @@
 #
 
 # Base the image on the repository's ubuntu1804_rocm configuration.
-FROM ghcr.io/acts-project/ubuntu1804_rocm:v18
+FROM ghcr.io/acts-project/ubuntu1804_rocm:v19
 
 # Build the Intel DPC++ compiler from source.
 ARG LLVM_VERSION=sycl-nightly/20220217
