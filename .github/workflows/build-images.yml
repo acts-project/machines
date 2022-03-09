@@ -28,6 +28,7 @@ jobs:
           - ubuntu1804_cuda
           - ubuntu1804_cuda_oneapi
           - ubuntu1804_rocm
+          - ubuntu1804_rocm_oneapi
           - ubuntu2004
           - ubuntu2004_cuda
           - ubuntu2004_oneapi
