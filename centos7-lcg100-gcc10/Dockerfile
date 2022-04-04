@@ -33,6 +33,8 @@ RUN yum -y install \
     LCG_${LCG_RELEASE}_tbb_2020_U2_${LCG_PLATFORM//-/_}.noarch \
   && yum -y clean all
 
+ENV PATH=/opt/lcg/LCG_100/Python/3.8.6/${LCG_PLATFORM}/bin:$PATH
+
 # Create the LCG view.
 #
 # Use a fixed location since there is only one release/platform combination.
