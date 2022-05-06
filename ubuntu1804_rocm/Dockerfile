@@ -46,6 +46,7 @@ RUN apt-get update -y \
     python3-pip \
     rsync \
     zlib1g-dev \
+    ccache \
   && apt-get clean -y
 
 # manual builds for hep-specific packages

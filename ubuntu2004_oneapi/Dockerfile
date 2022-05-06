@@ -64,6 +64,7 @@ RUN apt-get update -y \
     python3-pip \
     rsync \
     zlib1g-dev \
+    ccache \
   && apt-get remove --purge -y gcc-9 \
   && apt-get autoremove -y \
   && apt-get clean -y
