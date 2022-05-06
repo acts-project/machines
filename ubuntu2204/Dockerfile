@@ -45,7 +45,8 @@ RUN apt-get update -y \
     python3-pip \
     rsync \
     zlib1g-dev \
-    ccache
+    ccache \
+  && apt-get clean -y
 
 # manual builds for hep-specific packages
 ENV GET curl --location --silent --create-dirs
