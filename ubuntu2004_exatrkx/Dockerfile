@@ -44,6 +44,7 @@ RUN apt-get update -y \
     rsync \
     unzip \
     zlib1g-dev \
+    ccache \
   && apt-get clean -y
 
 # manual builds for hep-specific packages

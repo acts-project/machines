@@ -33,6 +33,7 @@ RUN dnf install -y https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0
     LCG_${LCG_RELEASE}_pythia8_245_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_ROOT_6.24.06_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_tbb_2020_U2_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_ccache_4.3_${LCG_PLATFORM//-/_}.noarch \
   && dnf -y clean all
 
 # Create the LCG view.

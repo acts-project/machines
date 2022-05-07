@@ -31,6 +31,7 @@ RUN yum -y install \
     LCG_${LCG_RELEASE}_pythia8_245_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_ROOT_v6.24.00_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_tbb_2020_U2_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_ccache_3.7.1_${LCG_PLATFORM//-/_}.noarch \
   && yum -y clean all
 
 ENV PATH=/opt/lcg/LCG_100/Python/3.8.6/${LCG_PLATFORM}/bin:$PATH
