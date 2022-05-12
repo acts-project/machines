@@ -51,7 +51,7 @@ RUN apt-get update -y \
 ENV GET curl --location --silent --create-dirs
 ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
-ENV CUDA_ARCH 75
+ENV CUDA_ARCH 75;86
 
 # CMake 3.16.3 version in APT is too old
 # requires rsync; installation uses `rsync` instead of `install`
