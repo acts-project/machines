@@ -56,6 +56,7 @@ ENV PREFIX /usr/local
 RUN mkdir src \
     && ${GET} https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1.tar.gz \
      | ${UNPACK_TO_SRC} \
+    && cd src \
     && ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release \
                       -DCMAKE_INSTALL_PREFIX=${PREFIX}  \
     && make \
