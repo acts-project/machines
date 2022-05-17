@@ -14,7 +14,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -y \
   && apt-get install -y \
     build-essential \
-    cmake \
     curl \
     git \
     freeglut3-dev \
@@ -52,6 +51,16 @@ RUN apt-get update -y \
 ENV GET curl --location --silent --create-dirs
 ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
+
+# upgrade cmake to a newer version
+RUN mkdir src \
+    && ${GET} https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1.tar.gz \
+     | ${UNPACK_TO_SRC} \
+    && ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release \
+                      -DCMAKE_INSTALL_PREFIX=${PREFIX}  \
+    && make \
+    && make install \
+    && rm -rf src
 
 # Geant4
 RUN mkdir src \
