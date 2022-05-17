@@ -24,6 +24,8 @@ RUN apt-get update -y \
   && apt-get clean -y
 
 # Set up the environment variables compelling CMake to use the Intel compilers.
+ENV PATH "/opt/intel/oneapi/compiler/2022.0.2/linux/bin:${PATH}"
+ENV LD_LIBRARY_PATH "/opt/intel/oneapi/compiler/2022.0.2/linux/compiler/lib/intel64:${LD_LIBRARY_PATH}"
 ENV CC icx
 ENV CXX icpx
 ENV SYCLCXX dpcpp
