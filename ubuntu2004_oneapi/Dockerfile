@@ -24,8 +24,6 @@ RUN apt-get update -y \
   && apt-get clean -y
 
 # Set up the environment variables compelling CMake to use the Intel compilers.
-ENV PATH "/opt/intel/oneapi/compiler/2022.0.2/linux/bin:${PATH}"
-ENV LD_LIBRARY_PATH "/opt/intel/oneapi/compiler/2022.0.2/linux/compiler/lib/intel64:${LD_LIBRARY_PATH}"
 ENV CC icx
 ENV CXX icpx
 ENV SYCLCXX dpcpp
@@ -134,6 +132,8 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && . /opt/intel/oneapi/setvars.sh \
   && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DJSON_BuildTests=OFF \
   && cmake --build build -- install \
   && rm -rf build src
 
@@ -181,6 +181,7 @@ RUN mkdir src \
 RUN mkdir src \
   && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-14-01.tar.gz \
     | ${UNPACK_TO_SRC} \
+  && . /opt/intel/oneapi/setvars.sh \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
@@ -194,6 +195,7 @@ RUN pip3 install jinja2 pyyaml \
   && mkdir src \
   && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v00-04-01.tar.gz \
     | ${UNPACK_TO_SRC} \
+  && . /opt/intel/oneapi/setvars.sh \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
