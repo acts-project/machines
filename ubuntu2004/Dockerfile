@@ -136,7 +136,8 @@ RUN mkdir src \
     -DDD4HEP_IGNORE_GEANT4_TLS=ON \
     -DDD4HEP_USE_GEANT4=ON \
     -DDD4HEP_USE_XERCESC=ON \
-  && cmake --build build -- install
+  && cmake --build build -- install \
+  && rm -rf build src
 
 # podio
 RUN mkdir src \
