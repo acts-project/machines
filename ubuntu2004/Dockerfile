@@ -63,7 +63,7 @@ RUN mkdir src \
     && make \
     && make install \
     && cd ..  \
-    && rm -rf src \
+    && rm -rf src 
 
 # Geant4
 RUN mkdir src \
