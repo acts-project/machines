@@ -62,6 +62,7 @@ RUN mkdir src \
                       -DCMAKE_USE_OPENSSL=OFF \
     && make \
     && make install \
+    && cd ..  \
     && rm -rf src \
 
 # Geant4
