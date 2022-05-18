@@ -26,6 +26,8 @@ RUN dnf install -y https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0
     LCG_${LCG_RELEASE}_Boost_1.77.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_CMake_3.20.0_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_DD4hep_01.18_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_EDM4hep_00.03_${LCG_PLATFORM//-/_}.noarch \
+    LCG_${LCG_RELEASE}_podio_00.13_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_eigen_3.3.7_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_Geant4_10.07.p02_${LCG_PLATFORM//-/_}.noarch \
     LCG_${LCG_RELEASE}_hepmc3_3.2.4_${LCG_PLATFORM//-/_}.noarch \

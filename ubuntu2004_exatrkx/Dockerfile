@@ -76,7 +76,9 @@ RUN mkdir -p src \
 RUN mkdir src \
   && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v3.10.2.tar.gz \
     | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src -GNinja -DJSON_BuildTests=OFF \
+  && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DJSON_BuildTests=OFF \
   && cmake --build build -- install \
   && rm -rf build src
 
