@@ -59,6 +59,7 @@ RUN mkdir src \
     && cd src \
     && ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release \
                       -DCMAKE_INSTALL_PREFIX=${PREFIX}  \
+                      -DCMAKE_USE_OPENSSL=OFF \
     && make \
     && make install \
     && rm -rf src \
