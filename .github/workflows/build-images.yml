@@ -10,7 +10,7 @@ on:
     tags:
       - 'v*'
   schedule:
-    - cron:  '0 3 * * 1'
+    - cron: '0 3 * * 1'
 
 jobs:
   build:
@@ -39,7 +39,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: Prepare
         id: prep
         run: |
@@ -65,3 +64,5 @@ jobs:
           push: true
           context: ${{ matrix.context }}
           tags: ${{ steps.prep.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
