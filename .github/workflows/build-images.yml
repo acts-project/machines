@@ -68,5 +68,5 @@ jobs:
           push: true
           context: ${{ matrix.context }}
           tags: ${{ steps.prep.outputs.tags }}
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ matrix.context }}:latest
-          cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
