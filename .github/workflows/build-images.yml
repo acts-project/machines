@@ -1,9 +1,7 @@
 name: Build images
 
 on:
-  # on pull_request does not work with forks since the jobs will try to push
-  # to the target registry but run only with the privileges of the fork.
-  #- pull_request
+  pull_request:
   push:
     branches:
       - '**'
