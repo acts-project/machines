@@ -1,20 +1,19 @@
 name: Build images
 
 on:
-  # on pull_request does not work with forks since the jobs will try to push
-  # to the target registry but run only with the privileges of the fork.
-  #- pull_request
+  pull_request:
   push:
     branches:
       - '**'
     tags:
       - 'v*'
   schedule:
-    - cron:  '0 3 * * 1'
+    - cron: '0 3 * * 1'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         context:
@@ -32,13 +31,16 @@ jobs:
           - ubuntu2004_oneapi
           - ubuntu2004_exatrkx
     steps:
-      - uses: actions/checkout@v2
-      - uses: docker/login-action@v1
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
 
       - name: Prepare
         id: prep
@@ -60,8 +62,10 @@ jobs:
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 
-      - uses: docker/build-push-action@v2
+      - uses: docker/build-push-action@v3
         with:
           push: true
           context: ${{ matrix.context }}
           tags: ${{ steps.prep.outputs.tags }}
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ matrix.context }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ matrix.context }}:buildcache,mode=max
