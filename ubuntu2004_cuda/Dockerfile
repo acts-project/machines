@@ -136,28 +136,6 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
-# DD4hep
-# requires Geant4 and ROOT and must come last
-#
-# environment variables needed for DD4hep to find ROOT libraries
-ENV LD_LIBRARY_PATH /usr/local/lib
-ENV PYTHON_PATH /usr/local/lib
-RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-17.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src -GNinja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DCMAKE_PREFIX_PATH=${PREFIX} \
-    -DBUILD_TESTING=OFF \
-    -DDD4HEP_BUILD_PACKAGES="DDG4" \
-    -DDD4HEP_IGNORE_GEANT4_TLS=ON \
-    -DDD4HEP_USE_GEANT4=ON \
-    -DDD4HEP_USE_XERCESC=ON \
-  && cmake --build build -- install \
-  && rm -rf build src
-
 # podio
 RUN mkdir src \
   && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-14-01.tar.gz \
@@ -180,5 +158,28 @@ RUN pip3 install jinja2 pyyaml \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DBUILD_TESTING=OFF \
     -DUSE_EXTERNAL_CATCH2=OFF \
+  && cmake --build build -- install \
+  && rm -rf build src
+
+# DD4hep
+# requires Geant4 and ROOT and must come last
+#
+# environment variables needed for DD4hep to find ROOT libraries
+ENV LD_LIBRARY_PATH /usr/local/lib
+ENV PYTHON_PATH /usr/local/lib
+RUN mkdir src \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-17.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_PREFIX_PATH=${PREFIX} \
+    -DBUILD_TESTING=OFF \
+    -DDD4HEP_BUILD_PACKAGES="DDG4" \
+    -DDD4HEP_IGNORE_GEANT4_TLS=ON \
+    -DDD4HEP_USE_GEANT4=ON \
+    -DDD4HEP_USE_XERCESC=ON \
+    -DDD4HEP_USE_EDM4HEP=ON \
   && cmake --build build -- install \
   && rm -rf build src
