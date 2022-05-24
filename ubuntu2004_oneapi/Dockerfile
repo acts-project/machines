@@ -162,6 +162,7 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_PREFIX_PATH=${PREFIX} \
     -DBUILD_TESTING=OFF \
     -USE_EXTERNAL_CATCH2=OFF \
   && cmake --build build -- install \
@@ -176,6 +177,7 @@ RUN pip3 install jinja2 pyyaml \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_PREFIX_PATH=${PREFIX} \
     -DBUILD_TESTING=OFF \
     -DUSE_EXTERNAL_CATCH2=OFF \
   && cmake --build build -- install \
