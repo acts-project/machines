@@ -137,7 +137,7 @@ ENV PYTHON_PATH /usr/local/lib
 
 # podio
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-14-01.tar.gz \
+  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-13-01.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
