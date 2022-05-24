@@ -154,6 +154,10 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
+# environment variables needed for DD4hep to find ROOT libraries
+ENV LD_LIBRARY_PATH /usr/local/lib
+ENV PYTHON_PATH /usr/local/lib
+
 # podio
 RUN mkdir src \
   && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-14-01.tar.gz \
@@ -185,10 +189,6 @@ RUN pip3 install jinja2 pyyaml \
 
 # DD4hep
 # requires Geant4 and ROOT and must come last
-#
-# environment variables needed for DD4hep to find ROOT libraries
-ENV LD_LIBRARY_PATH /usr/local/lib
-ENV PYTHON_PATH /usr/local/lib
 RUN mkdir src \
   && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-17.tar.gz \
     | ${UNPACK_TO_SRC} \
