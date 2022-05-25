@@ -142,12 +142,37 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
-# DD4hep
-# requires Geant4 and ROOT and must come last
-#
-# environment variables needed for DD4hep to find ROOT libraries
+# environment variables needed to find ROOT libraries
 ENV LD_LIBRARY_PATH /usr/local/lib
 ENV PYTHON_PATH /usr/local/lib
+
+# podio
+RUN mkdir src \
+  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-13-02.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DBUILD_TESTING=OFF \
+    -USE_EXTERNAL_CATCH2=OFF \
+  && cmake --build build -- install \
+  && rm -rf build src
+
+# EDM4hep
+RUN pip3 install jinja2 pyyaml \
+  && mkdir src \
+  && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v00-03-01.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DBUILD_TESTING=OFF \
+    -DUSE_EXTERNAL_CATCH2=OFF \
+  && cmake --build build -- install \
+  && rm -rf build src
+
+# DD4hep
+# requires Geant4 and ROOT and must come last
 RUN mkdir src \
   && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-11-02.tar.gz \
     | ${UNPACK_TO_SRC} \
@@ -161,30 +186,6 @@ RUN mkdir src \
     -DDD4HEP_IGNORE_GEANT4_TLS=ON \
     -DDD4HEP_USE_GEANT4=ON \
     -DDD4HEP_USE_XERCESC=ON \
-  && cmake --build build -- install \
-  && rm -rf build src
-
-# podio
-RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-14-01.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src -GNinja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DBUILD_TESTING=OFF \
-    -USE_EXTERNAL_CATCH2=OFF \
-  && cmake --build build -- install \
-  && rm -rf build src
-
-# EDM4hep
-RUN pip3 install jinja2 pyyaml \
-  && mkdir src \
-  && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v00-04-01.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src -GNinja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DBUILD_TESTING=OFF \
-    -DUSE_EXTERNAL_CATCH2=OFF \
+    -DDD4HEP_USE_EDM4HEP=ON \
   && cmake --build build -- install \
   && rm -rf build src
