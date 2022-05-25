@@ -190,7 +190,7 @@ RUN pip3 install jinja2 pyyaml \
 # DD4hep
 # requires Geant4 and ROOT and must come last
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-17.tar.gz \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-20-02.tar.gz \
     | ${UNPACK_TO_SRC} \
   && . /opt/intel/oneapi/setvars.sh \
   && cmake -B build -S src -GNinja \
