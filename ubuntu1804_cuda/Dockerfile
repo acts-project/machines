@@ -148,7 +148,7 @@ ENV PYTHON_PATH /usr/local/lib
 
 # podio
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-13-02.tar.gz \
+  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-14-01.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -161,7 +161,7 @@ RUN mkdir src \
 # EDM4hep
 RUN pip3 install jinja2 pyyaml \
   && mkdir src \
-  && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v00-03-01.tar.gz \
+  && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v00-04-02.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -174,7 +174,7 @@ RUN pip3 install jinja2 pyyaml \
 # DD4hep
 # requires Geant4 and ROOT and must come last
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-11-02.tar.gz \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-20-02.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
