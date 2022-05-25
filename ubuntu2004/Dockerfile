@@ -52,18 +52,12 @@ ENV GET curl --location --silent --create-dirs
 ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
 
-# upgrade cmake to a newer version
-RUN mkdir src \
-    && ${GET} https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1.tar.gz \
-     | ${UNPACK_TO_SRC} \
-    && cd src \
-    && ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release \
-                      -DCMAKE_INSTALL_PREFIX=${PREFIX}  \
-                      -DCMAKE_USE_OPENSSL=OFF \
-    && make \
-    && make install \
-    && cd ..  \
-    && rm -rf src 
+## install cmake
+ENV CMAKE_VERSION=3.23.1
+RUN curl -SL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz \
+    | tar -xzC . \
+    && mv cmake-* cmake \
+    && rsync -rv --links /cmake/ /usr/local/ && rm -rf /cmake
 
 # Geant4
 RUN mkdir src \
