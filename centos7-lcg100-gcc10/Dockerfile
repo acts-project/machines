@@ -58,4 +58,4 @@ RUN git clone https://gitlab.cern.ch/sft/lcgcmake.git lcgcmake \
   && rm -rf lcgcmake
 
 # LCIO sets it's root include path for cmake absolute, remedy this with a symlink
-RUN ln -s /opt/lcg/LCIO /LCIO 
+RUN ln -s /opt/lcg/LCIO /LCIO
