@@ -103,7 +103,7 @@ RUN mkdir src \
 
 # ROOT
 RUN mkdir src \
-  && ${GET} https://root.cern/download/root_v6.26.06.source.tar.gz \
+  && ${GET} https://root.cern/download/root_v6.26.04.source.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
