@@ -95,7 +95,7 @@ RUN mkdir src \
 
 # nlohmann's JSON
 RUN mkdir src \
-  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v3.10.2.tar.gz \
+  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v3.10.5.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
   && cmake --build build -- install \
@@ -103,7 +103,7 @@ RUN mkdir src \
 
 # ROOT
 RUN mkdir src \
-  && ${GET} https://root.cern/download/root_v6.26.02.source.tar.gz \
+  && ${GET} https://root.cern/download/root_v6.26.06.source.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -117,14 +117,39 @@ RUN mkdir src \
   && cmake --build build -- install \
   && rm -rf build src
 
-# DD4hep
-# requires Geant4 and ROOT and must come last
-#
-# environment variables needed for DD4hep to find ROOT libraries
+# environment variables needed to find ROOT libraries
 ENV LD_LIBRARY_PATH /usr/local/lib
 ENV PYTHON_PATH /usr/local/lib
+
+# podio
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-19.tar.gz \
+  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-14-01.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DBUILD_TESTING=OFF \
+    -USE_EXTERNAL_CATCH2=OFF \
+  && cmake --build build -- install \
+  && rm -rf build src
+
+# EDM4hep
+RUN pip3 install jinja2 pyyaml \
+  && mkdir src \
+  && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v00-04-02.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DBUILD_TESTING=OFF \
+    -DUSE_EXTERNAL_CATCH2=OFF \
+  && cmake --build build -- install \
+  && rm -rf build src
+
+# DD4hep
+# requires Geant4 and ROOT and must come last
+RUN mkdir src \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-20-02.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -136,6 +161,8 @@ RUN mkdir src \
     -DDD4HEP_IGNORE_GEANT4_TLS=ON \
     -DDD4HEP_USE_GEANT4=ON \
     -DDD4HEP_USE_XERCESC=ON \
-  && cmake --build build -- install
+    -DDD4HEP_USE_EDM4HEP=ON \
+  && cmake --build build -- install \
+  && rm -rf build src
 
 COPY download_geant4_data.sh /usr/local/bin
