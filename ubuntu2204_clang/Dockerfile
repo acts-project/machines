@@ -55,6 +55,10 @@ ENV GET curl --location --silent --create-dirs
 ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
 
+# use clang by default
+env CC=clang
+env CXX=clang++
+
 # Geant4
 RUN mkdir src \
   && ${GET} https://geant4-data.web.cern.ch/releases/geant4.10.07.p03.tar.gz \
@@ -83,9 +87,6 @@ RUN mkdir src \
     -DHEPMC3_ENABLE_SEARCH=OFF \
   && cmake --build build -- install \
   && rm -rf build src
-
-env CC=clang
-env CXX=clang++
 
 # Pythia8
 # requires rsync; installation uses `rsync` instead of `install`
