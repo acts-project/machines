@@ -56,8 +56,8 @@ ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
 
 # use clang by default
-env CC=clang
-env CXX=clang++
+ENV CC clang
+ENV CXX clang++
 
 # Geant4
 RUN mkdir src \
