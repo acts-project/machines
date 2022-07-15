@@ -16,6 +16,7 @@ RUN apt-get update -y \
     build-essential \
     curl \
     git \
+    unzip \
     freeglut3-dev \
     libboost-dev \
     libboost-filesystem-dev \
@@ -157,9 +158,9 @@ RUN pip3 install jinja2 pyyaml \
 # DD4hep
 # requires Geant4 and ROOT and must come last
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-20-02.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src -GNinja \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/63f67eb.zip  > src.zip \
+  && unzip *.zip \
+  && cmake -B build -S DD4hep-* -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_STANDARD=17 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
@@ -171,6 +172,6 @@ RUN mkdir src \
     -DDD4HEP_USE_XERCESC=ON \
     -DDD4HEP_USE_EDM4HEP=ON \
   && cmake --build build -- install \
-  && rm -rf build src
+  && rm -rf build DDD4hep-* *.zip
 
 COPY download_geant4_data.sh /usr/local/bin
