@@ -100,6 +100,7 @@ RUN mkdir src \
     -DCMAKE_CXX_STANDARD=17 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DWITH_CUDA=ON \
+    -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
   && cmake --build build -- install \
   && rm -rf build src
 
