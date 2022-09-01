@@ -90,6 +90,18 @@ RUN ${GET} --output libtorch.zip ${LIBTORCH_URL_GPU} \
   && unzip libtorch.zip \
   && rsync -ruv libtorch/ ${PREFIX} \
   && rm -rf libtorch*
+  
+# torch-scatter
+RUN mkdir src \
+  && ${GET} https://github.com/rusty1s/pytorch_scatter/archive/refs/tags/2.0.9.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DWITH_CUDA=ON \
+  && cmake --build build -- install \
+  && rm -rf build src
 
 # ROOT
 RUN mkdir src \
