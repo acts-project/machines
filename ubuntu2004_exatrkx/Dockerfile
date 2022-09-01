@@ -92,6 +92,7 @@ RUN ${GET} --output libtorch.zip ${LIBTORCH_URL_GPU} \
   && rm -rf libtorch*
 
 # torch-scatter
+# I have absolutely no clue why I need this __CUDA_NO_HALF_CONVERSIONS__, but it fails to compile if not set...
 RUN mkdir src \
   && ${GET} https://github.com/rusty1s/pytorch_scatter/archive/refs/tags/2.0.9.tar.gz \
     | ${UNPACK_TO_SRC} \
@@ -100,6 +101,7 @@ RUN mkdir src \
     -DCMAKE_CXX_STANDARD=17 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DWITH_CUDA=ON \
+    -DCMAKE_CUDA_FLAGS=-D__CUDA_NO_HALF_CONVERSIONS__ \
     -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
   && cmake --build build -- install \
   && rm -rf build src
