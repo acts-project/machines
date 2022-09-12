@@ -2,6 +2,7 @@ name: Build images
 
 on:
   pull_request:
+    types: [opened, reopened]
   push:
     branches:
       - '**'
