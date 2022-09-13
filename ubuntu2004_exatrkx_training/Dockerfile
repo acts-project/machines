@@ -27,6 +27,6 @@ RUN pip3 install faiss-gpu==1.7.2
 ENV TORCH_CUDA_ARCH_LIST="7.5;8.6"
 RUN git clone --recursive https://github.com/lxxue/FRNN src \
   && (cd src && git checkout 3e370d8d9073d4e130363faf87d2370598b5fbf2) \
-  && (cd src/external/prefix_sum && git install .) \
-  && (cd src && git install .) \
+  && (cd src/external/prefix_sum && pip install .) \
+  && (cd src && pip install .) \
   && rm -rf src
