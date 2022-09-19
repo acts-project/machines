@@ -31,6 +31,7 @@ jobs:
           - ubuntu2004_cuda
           - ubuntu2004_oneapi
           - ubuntu2004_exatrkx
+          - ubuntu2004_exatrkx_training
           - ubuntu2204
           - ubuntu2204_clang
     steps:
