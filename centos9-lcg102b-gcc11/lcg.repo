@@ -1,0 +1,21 @@
+[lcg9102]
+name=LCG 102 Releases
+baseurl=https://lcgpackages.web.cern.ch/lcgpackages/lcg/repo/9/x86_64/LCG_102/
+gpgcheck=0
+enabled=1
+protect=0
+
+[lcg9packs]
+name=LCG Release Packages
+baseurl=https://lcgpackages.web.cern.ch/lcgpackages/lcg/repo/9/x86_64/Packages/
+gpgcheck=0
+enabled=1
+protect=0
+
+[lcg-contrib]
+name=LCG contrib (gcc, clang, binutils, ...)
+baseurl=https://lcgpackages.web.cern.ch/lcgpackages/lcg/contrib/9/
+gpgcheck=0
+enabled=1
+protect=0
+
