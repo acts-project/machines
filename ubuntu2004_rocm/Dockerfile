@@ -1,6 +1,6 @@
-FROM nvidia/cuda:11.6.2-devel-ubuntu20.04
+FROM rocm/dev-ubuntu-20.04:5.3
 
-LABEL description="Ubuntu 20.04 with Acts dependencies and CUDA"
+LABEL description="Ubuntu 20.04 with Acts dependencies and ROCm"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
 # increase whenever any of the RUN commands change
 LABEL version="1"
