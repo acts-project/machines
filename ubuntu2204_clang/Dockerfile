@@ -156,7 +156,7 @@ RUN pip3 install jinja2 pyyaml \
 # DD4hep
 # requires Geant4 and ROOT and must come last
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-21.tar.gz \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-23.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -164,7 +164,7 @@ RUN mkdir src \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_PREFIX_PATH=${PREFIX} \
     -DBUILD_TESTING=OFF \
-    -DDD4HEP_BUILD_PACKAGES="DDG4 DDDetectors DDRec" \
+    -DDD4HEP_BUILD_PACKAGES="DDG4 DDDetectors DDRec UtilityApps" \
     -DDD4HEP_IGNORE_GEANT4_TLS=ON \
     -DDD4HEP_USE_GEANT4=ON \
     -DDD4HEP_USE_XERCESC=ON \
