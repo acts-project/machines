@@ -138,7 +138,7 @@ RUN mkdir src \
 
 # Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
 RUN git clone https://github.com/microsoft/onnxruntime src \
-  && (cd src && git checkout v1.10.0) \
+  && (cd src && git checkout v1.13.1) \
   && ./src/build.sh \
     --config MinSizeRel \
     --build_shared_lib \
