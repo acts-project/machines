@@ -115,6 +115,7 @@ RUN mkdir src \
     -Dgdml=ON \
     -Dopengl=ON \
     -Dpyroot=ON \
+    -Ddataframe=ON \
   && cmake --build build -- install \
   && rm -rf build src
 
