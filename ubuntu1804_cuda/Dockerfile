@@ -189,14 +189,3 @@ RUN mkdir src \
     -DDD4HEP_USE_EDM4HEP=ON \
   && cmake --build build -- install \
   && rm -rf build src
-
-# Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
-RUN git clone https://github.com/microsoft/onnxruntime src \
-  && (cd src && git checkout v1.13.1) \
-  && ./src/build.sh \
-    --config MinSizeRel \
-    --build_shared_lib \
-    --build_dir build \
-    --skip_tests \
-  && cmake --build build/MinSizeRel -- install \
-  && rm -rf build src
