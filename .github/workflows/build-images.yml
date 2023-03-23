@@ -23,6 +23,7 @@ jobs:
           - centos8-lcg100-gcc10
           - centos8-lcg101-gcc11
           - format10
+          - format14
           - ubuntu1804_cuda
           - ubuntu1804_cuda_oneapi
           - ubuntu1804_rocm
