@@ -85,10 +85,10 @@ RUN mkdir src \
 
 # Pythia8
 # requires rsync; installation uses `rsync` instead of `install`
+ADD pythia8307_cpp20.patch .
 RUN mkdir src \
   && ${GET} https://pythia.org/download/pythia83/pythia8309.tgz\
     | ${UNPACK_TO_SRC} \
-  && curl -sL https://gist.githubusercontent.com/paulgessinger/7a823b4015d4511cf829472291c8ddcf/raw/cce54fc6c9998863f1edb85c2bc2e1c9bf569891/pythia8307_cpp20.patch > pythia8307_cpp20.patch \
   && cd src \
   && git apply ../pythia8307_cpp20.patch \
   && ./configure --enable-shared --prefix=${PREFIX} \
