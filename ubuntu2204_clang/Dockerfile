@@ -61,12 +61,13 @@ ENV CXX clang++
 
 # Geant4
 RUN mkdir src \
-  && ${GET} https://geant4-data.web.cern.ch/releases/geant4.10.07.p03.tar.gz \
+  && ${GET} https://gitlab.cern.ch/geant4/geant4/-/archive/v11.1.1/geant4-v11.1.1.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_CXX_STANDARD=17 \
+    -DGEANT4_BUILD_TLS_MODEL=global-dynamic \
     -DGEANT4_INSTALL_DATA=OFF \
     -DGEANT4_USE_GDML=ON \
     -DGEANT4_USE_SYSTEM_EXPAT=ON \
@@ -91,7 +92,7 @@ RUN mkdir src \
 # Pythia8
 # requires rsync; installation uses `rsync` instead of `install`
 RUN mkdir src \
-  && ${GET} https://pythia.org/download/pythia83/pythia8307.tgz\
+  && ${GET} https://pythia.org/download/pythia83/pythia8309.tgz\
     | ${UNPACK_TO_SRC} \
   && cd src \
   && ./configure --enable-shared --prefix=${PREFIX} \
@@ -101,7 +102,7 @@ RUN mkdir src \
 
 # nlohmann's JSON
 RUN mkdir src \
-  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v3.10.5.tar.gz \
+  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DJSON_BuildTests=OFF \
@@ -110,7 +111,7 @@ RUN mkdir src \
 
 # ROOT
 RUN mkdir src \
-  && ${GET} https://root.cern/download/root_v6.26.04.source.tar.gz \
+  && ${GET} https://root.cern/download/root_v6.28.02.source.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -130,7 +131,7 @@ ENV PYTHON_PATH /usr/local/lib
 
 # podio
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-14-01.tar.gz \
+  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-16-03.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -156,7 +157,7 @@ RUN pip3 install jinja2 pyyaml \
 # DD4hep
 # requires Geant4 and ROOT and must come last
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-23.tar.gz \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-25-01.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
