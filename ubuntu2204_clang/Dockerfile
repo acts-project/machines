@@ -144,7 +144,7 @@ RUN mkdir src \
 # EDM4hep
 RUN pip3 install jinja2 pyyaml \
   && mkdir src \
-  && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v00-04-02.tar.gz \
+  && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v00-07-02.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
