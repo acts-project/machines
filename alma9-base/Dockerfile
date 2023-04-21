@@ -1,6 +1,6 @@
-FROM cern/c8-base:latest
+FROM cern/alma9-base:latest
 
-LABEL description="CERN CentOS 8"
+LABEL description="CERN AlmaLinux 9"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch>"
 LABEL version="1"
 
