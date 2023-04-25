@@ -41,6 +41,9 @@ jobs:
           - ubuntu2204
           - ubuntu2204_clang
           - ubuntu2204_cpp20
+          - centos7-base
+          - centos8-base
+          - alma9-base
     steps:
       - uses: actions/checkout@v3
 
