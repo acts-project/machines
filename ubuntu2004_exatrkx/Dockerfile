@@ -17,10 +17,6 @@ RUN apt-get update -y \
     curl \
     git \
     freeglut3-dev \
-    libboost-dev \
-    libboost-filesystem-dev \
-    libboost-program-options-dev \
-    libboost-test-dev \
     libexpat-dev \
     libeigen3-dev \
     libftgl-dev \
@@ -52,6 +48,16 @@ ENV GET curl --location --silent --create-dirs
 ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
 ENV CUDA_ARCH 75;86
+
+# Build recommended ACTS boost version 1.78.0 (package manager does not have it)
+RUN mkdir src \
+  && ${GET} https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cd src \
+  && ./bootstrap.sh --with-libraries=headers,test,program_options \
+  && ./b2 install \
+  && cd .. \
+  && rm -rf src  
 
 # CMake 3.16.3 version in APT is too old
 # requires rsync; installation uses `rsync` instead of `install`
