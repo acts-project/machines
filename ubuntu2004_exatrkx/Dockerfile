@@ -49,7 +49,7 @@ ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
 ENV CUDA_ARCH 75;86
 
-# Build recommended ACTS boost version 1.78.0 (package manager does not have it)
+# Build recommended ACTS Boost version 1.78.0 (package manager does not have it)
 RUN mkdir src \
   && ${GET} https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz \
     | ${UNPACK_TO_SRC} \
