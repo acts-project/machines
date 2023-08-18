@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.5.1-cudnn8-devel-ubuntu20.04
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04
 
 LABEL description="Ubuntu 20.04 with Acts dependencies for the Exa.TrkX Plugin"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
