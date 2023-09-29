@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.5.1-cudnn8-devel-ubuntu20.04
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04
 
 LABEL description="Ubuntu 20.04 with Acts dependencies for the Exa.TrkX Plugin"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
@@ -83,8 +83,8 @@ RUN mkdir src \
   && rm -rf build src
 
 # libtorch (unzip cannot be used in a pipe...)
-ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu113/libtorch-cxx11-abi-shared-with-deps-1.10.2%2Bcu113.zip
-ENV LIBTORCH_URL_CPU https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.10.2%2Bcpu.zip
+ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcu118.zip
+ENV LIBTORCH_URL_CPU https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcpu.zip
 
 RUN ${GET} --output libtorch.zip ${LIBTORCH_URL_GPU} \
   && unzip libtorch.zip \
