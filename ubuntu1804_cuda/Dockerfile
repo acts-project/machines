@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-devel-ubuntu18.04
+FROM nvidia/cuda:11.8.0-devel-ubuntu18.04
 
 LABEL description="Ubuntu 18.04 with Acts dependencies"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
