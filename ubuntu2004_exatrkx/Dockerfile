@@ -146,7 +146,7 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --use_cuda \
     --cuda_home /usr/local/cuda \
     --cudnn_home /usr/local/cuda \
-    --minimal_build \
+#    --minimal_build \    # does not work somehow
 #    --parallel 1 \
     --skip_tests \
     --cmake_extra_defines \
