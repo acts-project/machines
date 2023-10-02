@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/pytorch:xx.xx-py3
+FROM nvcr.io/nvidia/pytorch:22.12-py3
 
 LABEL description="Ubuntu 20.04 with Acts dependencies for the Exa.TrkX Plugin"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
