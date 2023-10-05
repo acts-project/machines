@@ -55,6 +55,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check size of packages
+        run: |
+          df -h
+          echo "Listing 25 largest packages"
+          dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 25
+          echo "Removing large packages"
+          sudo apt-get remove -y '^dotnet-.*'
+          sudo apt-get remove -y '^llvm-.*'
+          sudo apt-get remove -y '^libllvm-.*'
+          sudo apt-get remove -y azure-cli 
+          sudo apt-get remove -y google-cloud-cli
+          sudo apt-get remove -y google-chrome-stable
+          sudo apt-get remove -y firefox
+          sudo apt-get remove -y powershell
+          sudo apt-get remove -y mono-devel
+          sudo apt-get remove -y '^temurin.*'
+          sudo apt-get autoremove -y
+          sudo apt-get clean
+          rm -rf /usr/share/dotnet/
+          df -h
+          
+
       - name: Prepare
         id: prep
         run: |
