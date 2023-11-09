@@ -53,9 +53,19 @@ ENV GET curl --location --silent --create-dirs
 ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
 
+ENV GEANT4_VERSION=11.1.1
+ENV HEPMC3_VERSION=3.2.5
+ENV PYTHIA8_VERSION=309
+ENV JSON_VERSION=3.11.2
+ENV ROOT_VERSION=6.28.02
+ENV PODIO_VERSION=00-16-03
+ENV EDM4HEP_VERSION=00-07-02
+ENV DD4HEP_VERSION=01-27-00
+ENV ONNXRUNTIME_VERSION=1.13.1
+
 # Geant4
 RUN mkdir src \
-  && ${GET} https://gitlab.cern.ch/geant4/geant4/-/archive/v11.1.1/geant4-v11.1.1.tar.gz \
+  && ${GET} https://gitlab.cern.ch/geant4/geant4/-/archive/v${GEANT4_VERSION}/geant4-v${GEANT4_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -71,7 +81,7 @@ RUN mkdir src \
 
 # HepMC3
 RUN mkdir src \
-  && ${GET} https://hepmc.web.cern.ch/hepmc/releases/HepMC3-3.2.5.tar.gz \
+  && ${GET} https://hepmc.web.cern.ch/hepmc/releases/HepMC3-${HEPMC3_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -87,10 +97,10 @@ RUN mkdir src \
 # requires rsync; installation uses `rsync` instead of `install`
 ADD pythia8307_cpp20.patch .
 RUN mkdir src \
-  && ${GET} https://pythia.org/download/pythia83/pythia8309.tgz\
+  && ${GET} https://pythia.org/download/pythia83/pythia8${PYTHIA8_VERSION}.tgz\
     | ${UNPACK_TO_SRC} \
   && cd src \
-  && git apply ../pythia8307_cpp20.patch \
+  && git apply ../pythia8*_cpp20.patch \
   && ./configure --enable-shared --prefix=${PREFIX} \
   && make -j$(nproc) install \
   && cd .. \
@@ -98,7 +108,7 @@ RUN mkdir src \
 
 # nlohmann's JSON
 RUN mkdir src \
-  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz \
+  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v${JSON_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja -DJSON_BuildTests=OFF \
   && cmake --build build -- install \
@@ -106,7 +116,7 @@ RUN mkdir src \
 
 # ROOT
 RUN mkdir src \
-  && ${GET} https://root.cern/download/root_v6.28.02.source.tar.gz \
+  && ${GET} https://root.cern/download/root_v${ROOT_VERSION}.source.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -128,7 +138,7 @@ ENV PYTHON_PATH /usr/local/lib
 ADD podio_cpp20.patch .
 # podio
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-16-03.tar.gz \
+  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v${PODIO_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cd src && git apply ../podio_cpp20.patch && cd .. \
   && cmake -B build -S src -GNinja \
@@ -142,7 +152,7 @@ RUN mkdir src \
 # EDM4hep
 RUN pip3 install jinja2 pyyaml \
   && mkdir src \
-  && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v00-07-02.tar.gz \
+  && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v${EDM4HEP_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -155,7 +165,7 @@ RUN pip3 install jinja2 pyyaml \
 # DD4hep
 # requires Geant4 and ROOT and must come last
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v01-25-01.tar.gz \
+  && ${GET} https://github.com/AIDASoft/DD4hep/archive/v${DD4HEP_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -172,7 +182,7 @@ RUN mkdir src \
 
 # Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
 RUN git clone https://github.com/microsoft/onnxruntime src \
-  && (cd src && git checkout v1.13.1) \
+  && (cd src && git checkout v${ONNXRUNTIME_VERSION}) \
   && ./src/build.sh \
     --config MinSizeRel \
     --build_shared_lib \
