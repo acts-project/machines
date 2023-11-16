@@ -59,7 +59,7 @@ ENV JSON_VERSION=3.11.2
 ENV ROOT_VERSION=6.28.06
 ENV PODIO_VERSION=00-17-02
 ENV EDM4HEP_VERSION=00-10-01
-ENV DD4HEP_VERSION=01-27-00
+ENV DD4HEP_VERSION=01-27
 ENV ONNXRUNTIME_VERSION=1.13.1
 
 ## install cmake
@@ -132,6 +132,7 @@ RUN mkdir src \
     -Dgdml=ON \
     -Dopengl=ON \
     -Dpyroot=ON \
+    -Droot7=ON \
   && cmake --build build -- install \
   && rm -rf build src
 

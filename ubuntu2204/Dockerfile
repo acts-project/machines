@@ -61,7 +61,7 @@ ENV JSON_VERSION=3.11.2
 ENV ROOT_VERSION=6.28.02
 ENV PODIO_VERSION=00-16-03
 ENV EDM4HEP_VERSION=00-07-02
-ENV DD4HEP_VERSION=01-27-00
+ENV DD4HEP_VERSION=01-27
 ENV ONNXRUNTIME_VERSION=1.13.1
 
 
@@ -128,6 +128,7 @@ RUN mkdir src \
     -Dopengl=ON \
     -Dpyroot=ON \
     -Ddataframe=ON \
+    -Droot7=ON \
   && cmake --build build -- install \
   && rm -rf build src
 
@@ -137,7 +138,7 @@ ENV PYTHON_PATH /usr/local/lib
 
 # podio
 RUN mkdir src \
-  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v00-17-02.tar.gz \
+  && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v${PODIO_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
