@@ -53,7 +53,7 @@ jobs:
       - name: Check size of packages
         run: |
           df -h
-          apt-get update
+          sudo apt-get update
           echo "Listing 25 largest packages"
           dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 25
           echo "Removing large packages"
