@@ -26,10 +26,6 @@ jobs:
           - centos8-lcg101-gcc11
           - format10
           - format14
-          - ubuntu1804_cuda
-          - ubuntu1804_cuda_oneapi
-          - ubuntu1804_rocm
-          - ubuntu1804_rocm_oneapi
           - ubuntu2004
           - ubuntu2004_cuda
           - ubuntu2004_cuda_oneapi
@@ -42,7 +38,6 @@ jobs:
           - ubuntu2204_cpp20
           - centos7-base
           - centos8-base
-          - alma9-base
     steps:
       - uses: actions/checkout@v3
 
@@ -58,6 +53,7 @@ jobs:
       - name: Check size of packages
         run: |
           df -h
+          sudo apt-get update
           echo "Listing 25 largest packages"
           dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 25
           echo "Removing large packages"
