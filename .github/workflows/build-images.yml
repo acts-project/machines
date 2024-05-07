@@ -41,3 +41,11 @@ jobs:
           "centos7-base",
           "centos8-base",
         ]
+  tier1:
+    name: Build tier-1 images
+    uses: ./.github/workflows/reusable-build-images.yml
+    with:
+      images: >
+        [
+          "ubuntu2204_extend_test",
+        ]
