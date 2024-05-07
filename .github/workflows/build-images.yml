@@ -11,92 +11,33 @@ on:
   schedule:
     - cron: '0 3 * * 1'
 
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      packages: write
-    strategy:
-      matrix:
-        context:
-          - centos7-lcg100-gcc10
-          - centos7-lcg101-gcc11
-          - centos8-lcg100-gcc10
-          - centos8-lcg101-gcc11
-          - format10
-          - format14
-          - ubuntu2004
-          - ubuntu2004_cuda
-          - ubuntu2004_cuda_oneapi
-          - ubuntu2004_rocm
-          - ubuntu2004_rocm_oneapi
-          - ubuntu2004_oneapi
-          - ubuntu2004_exatrkx
-          - ubuntu2204
-          - ubuntu2204_clang
-          - ubuntu2204_cpp20
-          - centos7-base
-          - centos8-base
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check size of packages
-        run: |
-          df -h
-          sudo apt-get update
-          echo "Listing 25 largest packages"
-          dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 25
-          echo "Removing large packages"
-          sudo apt-get remove -y '^dotnet-.*'
-          sudo apt-get remove -y '^llvm-.*'
-          sudo apt-get remove -y '^libllvm-.*'
-          sudo apt-get remove -y azure-cli 
-          sudo apt-get remove -y google-cloud-cli
-          sudo apt-get remove -y google-chrome-stable
-          sudo apt-get remove -y firefox
-          sudo apt-get remove -y powershell
-          sudo apt-get remove -y mono-devel
-          sudo apt-get remove -y '^temurin.*'
-          sudo apt-get autoremove -y
-          sudo apt-get clean
-          rm -rf /usr/share/dotnet/
-          df -h
-          
-
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          # list of Docker images to use as base name for tags
-          images: |
-            ghcr.io/${{ github.repository_owner  }}/${{ matrix.context }}
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=sha        
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: ${{ matrix.context }}
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner  }}/${{ matrix.context }}:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner  }}/${{ matrix.context }}:buildcache,mode=max
+  tier0:
+    name: Build tier-0 images
+    uses: ./.github/actions/reusable-build-images.yml
+    with:
+      images: >
+        [
+          "centos7-lcg100-gcc10"
+          "centos7-lcg101-gcc11"
+          "centos8-lcg100-gcc10"
+          "centos8-lcg101-gcc11"
+          "format10"
+          "format14"
+          "ubuntu2004"
+          "ubuntu2004_cuda"
+          "ubuntu2004_cuda_oneapi"
+          "ubuntu2004_rocm"
+          "ubuntu2004_rocm_oneapi"
+          "ubuntu2004_oneapi"
+          "ubuntu2004_exatrkx"
+          "ubuntu2204"
+          "ubuntu2204_clang"
+          "ubuntu2204_cpp20"
+          "centos7-base"
+          "centos8-base"
+        ]
