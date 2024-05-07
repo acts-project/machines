@@ -18,7 +18,7 @@ concurrency:
 jobs:
   tier0:
     name: Build tier-0 images
-    uses: ./.github/actions/reusable-build-images.yml
+    uses: ./.github/workflows/reusable-build-images.yml
     with:
       images: >
         [
