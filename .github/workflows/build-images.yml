@@ -37,6 +37,7 @@ jobs:
           - ubuntu2204_clang
           - ubuntu2204_cpp20
           - ubuntu2204_rocm_clang
+          - ubuntu2404
           - centos7-base
           - centos8-base
     steps:
@@ -101,3 +102,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner  }}/${{ matrix.context }}:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner  }}/${{ matrix.context }}:buildcache,mode=max
+
