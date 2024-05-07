@@ -22,22 +22,22 @@ jobs:
     with:
       images: >
         [
-          "centos7-lcg100-gcc10"
-          "centos7-lcg101-gcc11"
-          "centos8-lcg100-gcc10"
-          "centos8-lcg101-gcc11"
-          "format10"
-          "format14"
-          "ubuntu2004"
-          "ubuntu2004_cuda"
-          "ubuntu2004_cuda_oneapi"
-          "ubuntu2004_rocm"
-          "ubuntu2004_rocm_oneapi"
-          "ubuntu2004_oneapi"
-          "ubuntu2004_exatrkx"
-          "ubuntu2204"
-          "ubuntu2204_clang"
-          "ubuntu2204_cpp20"
-          "centos7-base"
-          "centos8-base"
+          "centos7-lcg100-gcc10",
+          "centos7-lcg101-gcc11",
+          "centos8-lcg100-gcc10",
+          "centos8-lcg101-gcc11",
+          "format10",
+          "format14",
+          "ubuntu2004",
+          "ubuntu2004_cuda",
+          "ubuntu2004_cuda_oneapi",
+          "ubuntu2004_rocm",
+          "ubuntu2004_rocm_oneapi",
+          "ubuntu2004_oneapi",
+          "ubuntu2004_exatrkx",
+          "ubuntu2204",
+          "ubuntu2204_clang",
+          "ubuntu2204_cpp20",
+          "centos7-base",
+          "centos8-base",
         ]
