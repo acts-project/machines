@@ -44,6 +44,7 @@ jobs:
   tier1:
     name: Build tier-1 images
     uses: ./.github/workflows/reusable-build-images.yml
+    needs: tier0
     with:
       images: >
         [
