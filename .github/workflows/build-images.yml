@@ -36,6 +36,7 @@ jobs:
           - ubuntu2204
           - ubuntu2204_clang
           - ubuntu2204_cpp20
+          - ubuntu2204_rocm_clang
           - centos7-base
           - centos8-base
     steps:
