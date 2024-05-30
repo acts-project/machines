@@ -46,4 +46,4 @@ RUN apt-get update && \
 ENV CC="clang"
 ENV CXX="clang++"
 ENV SYCLCXX="clang++ -fsycl"
-ENV SYCLFLAGS="-fsycl-targets=spir64,spir64_x86_64,amd_gpu_gfx803 -Xclang -opaque-pointers"
+ENV SYCLFLAGS="-fsycl-targets=amd_gpu_gfx1031"

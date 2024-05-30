@@ -54,4 +54,4 @@ RUN apt-get update && \
 ENV CC="clang"
 ENV CXX="clang++"
 ENV SYCLCXX="clang++ -fsycl"
-ENV SYCLFLAGS="-fsycl-targets=spir64,spir64_x86_64,nvidia_gpu_sm_75 -Wno-unknown-cuda-version -Xclang -opaque-pointers"
+ENV SYCLFLAGS="-fsycl-targets=nvidia_gpu_sm_75 -Wno-unknown-cuda-version"
