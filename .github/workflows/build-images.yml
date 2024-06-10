@@ -34,6 +34,7 @@ jobs:
           - ubuntu2004_oneapi
           - ubuntu2004_exatrkx
           - ubuntu2204
+          - ubuntu2204_cuda
           - ubuntu2204_clang
           - ubuntu2204_cpp20
           - ubuntu2204_rocm_clang
