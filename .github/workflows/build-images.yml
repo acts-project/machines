@@ -26,6 +26,7 @@ jobs:
           - centos8-lcg101-gcc11
           - format10
           - format14
+          - format18
           - ubuntu2004
           - ubuntu2004_cuda
           - ubuntu2004_cuda_oneapi
