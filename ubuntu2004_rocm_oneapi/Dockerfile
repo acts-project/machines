@@ -40,6 +40,14 @@ RUN apt-get update && \
     apt-get install -y intel-oneapi-compiler-dpcpp-cpp-${ONEAPI_VERSION} && \
     apt-get clean -y
 
+# Install the CodePlay AMD plugin on top of oneAPI.
+ARG CODEPLAY_PLUGIN_VERSION=2024.1.2
+RUN curl -SL \
+    "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=amd&version=${CODEPLAY_PLUGIN_VERSION}" \
+    -o plugin.sh && \
+    sh plugin.sh --install-dir /opt/intel/oneapi --yes && \
+    rm plugin.sh
+
 # Set up the oneAPI environment. Note that one *MUST* source the
 # /opt/intel/oneapi/setvars.sh script to make the following work. Which has to
 # be done in the respective CI scripts.
