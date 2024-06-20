@@ -21,7 +21,7 @@ RUN curl -SL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004
 ARG CUDA_VERSION=12-4
 RUN apt-get update && \
     apt-get install -y cuda-compat-${CUDA_VERSION} cuda-cudart-${CUDA_VERSION} \
-                       cuda-libraries-${CUDA_VERSION}                          \
+                       cuda-libraries-dev-${CUDA_VERSION}                      \
                        cuda-command-line-tools-${CUDA_VERSION}                 \
                        cuda-minimal-build-${CUDA_VERSION} &&                   \
     apt-get clean -y
@@ -47,6 +47,14 @@ ARG ONEAPI_VERSION=2024.1
 RUN apt-get update && \
     apt-get install -y intel-oneapi-compiler-dpcpp-cpp-${ONEAPI_VERSION} && \
     apt-get clean -y
+
+# Install the CodePlay NVIDIA plugin on top of oneAPI.
+ARG CODEPLAY_PLUGIN_VERSION=2024.1.2
+RUN curl -SL \
+    "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=nvidia&version=${CODEPLAY_PLUGIN_VERSION}" \
+    -o plugin.sh && \
+    sh plugin.sh --install-dir /opt/intel/oneapi --yes && \
+    rm plugin.sh
 
 # Set up the oneAPI environment. Note that one *MUST* source the
 # /opt/intel/oneapi/setvars.sh script to make the following work. Which has to
