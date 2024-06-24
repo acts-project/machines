@@ -47,7 +47,7 @@ RUN apt-get update -y \
     rsync \
     zlib1g-dev \
     ccache \
-    libsqlite-dev \
+    libsqlite3-dev \
   && apt-get clean -y
 
 # manual builds for hep-specific packages
