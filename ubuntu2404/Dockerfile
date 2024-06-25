@@ -47,6 +47,7 @@ RUN apt-get update -y \
     zlib1g-dev \
     ccache \
     python3-venv \
+    libsqlite3-dev \
   && apt-get clean -y
 
 # manual builds for hep-specific packages
