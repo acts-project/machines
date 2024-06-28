@@ -77,7 +77,7 @@ RUN mkdir src \
 
 # HepMC3
 RUN mkdir src \
-  && ${GET} https://gitlab.cern.ch/hepmc/HepMC3/-/archive/${HEPMC3_VERSION}/HepMC3-${HEPMC3_VERSION}.tar.gz \
+  && ${GET} https://gitlab.cern.ch/hepmc/HepMC3/-/archive/3.2.5/HepMC3-3.2.5.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
