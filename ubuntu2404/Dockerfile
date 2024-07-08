@@ -76,6 +76,7 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DGEANT4_BUILD_TLS_MODEL=global-dynamic \
     -DGEANT4_INSTALL_DATA=OFF \
     -DGEANT4_USE_GDML=ON \
@@ -92,6 +93,7 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DHEPMC3_BUILD_STATIC_LIBS=OFF \
     -DHEPMC3_ENABLE_PYTHON=OFF \
     -DHEPMC3_ENABLE_ROOTIO=OFF \
@@ -105,7 +107,7 @@ RUN mkdir src \
   && ${GET} https://pythia.org/download/pythia83/pythia8${PYTHIA8_VERSION}.tgz\
     | ${UNPACK_TO_SRC} \
   && cd src \
-  && ./configure --enable-shared --prefix=${PREFIX} \
+  && ./configure --enable-shared --prefix=${PREFIX} --cxx-common="-O2 -std=c++20 -pedantic -W -Wall -Wshadow -fPIC -pthread"\
   && make -j$(nproc) install \
   && cd .. \
   && rm -rf src
@@ -116,6 +118,8 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DJSON_BuildTests=OFF \
   && cmake --build build -- install \
   && rm -rf build src
@@ -126,8 +130,8 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -Dfail-on-missing=ON \
     -Dgminimal=ON \
     -Dgdml=ON \
@@ -148,6 +152,7 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DBUILD_TESTING=OFF \
     -USE_EXTERNAL_CATCH2=OFF \
   && cmake --build build -- install \
@@ -161,6 +166,7 @@ RUN pip3 install jinja2 pyyaml \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DBUILD_TESTING=OFF \
     -DUSE_EXTERNAL_CATCH2=OFF \
   && cmake --build build -- install \
@@ -173,9 +179,9 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_PREFIX_PATH=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DBUILD_TESTING=OFF \
     -DDD4HEP_BUILD_PACKAGES="DDG4 DDDetectors DDRec UtilityApps" \
     -DDD4HEP_IGNORE_GEANT4_TLS=ON \
