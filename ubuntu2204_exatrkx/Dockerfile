@@ -1,5 +1,5 @@
-FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04
 
+FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 LABEL description="Ubuntu 20.04 with Acts dependencies for the Exa.TrkX Plugin"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
 # increase whenever any of the RUN commands change
@@ -12,6 +12,7 @@ ENV DEBIAN_FRONTEND noninteractive
 #
 # see also https://root.cern.ch/build-prerequisites
 RUN apt-get update -y \
+  && apt-get upgrade -y \
   && apt-get install -y \
     build-essential \
     curl \
@@ -45,6 +46,7 @@ RUN apt-get update -y \
     unzip \
     zlib1g-dev \
     ccache \
+    libsqlite3-dev \
   && apt-get clean -y
 
 # manual builds for hep-specific packages
@@ -68,6 +70,7 @@ RUN mkdir -p src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src/cmake_unofficial -GNinja\
     -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
   && cmake --build build -- install \
   && rm -rf build src
@@ -78,6 +81,7 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DCMAKE_CXX_STANDARD=20 \
     -DJSON_BuildTests=OFF \
   && cmake --build build -- install \
   && rm -rf build src
@@ -98,7 +102,7 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DWITH_CUDA=ON \
     -DCMAKE_CUDA_FLAGS=-D__CUDA_NO_HALF_CONVERSIONS__ \
@@ -112,7 +116,7 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -Dfail-on-missing=ON \
     -Dgminimal=ON \
@@ -128,7 +132,7 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src/cpp -GNinja \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
     -DBUILD_TESTS=OFF \

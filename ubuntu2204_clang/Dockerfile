@@ -12,6 +12,7 @@ ENV DEBIAN_FRONTEND noninteractive
 #
 # see also https://root.cern.ch/build-prerequisites
 RUN apt-get update -y \
+  && apt-get upgrade -y \
   && apt-get install -y \
     build-essential \
     clang \
@@ -47,6 +48,7 @@ RUN apt-get update -y \
     rsync \
     zlib1g-dev \
     ccache \
+    libsqlite3-dev \
   && apt-get remove -y gcc g++ \
   && apt-get clean -y
 
@@ -66,7 +68,7 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=20 \
     -DGEANT4_BUILD_TLS_MODEL=global-dynamic \
     -DGEANT4_INSTALL_DATA=OFF \
     -DGEANT4_USE_GDML=ON \
@@ -82,6 +84,7 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DHEPMC3_BUILD_STATIC_LIBS=OFF \
     -DHEPMC3_ENABLE_PYTHON=OFF \
     -DHEPMC3_ENABLE_ROOTIO=OFF \
@@ -95,7 +98,7 @@ RUN mkdir src \
   && ${GET} https://pythia.org/download/pythia83/pythia8309.tgz\
     | ${UNPACK_TO_SRC} \
   && cd src \
-  && ./configure --enable-shared --prefix=${PREFIX} \
+  && ./configure --enable-shared --prefix=${PREFIX} --cxx-common="-O2 -std=c++20 -pedantic -W -Wall -Wshadow -fPIC -pthread"\
   && make -j$(nproc) install \
   && cd .. \
   && rm -rf src
@@ -106,6 +109,8 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DJSON_BuildTests=OFF \
+    -DCMAKE_CXX_STANDARD=20 \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
   && cmake --build build -- install \
   && rm -rf build src
 
@@ -115,7 +120,7 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -Dfail-on-missing=ON \
     -Dgminimal=ON \
@@ -136,6 +141,7 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DBUILD_TESTING=OFF \
     -USE_EXTERNAL_CATCH2=OFF \
   && cmake --build build -- install \
@@ -149,6 +155,7 @@ RUN pip3 install jinja2 pyyaml \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DBUILD_TESTING=OFF \
     -DUSE_EXTERNAL_CATCH2=OFF \
   && cmake --build build -- install \
@@ -161,7 +168,7 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_PREFIX_PATH=${PREFIX} \
     -DBUILD_TESTING=OFF \

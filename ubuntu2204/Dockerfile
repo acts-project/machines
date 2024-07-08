@@ -12,6 +12,7 @@ ENV DEBIAN_FRONTEND noninteractive
 #
 # see also https://root.cern.ch/build-prerequisites
 RUN apt-get update -y \
+  && apt-get upgrade -y \
   && apt-get install -y \
     build-essential \
     cmake \
@@ -46,6 +47,7 @@ RUN apt-get update -y \
     rsync \
     zlib1g-dev \
     ccache \
+    libsqlite3-dev \
   && apt-get clean -y
 
 # manual builds for hep-specific packages

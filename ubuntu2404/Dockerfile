@@ -12,6 +12,7 @@ ENV DEBIAN_FRONTEND noninteractive
 #
 # see also https://root.cern.ch/build-prerequisites
 RUN apt-get update -y \
+  && apt-get upgrade -y \
   && apt-get install -y \
     build-essential \
     curl \
