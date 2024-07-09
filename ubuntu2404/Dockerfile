@@ -58,12 +58,12 @@ ENV PREFIX /usr/local
 
 ENV GEANT4_VERSION=11.1.1
 ENV HEPMC3_VERSION=3.2.5
-ENV PYTHIA8_VERSION=309
+ENV PYTHIA8_VERSION=312
 ENV JSON_VERSION=3.11.2
 ENV ROOT_VERSION=6.28.06
-ENV PODIO_VERSION=00-17-02
+ENV PODIO_VERSION=01-00-01
 ENV EDM4HEP_VERSION=00-10-01
-ENV DD4HEP_VERSION=01-28
+ENV DD4HEP_VERSION=01-29
 ENV ONNXRUNTIME_VERSION=1.16.3
 
 ENV VIRTUAL_ENV=/opt/venv
@@ -160,6 +160,7 @@ RUN mkdir src \
   && rm -rf build src
 
 # EDM4hep
+ENV EDM4HEP_VERSION=00-10-05
 RUN pip3 install jinja2 pyyaml \
   && mkdir src \
   && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v${EDM4HEP_VERSION}.tar.gz \
@@ -175,9 +176,11 @@ RUN pip3 install jinja2 pyyaml \
 
 # DD4hep
 # requires Geant4 and ROOT and must come last
+ADD 0001-CMake-allow-finding-newer-versions-of-podio.patch .
 RUN mkdir src \
   && ${GET} https://github.com/AIDASoft/DD4hep/archive/v${DD4HEP_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
+  && patch -p1 -d src < 0001-CMake-allow-finding-newer-versions-of-podio.patch \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
@@ -203,7 +206,7 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --build_dir build \
     --skip_tests \
     --allow_running_as_root \
+    --parallel 0 \
   && cmake --build build/MinSizeRel -- install \
   && rm -rf build src
 
-COPY download_geant4_data.sh /usr/local/bin

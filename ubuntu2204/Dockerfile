@@ -57,12 +57,12 @@ ENV PREFIX /usr/local
 
 ENV GEANT4_VERSION=11.1.1
 ENV HEPMC3_VERSION=3.2.5
-ENV PYTHIA8_VERSION=309
+ENV PYTHIA8_VERSION=312
 ENV JSON_VERSION=3.11.2
-ENV ROOT_VERSION=6.28.02
-ENV PODIO_VERSION=00-16-03
-ENV EDM4HEP_VERSION=00-07-02
-ENV DD4HEP_VERSION=01-27
+ENV ROOT_VERSION=6.28.06
+ENV PODIO_VERSION=01-00-01
+ENV EDM4HEP_VERSION=00-10-01
+ENV DD4HEP_VERSION=01-29
 ENV ONNXRUNTIME_VERSION=1.13.1
 
 # Geant4
@@ -97,13 +97,11 @@ RUN mkdir src \
 
 # Pythia8
 # requires rsync; installation uses `rsync` instead of `install`
-ADD pythia8307_cpp20.patch .
 RUN mkdir src \
   && ${GET} https://pythia.org/download/pythia83/pythia8${PYTHIA8_VERSION}.tgz\
     | ${UNPACK_TO_SRC} \
   && cd src \
-  && git apply ../pythia8*_cpp20.patch \
-  && ./configure --enable-shared --prefix=${PREFIX} \
+  && ./configure --enable-shared --prefix=${PREFIX} --cxx-common="-O2 -std=c++20 -pedantic -W -Wall -Wshadow -fPIC -pthread"\
   && make -j$(nproc) install \
   && cd .. \
   && rm -rf src
@@ -138,12 +136,10 @@ RUN mkdir src \
 ENV LD_LIBRARY_PATH /usr/local/lib
 ENV PYTHON_PATH /usr/local/lib
 
-ADD podio_cpp20.patch .
 # podio
 RUN mkdir src \
   && ${GET} https://github.com/AIDASoft/podio/archive/refs/tags/v${PODIO_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
-  && cd src && git apply ../podio_cpp20.patch && cd .. \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
@@ -167,9 +163,11 @@ RUN pip3 install jinja2 pyyaml \
 
 # DD4hep
 # requires Geant4 and ROOT and must come last
+ADD 0001-CMake-allow-finding-newer-versions-of-podio.patch .
 RUN mkdir src \
   && ${GET} https://github.com/AIDASoft/DD4hep/archive/v${DD4HEP_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
+  && patch -p1 -d src < 0001-CMake-allow-finding-newer-versions-of-podio.patch \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_STANDARD=20 \
@@ -192,5 +190,6 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --build_dir build \
     --parallel $(nproc) \
     --skip_tests \
+    --parallel 0 \
   && cmake --build build/MinSizeRel -- install \
   && rm -rf build src

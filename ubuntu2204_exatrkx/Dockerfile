@@ -16,6 +16,7 @@ RUN apt-get update -y \
   && apt-get install -y \
     build-essential \
     curl \
+    cmake \
     git \
     freeglut3-dev \
     libboost-dev \
@@ -55,18 +56,21 @@ ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
 ENV CUDA_ARCH 86
 
-# CMake 3.16.3 version in APT is too old
-# requires rsync; installation uses `rsync` instead of `install`
-RUN mkdir src \
-  && ${GET} https://github.com/Kitware/CMake/releases/download/v3.21.2/cmake-3.21.2-Linux-x86_64.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && rsync -ruv src/ ${PREFIX} \
-  && cd .. \
-  && rm -rf src
+ENV XXHASH_VERSION=0.7.3
+ENV JSON_VERSION=3.11.2
+ENV ROOT_VERSION=6.28.06
+ENV TORCH_SCATTER_VERSION=2.0.9
+ENV CUGRAPH_VERSION=22.02.00
+ENV ONNXRUNTIME_VERSION=1.13.1
+
+# libtorch (unzip cannot be used in a pipe...)
+ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcu118.zip
+ENV LIBTORCH_URL_CPU https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcpu.zip
+
 
 # xxHash
 RUN mkdir -p src \
-  && ${GET} https://github.com/Cyan4973/xxHash/archive/v0.7.3.tar.gz \
+  && ${GET} https://github.com/Cyan4973/xxHash/archive/v${XXHASH_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src/cmake_unofficial -GNinja\
     -DCMAKE_BUILD_TYPE=MinSizeRel \
@@ -77,7 +81,7 @@ RUN mkdir -p src \
 
 # nlohmann's JSON
 RUN mkdir src \
-  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v3.10.2.tar.gz \
+  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v${JSON_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
@@ -85,10 +89,6 @@ RUN mkdir src \
     -DJSON_BuildTests=OFF \
   && cmake --build build -- install \
   && rm -rf build src
-
-# libtorch (unzip cannot be used in a pipe...)
-ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcu118.zip
-ENV LIBTORCH_URL_CPU https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcpu.zip
 
 RUN ${GET} --output libtorch.zip ${LIBTORCH_URL_GPU} \
   && unzip libtorch.zip \
@@ -98,7 +98,7 @@ RUN ${GET} --output libtorch.zip ${LIBTORCH_URL_GPU} \
 # torch-scatter
 # I have absolutely no clue why I need this __CUDA_NO_HALF_CONVERSIONS__, but it fails to compile if not set...
 RUN mkdir src \
-  && ${GET} https://github.com/rusty1s/pytorch_scatter/archive/refs/tags/2.0.9.tar.gz \
+  && ${GET} https://github.com/rusty1s/pytorch_scatter/archive/refs/tags/${TORCH_SCATTER_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
@@ -112,10 +112,10 @@ RUN mkdir src \
 
 # ROOT
 RUN mkdir src \
-  && ${GET} https://root.cern/download/root_v6.24.06.source.tar.gz \
+  && ${GET} https://root.cern/download/root_v${ROOT_VERSION}.source.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
-    -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -Dfail-on-missing=ON \
@@ -123,12 +123,14 @@ RUN mkdir src \
     -Dgdml=ON \
     -Dopengl=ON \
     -Dpyroot=ON \
+    -Ddataframe=ON \
+    -Droot7=ON \
   && cmake --build build -- install \
   && rm -rf build src
 
 # cugraph
 RUN mkdir src \
-  && ${GET} https://github.com/rapidsai/cugraph/archive/refs/tags/v22.02.00.tar.gz \
+  && ${GET} https://github.com/rapidsai/cugraph/archive/refs/tags/v${CUGRAPH_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src/cpp -GNinja \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
@@ -142,7 +144,7 @@ RUN mkdir src \
 
 # Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
 RUN git clone https://github.com/microsoft/onnxruntime src \
-  && (cd src && git checkout v1.13.1) \
+  && (cd src && git checkout v${ONNXRUNTIME_VERSION}) \
   && ./src/build.sh \
     --config MinSizeRel \
     --build_shared_lib \
@@ -150,9 +152,8 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --use_cuda \
     --cuda_home /usr/local/cuda \
     --cudnn_home /usr/local/cuda \
-#    --minimal_build \    # does not work somehow
-#    --parallel 1 \
     --skip_tests \
+    --parallel 0 \
     --cmake_extra_defines \
       CMAKE_INSTALL_PREFIX=${PREFIX} \
       CMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
