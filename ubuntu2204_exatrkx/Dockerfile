@@ -1,5 +1,5 @@
 
-FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
+FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
 LABEL description="Ubuntu 20.04 with Acts dependencies for the Exa.TrkX Plugin"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
 # increase whenever any of the RUN commands change
@@ -59,13 +59,12 @@ ENV CUDA_ARCH 86
 ENV XXHASH_VERSION=0.7.3
 ENV JSON_VERSION=3.11.2
 ENV ROOT_VERSION=6.28.06
-ENV TORCH_SCATTER_VERSION=2.0.9
+ENV TORCH_SCATTER_VERSION=2.1.2
 ENV CUGRAPH_VERSION=22.02.00
 ENV ONNXRUNTIME_VERSION=1.13.1
 
 # libtorch (unzip cannot be used in a pipe...)
-ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcu118.zip
-ENV LIBTORCH_URL_CPU https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcpu.zip
+ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu121/libtorch-cxx11-abi-shared-with-deps-2.3.1%2Bcu121.zip
 
 
 # xxHash
