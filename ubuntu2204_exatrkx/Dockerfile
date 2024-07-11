@@ -60,12 +60,10 @@ ENV XXHASH_VERSION=0.7.3
 ENV JSON_VERSION=3.11.2
 ENV ROOT_VERSION=6.28.06
 ENV TORCH_SCATTER_VERSION=2.1.2
-ENV CUGRAPH_VERSION=22.02.00
 ENV ONNXRUNTIME_VERSION=1.13.1
 
 # libtorch (unzip cannot be used in a pipe...)
 ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu121/libtorch-cxx11-abi-shared-with-deps-2.3.1%2Bcu121.zip
-
 
 # xxHash
 RUN mkdir -p src \
@@ -126,20 +124,6 @@ RUN mkdir src \
     -Dpyroot=ON \
     -Ddataframe=ON \
     -Droot7=ON \
-  && cmake --build build -- install \
-  && rm -rf build src
-
-# cugraph
-RUN mkdir src \
-  && ${GET} https://github.com/rapidsai/cugraph/archive/refs/tags/v${CUGRAPH_VERSION}.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src/cpp -GNinja \
-    -DCMAKE_BUILD_TYPE=MinSizeRel \
-    -DCMAKE_CXX_STANDARD=20 \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
-    -DBUILD_TESTS=OFF \
-    -DBUILD_CUGRAPH_MG_TESTS=OFF \
   && cmake --build build -- install \
   && rm -rf build src
 
