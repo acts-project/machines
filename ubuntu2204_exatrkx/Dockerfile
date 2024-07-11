@@ -16,7 +16,6 @@ RUN apt-get update -y \
   && apt-get install -y \
     build-essential \
     curl \
-    cmake \
     git \
     freeglut3-dev \
     libboost-dev \
@@ -60,10 +59,13 @@ ENV XXHASH_VERSION=0.7.3
 ENV JSON_VERSION=3.11.2
 ENV ROOT_VERSION=6.28.06
 ENV TORCH_SCATTER_VERSION=2.1.2
-ENV ONNXRUNTIME_VERSION=1.13.1
+ENV ONNXRUNTIME_VERSION=1.18.1
 
 # libtorch (unzip cannot be used in a pipe...)
 ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu121/libtorch-cxx11-abi-shared-with-deps-2.3.1%2Bcu121.zip
+
+RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
+    | tar -xz --strip-components=1 --directory ${PREFIX}
 
 # xxHash
 RUN mkdir -p src \
@@ -139,6 +141,7 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --cudnn_home /usr/local/cuda \
     --skip_tests \
     --parallel 0 \
+    --allow_running_as_root \
     --cmake_extra_defines \
       CMAKE_INSTALL_PREFIX=${PREFIX} \
       CMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \

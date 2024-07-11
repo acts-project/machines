@@ -64,11 +64,14 @@ ENV ROOT_VERSION=6.28.06
 ENV PODIO_VERSION=01-00-01
 ENV EDM4HEP_VERSION=00-10-01
 ENV DD4HEP_VERSION=01-29
-ENV ONNXRUNTIME_VERSION=1.16.3
+ENV ONNXRUNTIME_VERSION=1.18.1
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
+    | tar -xz --strip-components=1 --directory ${PREFIX}
 
 # Geant4
 RUN mkdir src \

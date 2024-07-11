@@ -15,7 +15,6 @@ RUN apt-get update -y \
   && apt-get upgrade -y \
   && apt-get install -y \
     build-essential \
-    cmake \
     curl \
     git \
     freeglut3-dev \
@@ -63,7 +62,10 @@ ENV ROOT_VERSION=6.28.06
 ENV PODIO_VERSION=01-00-01
 ENV EDM4HEP_VERSION=00-10-01
 ENV DD4HEP_VERSION=01-29
-ENV ONNXRUNTIME_VERSION=1.13.1
+ENV ONNXRUNTIME_VERSION=1.18.1
+
+RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
+    | tar -xz --strip-components=1 --directory ${PREFIX}
 
 # Geant4
 RUN mkdir src \
