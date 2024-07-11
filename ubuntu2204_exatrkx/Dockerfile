@@ -75,7 +75,7 @@ RUN mkdir -p src \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-  && cmake --build build -- install \
+  && cmake --build build -- install -j$(nproc) \
   && rm -rf build src
 
 # nlohmann's JSON
@@ -86,7 +86,7 @@ RUN mkdir src \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DCMAKE_CXX_STANDARD=20 \
     -DJSON_BuildTests=OFF \
-  && cmake --build build -- install \
+  && cmake --build build -- install -j$(nproc) \
   && rm -rf build src
 
 RUN ${GET} --output libtorch.zip ${LIBTORCH_URL_GPU} \
@@ -99,14 +99,16 @@ RUN ${GET} --output libtorch.zip ${LIBTORCH_URL_GPU} \
 RUN mkdir src \
   && ${GET} https://github.com/rusty1s/pytorch_scatter/archive/refs/tags/${TORCH_SCATTER_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
+  && export TORCH_CUDA_ARCH_LIST="8.0 8.6 8.9 9.0" \
+  && sed -i 's/CMAKE_CXX_STANDARD 14/CMAKE_CXX_STANDARD 17/' src/CMakeLists.txt \
+  && head src/CMakeLists.txt \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
-    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DWITH_CUDA=ON \
     -DCMAKE_CUDA_FLAGS=-D__CUDA_NO_HALF_CONVERSIONS__ \
     -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
-  && cmake --build build -- install \
+  && cmake --build build -- install -j$(nproc) \
   && rm -rf build src
 
 # ROOT
