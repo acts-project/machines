@@ -1,7 +1,7 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
-LABEL description="Ubuntu 22.04 with Acts dependencies"
-LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch>"
+LABEL description="Ubuntu 24.04 with Acts dependencies"
+LABEL maintainer="Stephen Nicholas Swatman <stephen.nicholas.swatman@cern.ch>"
 # increase whenever any of the RUN commands change
 LABEL version="1"
 
@@ -17,6 +17,7 @@ RUN apt-get update -y \
     build-essential \
     curl \
     git \
+    cmake \
     freeglut3-dev \
     libboost-dev \
     libboost-filesystem-dev \
@@ -46,6 +47,7 @@ RUN apt-get update -y \
     rsync \
     zlib1g-dev \
     ccache \
+    python3-venv \
     libsqlite3-dev \
   && apt-get clean -y
 
@@ -63,6 +65,10 @@ ENV PODIO_VERSION=01-00-01
 ENV EDM4HEP_VERSION=00-10-01
 ENV DD4HEP_VERSION=01-29
 ENV ONNXRUNTIME_VERSION=1.18.1
+
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
     | tar -xz --strip-components=1 --directory ${PREFIX}
@@ -91,6 +97,7 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DHEPMC3_BUILD_STATIC_LIBS=OFF \
     -DHEPMC3_ENABLE_PYTHON=OFF \
     -DHEPMC3_ENABLE_ROOTIO=OFF \
@@ -113,7 +120,11 @@ RUN mkdir src \
 RUN mkdir src \
   && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v${JSON_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src -GNinja -DJSON_BuildTests=OFF \
+  && cmake -B build -S src -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
+    -DJSON_BuildTests=OFF \
   && cmake --build build -- install \
   && rm -rf build src
 
@@ -123,14 +134,13 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -Dfail-on-missing=ON \
     -Dgminimal=ON \
     -Dgdml=ON \
     -Dopengl=ON \
     -Dpyroot=ON \
-    -Ddataframe=ON \
     -Droot7=ON \
   && cmake --build build -- install \
   && rm -rf build src
@@ -146,12 +156,14 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DBUILD_TESTING=OFF \
     -USE_EXTERNAL_CATCH2=OFF \
   && cmake --build build -- install \
   && rm -rf build src
 
 # EDM4hep
+ENV EDM4HEP_VERSION=00-10-05
 RUN pip3 install jinja2 pyyaml \
   && mkdir src \
   && ${GET} https://github.com/key4hep/EDM4hep/archive/refs/tags/v${EDM4HEP_VERSION}.tar.gz \
@@ -159,6 +171,7 @@ RUN pip3 install jinja2 pyyaml \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DBUILD_TESTING=OFF \
     -DUSE_EXTERNAL_CATCH2=OFF \
   && cmake --build build -- install \
@@ -173,27 +186,30 @@ RUN mkdir src \
   && patch -p1 -d src < 0001-CMake-allow-finding-newer-versions-of-podio.patch \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_PREFIX_PATH=${PREFIX} \
+    -DCMAKE_CXX_STANDARD=20 \
     -DBUILD_TESTING=OFF \
     -DDD4HEP_BUILD_PACKAGES="DDG4 DDDetectors DDRec UtilityApps" \
+    -DDD4HEP_IGNORE_GEANT4_TLS=ON \
     -DDD4HEP_USE_GEANT4=ON \
     -DDD4HEP_USE_XERCESC=ON \
     -DDD4HEP_USE_EDM4HEP=ON \
   && cmake --build build -- install \
   && rm -rf build src
 
+RUN pip3 install setuptools
+
 # Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
 RUN git clone https://github.com/microsoft/onnxruntime src \
   && (cd src && git checkout v${ONNXRUNTIME_VERSION}) \
-  && ./src/build.sh \
+  &&  ./src/build.sh \
     --config MinSizeRel \
     --build_shared_lib \
     --build_dir build \
-    --parallel $(nproc) \
     --skip_tests \
-    --parallel 0 \
     --allow_running_as_root \
+    --parallel 0 \
   && cmake --build build/MinSizeRel -- install \
   && rm -rf build src
+
