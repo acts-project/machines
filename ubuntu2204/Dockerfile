@@ -80,6 +80,7 @@ RUN mkdir src \
     -DGEANT4_USE_GDML=ON \
     -DGEANT4_USE_SYSTEM_EXPAT=ON \
     -DGEANT4_USE_SYSTEM_ZLIB=ON \
+    -DGEANT4_INSTALL_PACKAGE_CACHE=OFF \
   && cmake --build build -- install \
   && rm -rf build src
 
