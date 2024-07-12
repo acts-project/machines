@@ -24,6 +24,7 @@ jobs:
           - ubuntu2204_rocm_clang
           - ubuntu2404
           - ubuntu2404_cuda
+          - alma9-base
     steps:
       - uses: actions/checkout@v4
 
