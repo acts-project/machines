@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 LABEL description="Ubuntu 22.04 with Acts dependencies"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch>"
 # increase whenever any of the RUN commands change
-LABEL version="2"
+LABEL version="1"
 
 # DEBIAN_FRONTEND ensures non-blocking operation (tzdata is a problem)
 ENV DEBIAN_FRONTEND noninteractive
@@ -15,7 +15,6 @@ RUN apt-get update -y \
   && apt-get upgrade -y \
   && apt-get install -y \
     build-essential \
-    cmake \
     curl \
     git \
     freeglut3-dev \
@@ -57,28 +56,31 @@ ENV PREFIX /usr/local
 
 ENV GEANT4_VERSION=11.1.1
 ENV HEPMC3_VERSION=3.2.5
-ENV PYTHIA8_VERSION=309
+ENV PYTHIA8_VERSION=312
 ENV JSON_VERSION=3.11.2
-ENV ROOT_VERSION=6.28.02
-ENV PODIO_VERSION=00-16-03
-ENV EDM4HEP_VERSION=00-07-02
-ENV DD4HEP_VERSION=01-27
-ENV ONNXRUNTIME_VERSION=1.13.1
+ENV ROOT_VERSION=6.28.06
+ENV PODIO_VERSION=01-00-01
+ENV EDM4HEP_VERSION=00-10-01
+ENV DD4HEP_VERSION=01-29
+ENV ONNXRUNTIME_VERSION=1.18.1
 
+RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
+    | tar -xz --strip-components=1 --directory ${PREFIX}
 
 # Geant4
 RUN mkdir src \
-  && ${GET} https://gitlab.cern.ch/geant4/geant4/-/archive/v11.1.1/geant4-v${GEANT4_VERSION}.tar.gz \
+  && ${GET} https://gitlab.cern.ch/geant4/geant4/-/archive/v${GEANT4_VERSION}/geant4-v${GEANT4_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=20 \
     -DGEANT4_BUILD_TLS_MODEL=global-dynamic \
     -DGEANT4_INSTALL_DATA=OFF \
     -DGEANT4_USE_GDML=ON \
     -DGEANT4_USE_SYSTEM_EXPAT=ON \
     -DGEANT4_USE_SYSTEM_ZLIB=ON \
+    -DGEANT4_INSTALL_PACKAGE_CACHE=OFF \
   && cmake --build build -- install \
   && rm -rf build src
 
@@ -102,7 +104,7 @@ RUN mkdir src \
   && ${GET} https://pythia.org/download/pythia83/pythia8${PYTHIA8_VERSION}.tgz\
     | ${UNPACK_TO_SRC} \
   && cd src \
-  && ./configure --enable-shared --prefix=${PREFIX} \
+  && ./configure --enable-shared --prefix=${PREFIX} --cxx-common="-O2 -std=c++20 -pedantic -W -Wall -Wshadow -fPIC -pthread"\
   && make -j$(nproc) install \
   && cd .. \
   && rm -rf src
@@ -111,7 +113,7 @@ RUN mkdir src \
 RUN mkdir src \
   && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v${JSON_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src -GNinja \
+  && cmake -B build -S src -GNinja -DJSON_BuildTests=OFF \
   && cmake --build build -- install \
   && rm -rf build src
 
@@ -121,7 +123,7 @@ RUN mkdir src \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -Dfail-on-missing=ON \
     -Dgminimal=ON \
@@ -164,12 +166,14 @@ RUN pip3 install jinja2 pyyaml \
 
 # DD4hep
 # requires Geant4 and ROOT and must come last
+ADD 0001-CMake-allow-finding-newer-versions-of-podio.patch .
 RUN mkdir src \
   && ${GET} https://github.com/AIDASoft/DD4hep/archive/v${DD4HEP_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
+  && patch -p1 -d src < 0001-CMake-allow-finding-newer-versions-of-podio.patch \
   && cmake -B build -S src -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=20 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_PREFIX_PATH=${PREFIX} \
     -DBUILD_TESTING=OFF \
@@ -187,9 +191,9 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --config MinSizeRel \
     --build_shared_lib \
     --build_dir build \
+    --parallel $(nproc) \
     --skip_tests \
-  && cmake --build build/MinSizeRel -- -j$(nproc) \
-  && cmake --install build/MinSizeRel \
+    --parallel 0 \
+    --allow_running_as_root \
+  && cmake --build build/MinSizeRel -- install \
   && rm -rf build src
-
-COPY download_geant4_data.sh /usr/local/bin

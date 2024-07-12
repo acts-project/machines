@@ -1,0 +1,31 @@
+From 76bbcc713a5ef93502b23ed59a68f96dd87318b6 Mon Sep 17 00:00:00 2001
+From: Andre Sailer <andre.philippe.sailer@cern.ch>
+Date: Mon, 24 Jun 2024 15:51:35 +0200
+Subject: [PATCH] CMake: allow finding newer versions of podio
+
+---
+ CMakeLists.txt | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e80779bb..50d167c2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -155,7 +155,13 @@ endif()
+ 
+ if(DD4HEP_USE_EDM4HEP)
+   find_package(EDM4HEP REQUIRED)
+-  find_package(podio 0.16.3 REQUIRED)
++  # we need podio with Frame support (>=0.16.3)
++  # podio is "SameMajorVersion" compatible
++  find_package(podio 0.16.3)  # this will not find 1.0 and newer
++  if(NOT podio_FOUND)
++    # we try to find a newer version now
++    find_package(podio 1.0 REQUIRED)
++  endif()
+ #  DD4HEP_SETUP_EDM4HEP_TARGETS()
+ endif()
+ 
+-- 
+2.39.3
+

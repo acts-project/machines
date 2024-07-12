@@ -15,29 +15,15 @@ jobs:
     strategy:
       matrix:
         context:
-          - centos7-lcg100-gcc10
-          - centos7-lcg101-gcc11
-          - centos8-lcg100-gcc10
-          - centos8-lcg101-gcc11
-          - format10
-          - format14
           - format18
-          - ubuntu2004
-          - ubuntu2004_cuda
-          - ubuntu2004_cuda_oneapi
-          - ubuntu2004_rocm
-          - ubuntu2004_rocm_oneapi
-          - ubuntu2004_oneapi
-          - ubuntu2004_exatrkx
+          - ubuntu2204_exatrkx
           - ubuntu2204
           - ubuntu2204_cuda
           - ubuntu2204_clang
-          - ubuntu2204_cpp20
+          - ubuntu2204_cpp17
           - ubuntu2204_rocm_clang
           - ubuntu2404
           - ubuntu2404_cuda
-          - centos7-base
-          - centos8-base
     steps:
       - uses: actions/checkout@v4
 
