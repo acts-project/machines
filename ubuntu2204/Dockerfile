@@ -194,5 +194,6 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --parallel $(nproc) \
     --skip_tests \
     --parallel 0 \
+    --allow_running_as_root \
   && cmake --build build/MinSizeRel -- install \
   && rm -rf build src
