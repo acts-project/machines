@@ -1,9 +1,9 @@
-FROM ghcr.io/acts-project/ubuntu2404:47
+FROM ghcr.io/acts-project/ubuntu2404:53
 
 LABEL description="Ubuntu 24.04 with Acts dependencies and CUDA"
 LABEL maintainer="Stephen Nicholas Swatman <stephen.nicholas.swatman@cern.ch>"
 # increase whenever any of the RUN commands change
-LABEL version="1"
+LABEL version="2"
 
 # DEBIAN_FRONTEND ensures non-blocking operation (tzdata is a problem)
 ENV DEBIAN_FRONTEND noninteractive
