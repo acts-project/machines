@@ -21,6 +21,7 @@ jobs:
           - ubuntu2204_exatrkx
           - ubuntu2204
           - ubuntu2204_cuda
+          - ubuntu2204_cuda_oneapi
           - ubuntu2204_clang
           - ubuntu2204_cpp17
           - ubuntu2204_rocm_clang

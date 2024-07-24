@@ -51,7 +51,7 @@ RUN curl -SL \
 # Set up the oneAPI environment. Note that one *MUST* source the
 # /opt/intel/oneapi/setvars.sh script to make the following work. Which has to
 # be done in the respective CI scripts.
-ENV CC="icx"
-ENV CXX="icpx"
-ENV SYCLCXX="icpx"
+ENV CC="clang"
+ENV CXX="clang++"
+ENV SYCLCXX="clang++"
 ENV SYCLFLAGS="-fsycl -fsycl-targets=amd_gpu_gfx1031"
