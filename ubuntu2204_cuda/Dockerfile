@@ -5,7 +5,7 @@
 # Mozilla Public License Version 2.0
 
 # Start from the (at the time of writing) latest Acts Ubuntu 22.04 image.
-FROM ghcr.io/acts-project/ubuntu2204:47
+FROM ghcr.io/acts-project/ubuntu2204:55
 
 # Some description for the image.
 LABEL description="Ubuntu 22.04 with Acts dependencies and CUDA"
