@@ -137,6 +137,7 @@ RUN mkdir src \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
   -DCMAKE_CXX_STANDARD=20 \
+  -DGEOMODEL_BUILD_GEOMODELG4=ON \
   && cmake --build build -- install \
   && rm -rf build src
 
