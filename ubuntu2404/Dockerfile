@@ -65,6 +65,7 @@ ENV PODIO_VERSION=01-00-01
 ENV EDM4HEP_VERSION=00-10-01
 ENV DD4HEP_VERSION=01-29
 ENV ONNXRUNTIME_VERSION=1.18.1
+ENV GEOMODEL_VERSION=6.3.0
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
@@ -125,6 +126,17 @@ RUN mkdir src \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_CXX_STANDARD=20 \
     -DJSON_BuildTests=OFF \
+  && cmake --build build -- install \
+  && rm -rf build src
+
+# GeoModel
+RUN mkdir src \
+  && ${GET} https://gitlab.cern.ch/GeoModelDev/GeoModel/-/archive/${GEOMODEL_VERSION}/GeoModel-${GEOMODEL_VERSION}.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+  -DCMAKE_CXX_STANDARD=20 \
   && cmake --build build -- install \
   && rm -rf build src
 

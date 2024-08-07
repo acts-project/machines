@@ -63,6 +63,7 @@ ENV PODIO_VERSION=01-00-01
 ENV EDM4HEP_VERSION=00-10-01
 ENV DD4HEP_VERSION=01-29
 ENV ONNXRUNTIME_VERSION=1.18.1
+ENV GEOMODEL_VERSION=6.3.0
 
 RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
     | tar -xz --strip-components=1 --directory ${PREFIX}
@@ -116,6 +117,18 @@ RUN mkdir src \
   && cmake -B build -S src -GNinja -DJSON_BuildTests=OFF \
   && cmake --build build -- install \
   && rm -rf build src
+
+# GeoModel
+RUN mkdir src \
+  && ${GET} https://gitlab.cern.ch/GeoModelDev/GeoModel/-/archive/${GEOMODEL_VERSION}/GeoModel-${GEOMODEL_VERSION}.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+  -DCMAKE_CXX_STANDARD=20 \
+  && cmake --build build -- install \
+  && rm -rf build src
+
 
 # ROOT
 RUN mkdir src \
