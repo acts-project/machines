@@ -69,6 +69,7 @@ ENV ROOT_VERSION=6.28.06
 ENV PODIO_VERSION=01-00-01
 ENV EDM4HEP_VERSION=00-10-01
 ENV DD4HEP_VERSION=01-29
+ENV GEOMODEL_VERSION=6.3.0
 
 # Geant4
 RUN mkdir src \
@@ -116,6 +117,18 @@ RUN mkdir src \
   && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v${JSON_VERSION}.tar.gz \
     | ${UNPACK_TO_SRC} \
   && cmake -B build -S src -GNinja -DJSON_BuildTests=OFF \
+  && cmake --build build -- install \
+  && rm -rf build src
+
+# GeoModel
+RUN mkdir src \
+  && ${GET} https://gitlab.cern.ch/GeoModelDev/GeoModel/-/archive/${GEOMODEL_VERSION}/GeoModel-${GEOMODEL_VERSION}.tar.gz \
+    | ${UNPACK_TO_SRC} \
+  && cmake -B build -S src -GNinja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+  -DCMAKE_CXX_STANDARD=20 \
+  -DGEOMODEL_BUILD_GEOMODELG4=ON \
   && cmake --build build -- install \
   && rm -rf build src
 
