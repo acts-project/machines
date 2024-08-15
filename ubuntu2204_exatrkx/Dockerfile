@@ -1,4 +1,3 @@
-
 FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
 LABEL description="Ubuntu 20.04 with Acts dependencies for the Exa.TrkX Plugin"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
@@ -78,17 +77,6 @@ RUN mkdir -p src \
   && cmake --build build -- install -j$(nproc) \
   && rm -rf build src
 
-# nlohmann's JSON
-RUN mkdir src \
-  && ${GET} https://github.com/nlohmann/json/archive/refs/tags/v${JSON_VERSION}.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src -GNinja \
-    -DCMAKE_BUILD_TYPE=MinSizeRel \
-    -DCMAKE_CXX_STANDARD=20 \
-    -DJSON_BuildTests=OFF \
-  && cmake --build build -- install -j$(nproc) \
-  && rm -rf build src
-
 RUN ${GET} --output libtorch.zip ${LIBTORCH_URL_GPU} \
   && unzip libtorch.zip \
   && rsync -ruv libtorch/ ${PREFIX} \
@@ -109,24 +97,6 @@ RUN mkdir src \
     -DCMAKE_CUDA_FLAGS=-D__CUDA_NO_HALF_CONVERSIONS__ \
     -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
   && cmake --build build -- install -j$(nproc) \
-  && rm -rf build src
-
-# ROOT
-RUN mkdir src \
-  && ${GET} https://root.cern/download/root_v${ROOT_VERSION}.source.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src -GNinja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=20 \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -Dfail-on-missing=ON \
-    -Dgminimal=ON \
-    -Dgdml=ON \
-    -Dopengl=ON \
-    -Dpyroot=ON \
-    -Ddataframe=ON \
-    -Droot7=ON \
-  && cmake --build build -- install \
   && rm -rf build src
 
 # Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
