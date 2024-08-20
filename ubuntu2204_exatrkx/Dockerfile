@@ -37,6 +37,7 @@ RUN apt-get update -y \
     libxpm-dev \
     libxerces-c-dev \
     libzstd-dev \
+    zstd \
     ninja-build \
     python3 \
     python3-dev \
@@ -78,11 +79,8 @@ RUN mkdir -p src \
   && rm -rf build src
 
 
-RUN apt-get update && apt-get install -y zstd
 RUN ${GET} https://acts.web.cern.ch/ACTS/ci/exatrkx/libtorch-cxx11-abi-shared-with-deps-2.3.1+cu121.tar.zst \
     | tar -I zstd -x --strip-components=1 --directory ${PREFIX}
-
-RUN ls -al ${PREFIX}/lib
 
 # torch-scatter
 # I have absolutely no clue why I need this __CUDA_NO_HALF_CONVERSIONS__, but it fails to compile if not set...
