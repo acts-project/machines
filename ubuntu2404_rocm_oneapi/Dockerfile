@@ -5,6 +5,7 @@
 # Mozilla Public License Version 2.0
 
 # Start from the (at the time of writing) latest Acts Ubuntu 24.04 image.
+# @TODO: Update this
 FROM ghcr.io/acts-project/ubuntu2404:53
 
 # Some description for the image.
