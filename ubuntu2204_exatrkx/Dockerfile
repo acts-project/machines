@@ -77,10 +77,12 @@ RUN mkdir -p src \
   && cmake --build build -- install -j$(nproc) \
   && rm -rf build src
 
-RUN ${GET} --output libtorch.zip ${LIBTORCH_URL_GPU} \
-  && unzip libtorch.zip \
-  && rsync -ruv libtorch/ ${PREFIX} \
-  && rm -rf libtorch*
+
+RUN apt-get update && apt-get install -y zstd
+RUN ${GET} https://acts.web.cern.ch/ACTS/ci/exatrkx/libtorch-cxx11-abi-shared-with-deps-2.3.1+cu121.tar.zst \
+    | tar -I zstd -x --strip-components=1 --directory ${PREFIX}
+
+RUN ls -al ${PREFIX}/lib
 
 # torch-scatter
 # I have absolutely no clue why I need this __CUDA_NO_HALF_CONVERSIONS__, but it fails to compile if not set...
