@@ -21,11 +21,6 @@ RUN apt-get update -y \
     git \
     git-lfs \
     freeglut3-dev \
-    libboost-dev \
-    libboost-filesystem-dev \
-    libboost-program-options-dev \
-    libboost-test-dev \
-    libeigen3-dev \
     libexpat-dev \
     libftgl-dev \
     libgl2ps-dev \
@@ -34,7 +29,6 @@ RUN apt-get update -y \
     liblz4-dev \
     liblzma-dev \
     libpcre3-dev \
-    libtbb-dev \
     libx11-dev \
     libxext-dev \
     libxft-dev \
