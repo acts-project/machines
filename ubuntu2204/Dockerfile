@@ -17,6 +17,7 @@ RUN apt-get update -y \
     build-essential \
     curl \
     git \
+    git-lfs \
     freeglut3-dev \
     libboost-dev \
     libboost-filesystem-dev \

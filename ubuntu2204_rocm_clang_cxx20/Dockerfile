@@ -23,6 +23,7 @@ RUN apt-get update -y \
     clang \
     curl \
     git \
+    git-lfs \
     freeglut3-dev \
     libboost-dev \
     libboost-filesystem-dev \

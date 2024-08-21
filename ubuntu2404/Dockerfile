@@ -17,6 +17,7 @@ RUN apt-get update -y \
     build-essential \
     curl \
     git \
+    git-lfs \
     cmake \
     freeglut3-dev \
     libboost-dev \

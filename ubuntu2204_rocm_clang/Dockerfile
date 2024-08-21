@@ -18,6 +18,7 @@ RUN apt-get update -y \
     cmake \
     curl \
     git \
+    git-lfs \
     freeglut3-dev \
     libboost-dev \
     libboost-filesystem-dev \
