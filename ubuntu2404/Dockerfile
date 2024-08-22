@@ -54,15 +54,6 @@ ENV PREFIX /usr/local
 
 ENV ONNXRUNTIME_VERSION=1.18.1
 
-ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
-    | tar -xz --strip-components=1 --directory ${PREFIX}
-
-RUN pip3 install setuptools
-
 # Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
 RUN git clone https://github.com/microsoft/onnxruntime src \
   && (cd src && git checkout v${ONNXRUNTIME_VERSION}) \
