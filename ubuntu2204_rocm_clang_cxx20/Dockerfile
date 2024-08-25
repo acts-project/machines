@@ -49,6 +49,7 @@ RUN apt-get update -y \
     rsync \
     zlib1g-dev \
     ccache \
+    time \
   && apt-get remove -y gcc g++ \
   && apt-get clean -y
 

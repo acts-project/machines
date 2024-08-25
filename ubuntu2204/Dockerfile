@@ -43,6 +43,7 @@ RUN apt-get update -y \
     zlib1g-dev \
     ccache \
     libsqlite3-dev \
+    time \
   && apt-get clean -y
 
 # manual builds for hep-specific packages

@@ -45,6 +45,7 @@ RUN apt-get update -y \
     zlib1g-dev \
     ccache \
     libsqlite3-dev \
+    time \
   && apt-get remove -y gcc g++ \
   && apt-get clean -y
 

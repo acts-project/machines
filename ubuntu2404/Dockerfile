@@ -45,6 +45,7 @@ RUN apt-get update -y \
     ccache \
     python3-venv \
     libsqlite3-dev \
+    time \
   && apt-get clean -y
 
 # manual builds for hep-specific packages
