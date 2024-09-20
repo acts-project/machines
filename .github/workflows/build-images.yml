@@ -48,6 +48,29 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITLAB_REGISTRY_PUSH_TOKEN }}
 
+      - name: Remove packages for ExaTrkX build
+        if: ${{ matrix.context == 'ubuntu2204_exatrkx' }}
+        run: |
+          df -h
+          sudo apt-get update
+          echo "Listing 25 largest packages"
+          dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 25
+          echo "Removing large packages"
+          sudo apt-get remove -y '^dotnet-.*'
+          sudo apt-get remove -y '^llvm-.*'
+          sudo apt-get remove -y '^libllvm-.*'
+          sudo apt-get remove -y azure-cli
+          sudo apt-get remove -y google-cloud-cli
+          sudo apt-get remove -y google-chrome-stable
+          sudo apt-get remove -y firefox
+          sudo apt-get remove -y powershell
+          sudo apt-get remove -y mono-devel
+          sudo apt-get remove -y '^temurin.*'
+          sudo apt-get autoremove -y
+          sudo apt-get clean
+          rm -rf /usr/share/dotnet/
+          df -h
+          
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
