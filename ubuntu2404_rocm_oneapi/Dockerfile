@@ -36,15 +36,15 @@ RUN curl -SL https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRO
 COPY oneapi.list /etc/apt/sources.list.d/
 
 # Install oneAPI.
-ARG ONEAPI_VERSION=2024.2
+ARG ONEAPI_VERSION=2024.2.1
 RUN apt-get update && \
     apt-get install -y intel-oneapi-compiler-dpcpp-cpp-${ONEAPI_VERSION} && \
     apt-get clean -y
 
 # Install the CodePlay AMD plugin on top of oneAPI.
-ARG CODEPLAY_PLUGIN_VERSION=2024.2.0
+ARG CODEPLAY_PLUGIN_VERSION=2024.2.1
 RUN curl -SL \
-    "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=amd&version=${CODEPLAY_PLUGIN_VERSION}" \
+    "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=amd&version=${CODEPLAY_PLUGIN_VERSION}&filters[]=${ROCM_VERSION}&filters[]=linux" \
     -o plugin.sh && \
     sh plugin.sh --install-dir /opt/intel/oneapi --yes && \
     rm plugin.sh
