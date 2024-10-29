@@ -9,23 +9,27 @@ LABEL version="2"
 # DEBIAN_FRONTEND ensures non-blocking operation (tzdata is a problem)
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV CUDA_RUNFILE_NAME="cuda_12.5.0_555.42.02_linux.run"
-ENV CUDA_INSTALL_PATH="/usr/local/cuda"
+RUN curl -SL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb \
+       -o cuda-keyring.deb && \
+    dpkg -i cuda-keyring.deb && \
+    rm cuda-keyring.deb
 
-RUN apt install wget
+# Install CUDA.
+ARG CUDA_VERSION=12-6
+RUN apt-get update && \
+    apt-get install -y cuda-compat-${CUDA_VERSION} cuda-cudart-${CUDA_VERSION} \
+                       cuda-libraries-dev-${CUDA_VERSION}                      \
+                       cuda-command-line-tools-${CUDA_VERSION}                 \
+                       cuda-minimal-build-${CUDA_VERSION} &&                   \
+    apt-get clean -y
 
-RUN wget https://developer.download.nvidia.com/compute/cuda/12.5.0/local_installers/${CUDA_RUNFILE_NAME} && \
-  chmod +x ${CUDA_RUNFILE_NAME} && \
-  ./${CUDA_RUNFILE_NAME} --toolkit --silent --installpath=${CUDA_INSTALL_PATH} && \
-  rm ${CUDA_RUNFILE_NAME}
+ENV CUDA_PATH "${CUDA_INSTALL_PATH}"
+ENV CUDA_ROOT "${CUDA_INSTALL_PATH}"
+ENV CUDA_HOME "${CUDA_INSTALL_PATH}"
+ENV CUDACXX "${CUDA_INSTALL_PATH}/bin/nvcc"
+ENV CUDACC "${CUDA_INSTALL_PATH}/bin/nvcc"
 
-ENV CUDA_PATH="${CUDA_INSTALL_PATH}"
-ENV CUDA_ROOT="${CUDA_INSTALL_PATH}"
-ENV CUDA_HOME="${CUDA_INSTALL_PATH}"
-ENV CUDACXX="${CUDA_INSTALL_PATH}/bin/nvcc"
-ENV CUDACC="${CUDA_INSTALL_PATH}/bin/nvcc"
-
-ENV PATH="${CUDA_INSTALL_PATH}/bin:${PATH}"
-ENV MANPATH="${CUDA_INSTALL_PATH}/share/man:${MANPATH}"
-ENV INCLUDE="${CUDA_INSTALL_PATH}/include:${INCLUDE}"
-ENV LD_LIBRARY_PATH="${CUDA_INSTALL_PATH}/lib64:${CUDA_INSTALL_PATH}/lib:${LD_LIBRARY_PATH}"
+ENV PATH "${CUDA_INSTALL_PATH}/bin:${PATH}"
+ENV MANPATH "${CUDA_INSTALL_PATH}/share/man:${MANPATH}"
+ENV INCLUDE "${CUDA_INSTALL_PATH}/include:${INCLUDE}"
+ENV LD_LIBRARY_PATH "${CUDA_INSTALL_PATH}/lib64:${CUDA_INSTALL_PATH}/lib:${LD_LIBRARY_PATH}"
