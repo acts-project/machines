@@ -15,11 +15,14 @@ export CXX="`which clang++` --gcc-toolchain=${GCCDIR}"
 export SYCLCXX="${CXX} -fsycl"
 export SYCLFLAGS="-fsycl-targets=amd_gpu_gfx90a -Xclang -opaque-pointers"
 
-export TRACCC_URL="https://github.com/acts-project/traccc"
+# HIP_VISIBLE_DEVICES=all does not work
+export HIP_VISIBLE_DEVICES=0,1
 
 # Clean
 unset GCCDIR
 
+# For user's convenience:
+export TRACCC_URL="https://github.com/acts-project/traccc"
 echo "git clone $TRACCC_URL"
 echo "cmake -S . -B buildamd -DTRACCC_BUILD_SYCL=ON -DTRACCC_USE_ROOT=OFF -DCMAKE_INSTALL_PREFIX:PATH=./installed"
 echo "cmake --build buildamd --target install"
