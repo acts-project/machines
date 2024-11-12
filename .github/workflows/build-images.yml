@@ -31,6 +31,7 @@ jobs:
           - ubuntu2404_oneapi
           - alma9-base
           - alma9_rocm_oneapi
+          - alma9_cuda_oneapi
     steps:
       - uses: actions/checkout@v4
 

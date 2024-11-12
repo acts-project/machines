@@ -1,0 +1,8 @@
+[cuda]
+name=CUDA repository
+baseurl=https://linuxsoft.cern.ch/mirror/developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://linuxsoft.cern.ch/mirror/developer.download.nvidia.com/RPM-GPG-KEY-cuda-D42D0685
+priority=12
+module_hotfixes=1
