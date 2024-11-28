@@ -5,7 +5,7 @@
 # Mozilla Public License Version 2.0
 
 # Start from the (at the time of writing) latest Acts Ubuntu 22.04 image.
-FROM ghcr.io/acts-project/ubuntu2204:55
+FROM ghcr.io/acts-project/ubuntu2204:68
 
 # Some description for the image.
 LABEL description="Ubuntu 22.04 with Acts dependencies and CUDA"
@@ -18,7 +18,7 @@ RUN curl -SL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204
     rm cuda-keyring.deb
 
 # Install CUDA.
-ARG CUDA_VERSION=12-4
+ARG CUDA_VERSION=12-6
 RUN apt-get update && \
     apt-get install -y cuda-compat-${CUDA_VERSION} cuda-cudart-${CUDA_VERSION} \
                        cuda-libraries-dev-${CUDA_VERSION}                      \

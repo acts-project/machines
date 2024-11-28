@@ -20,7 +20,7 @@ RUN dnf install -y boost boost-devel
 
 # Set up the CUDA repository.
 COPY cuda.repo /etc/yum.repos.d/cuda.repo
-ARG CUDA_VERSION=12-5
+ARG CUDA_VERSION=12-6
 
 # Install CUDA
 RUN dnf install -y cuda-${CUDA_VERSION}.x86_64
@@ -29,13 +29,13 @@ RUN dnf install -y cuda-${CUDA_VERSION}.x86_64
 COPY oneapi.repo /etc/yum.repos.d/oneapi.repo
 
 # Install oneAPI.
-ARG ONEAPI_VERSION=2024.2
+ARG ONEAPI_VERSION=2025.0
 RUN dnf install -y intel-oneapi-compiler-dpcpp-cpp-${ONEAPI_VERSION}
 
 # Install the CodePlay AMD plugin on top of oneAPI.
-ARG CODEPLAY_PLUGIN_VERSION=2024.2
+ARG CODEPLAY_PLUGIN_VERSION=2025.0
 RUN curl -SL \
-    "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=nvidia&version=${CODEPLAY_PLUGIN_VERSION}" \
+    "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=nvidia&filters[]=linux&version=${CODEPLAY_PLUGIN_VERSION}" \
     -o plugin.sh && \
     sh plugin.sh --install-dir /opt/intel/oneapi --yes && \
     rm plugin.sh
