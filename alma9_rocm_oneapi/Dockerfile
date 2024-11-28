@@ -30,13 +30,12 @@ ENV HIP_PLATFORM=amd
 COPY oneapi.repo /etc/yum.repos.d/oneapi.repo
 
 # Install oneAPI.
-ARG ONEAPI_VERSION=2024.2
+ARG ONEAPI_VERSION=2025.0
 RUN dnf install -y intel-oneapi-compiler-dpcpp-cpp-${ONEAPI_VERSION}
 
 # Install the CodePlay AMD plugin on top of oneAPI.
-RUN ONEAPI_INSTALLED_VERSION=$(/opt/intel/oneapi/compiler/latest/bin/icpx --version | grep -oP '(?<=Intel\(R\) oneAPI DPC\+\+\/C\+\+ Compiler )[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+') && \
-    echo "Installing CodePlay for OneAPI ${ONEAPI_INSTALLED_VERSION}" && \
-    curl -SL "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=amd&version=${ONEAPI_INSTALLED_VERSION}&filters[]=${ROCM_VERSION}&filters[]=linux" \
+ARG CODEPLAY_PLUGIN_VERSION=2025.0
+RUN curl -SL "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=amd&version=${CODEPLAY_PLUGIN_VERSION}&filters[]=${ROCM_VERSION}&filters[]=linux" \
     -o plugin.sh && \
     sh plugin.sh --install-dir /opt/intel/oneapi --yes && \
     rm plugin.sh

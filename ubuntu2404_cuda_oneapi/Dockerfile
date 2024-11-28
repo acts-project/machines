@@ -6,7 +6,7 @@
 
 # Start from the (at the time of writing) latest Acts Ubuntu 24.04 image.
 # @TODO: Update this
-FROM ghcr.io/acts-project/ubuntu2404:53
+FROM ghcr.io/acts-project/ubuntu2404:68
 
 # Some description for the image.
 LABEL description="Ubuntu 24.04 with Acts dependencies and CUDA + oneAPI"
@@ -19,7 +19,7 @@ RUN curl -SL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404
     rm cuda-keyring.deb
 
 # Install CUDA.
-ARG CUDA_VERSION=12-5
+ARG CUDA_VERSION=12-6
 RUN apt-get update && \
     apt-get install -y cuda-compat-${CUDA_VERSION} cuda-cudart-${CUDA_VERSION} \
                        cuda-libraries-dev-${CUDA_VERSION}                      \
@@ -44,15 +44,15 @@ RUN mkdir --parents --mode=0755 /etc/apt/keyrings && \
 COPY oneapi.list /etc/apt/sources.list.d/
 
 # Install oneAPI.
-ARG ONEAPI_VERSION=2024.2
+ARG ONEAPI_VERSION=2025.0
 RUN apt-get update && \
     apt-get install -y intel-oneapi-compiler-dpcpp-cpp-${ONEAPI_VERSION} && \
     apt-get clean -y
 
 # Install the CodePlay NVIDIA plugin on top of oneAPI.
-ARG CODEPLAY_PLUGIN_VERSION=2024.2
+ARG CODEPLAY_PLUGIN_VERSION=2025.0
 RUN curl -SL \
-    "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=nvidia&version=${CODEPLAY_PLUGIN_VERSION}" \
+    "https://developer.codeplay.com/api/v1/products/download?product=oneapi&variant=nvidia&filters[]=linux&version=${CODEPLAY_PLUGIN_VERSION}" \
     -o plugin.sh && \
     sh plugin.sh --install-dir /opt/intel/oneapi --yes && \
     rm plugin.sh

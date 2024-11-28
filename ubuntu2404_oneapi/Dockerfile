@@ -6,7 +6,7 @@
 
 # Start from the (at the time of writing) latest Acts Ubuntu 24.04 image.
 # @TODO: Update this
-FROM ghcr.io/acts-project/ubuntu2404:53
+FROM ghcr.io/acts-project/ubuntu2404:68
 
 # Some description for the image.
 LABEL description="Ubuntu 24.04 with Acts dependencies and oneAPI"
@@ -21,7 +21,7 @@ RUN mkdir --parents --mode=0755 /etc/apt/keyrings && \
 COPY oneapi.list /etc/apt/sources.list.d/
 
 # Install oneAPI.
-ARG ONEAPI_VERSION=2024.2
+ARG ONEAPI_VERSION=2025.0
 RUN apt-get update && \
     apt-get install -y intel-oneapi-compiler-dpcpp-cpp-${ONEAPI_VERSION} && \
     apt-get clean -y
@@ -32,4 +32,4 @@ RUN apt-get update && \
 ENV CC="clang"
 ENV CXX="clang++"
 ENV SYCLCXX="clang++"
-ENV SYCLFLAGS="-fsycl -fsycl-targets=spir64,spir64_x86_64"
+ENV SYCLFLAGS="-fsycl"
