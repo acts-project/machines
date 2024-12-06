@@ -44,6 +44,7 @@ RUN apt-get update -y \
     ccache \
     libsqlite3-dev \
     time \
+    clang \
   && apt-get clean -y
 
 # manual builds for hep-specific packages
@@ -69,3 +70,6 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --allow_running_as_root \
   && cmake --build build/MinSizeRel -- install \
   && rm -rf build src
+
+ENV CC gcc
+ENV CXX g++

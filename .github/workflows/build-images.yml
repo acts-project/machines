@@ -21,7 +21,6 @@ jobs:
           - ubuntu2204
           - ubuntu2204_cuda
           - ubuntu2204_cuda_oneapi
-          - ubuntu2204_clang
           - ubuntu2204_rocm_clang
           - ubuntu2204_rocm_clang_cxx20
           - ubuntu2404
