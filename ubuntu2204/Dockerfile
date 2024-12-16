@@ -50,18 +50,18 @@ RUN apt-get update -y \
 # manual builds for hep-specific packages
 ENV GET curl --location --silent --create-dirs
 ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
-ENV PREFIX /usr/local
 
 ENV ONNXRUNTIME_VERSION=1.18.1
 
 RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
-    | tar -xz --strip-components=1 --directory ${PREFIX}
+    | tar -xz --strip-components=1 --directory /usr/local
 
 # Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
 RUN git clone https://github.com/microsoft/onnxruntime src \
   && (cd src && git checkout v${ONNXRUNTIME_VERSION}) \
   && ./src/build.sh \
     --config MinSizeRel \
+    --cmake_extra_defines CMAKE_INSTALL_PREFIX=/usr/local \
     --build_shared_lib \
     --build_dir build \
     --parallel $(nproc) \
