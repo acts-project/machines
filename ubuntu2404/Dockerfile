@@ -46,6 +46,7 @@ RUN apt-get update -y \
     python3-venv \
     libsqlite3-dev \
     time \
+    clang \
   && apt-get clean -y
 
 # manual builds for hep-specific packages
