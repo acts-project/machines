@@ -54,6 +54,8 @@ RUN apt-get update -y \
     libsqlite3-dev \
     time \
     clang-19 \
+    unzip \
+    file \
   && apt-get clean -y
 
 ENV CXX clang++-19

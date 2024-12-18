@@ -45,6 +45,8 @@ RUN apt-get update -y \
     libsqlite3-dev \
     time \
     clang \
+    unzip \
+    file \
   && apt-get clean -y
 
 # manual builds for hep-specific packages
