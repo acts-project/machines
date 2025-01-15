@@ -1,6 +1,10 @@
-FROM nvidia/tensorrt:24.12-py3
-LABEL description="Ubuntu 20.04 with dependencies to build TensorRT inference component"
+# Legal disclaimer:
+# This software contains source code provided by NVIDIA Corporation
+
+FROM nvcr.io/nvidia/tensorrt:24.12-py3
+LABEL description="Ubuntu 24.04 with dependencies to build TensorRT inference component"
 LABEL maintainer="Benjamin Huth <benjamin.huth@cern.ch"
+
 # increase whenever any of the RUN commands change
 LABEL version="1"
 
@@ -46,11 +50,7 @@ RUN apt-get update -y \
 
 # manual builds for hep-specific packages
 ENV GET curl --location --silent --create-dirs
-ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
-ENV CUDA_ARCH 86
-
-ENV TORCH_SCATTER_VERSION=2.1.2
 
 # libtorch (unzip cannot be used in a pipe...)
 ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu121/libtorch-cxx11-abi-shared-with-deps-2.3.1%2Bcu121.zip
