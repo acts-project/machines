@@ -54,6 +54,7 @@ RUN apt-get update -y \
     libsqlite3-dev \
     time \
     clang-19 \
+    clang-tools-19 \
     unzip \
     file \
   && apt-get clean -y
