@@ -63,7 +63,7 @@ RUN git clone https://github.com/microsoft/onnxruntime src \
     --build_dir build \
     --skip_tests \
     --allow_running_as_root \
-    --parallel 0 \
+    --parallel 4 \
   && cmake --build build/MinSizeRel -- install \
   && rm -rf build src
 
