@@ -45,6 +45,7 @@ RUN apt-get update -y \
     libsqlite3-dev \
     time \
     clang \
+    gfortran \
     unzip \
     file \
   && apt-get clean -y
