@@ -16,23 +16,54 @@ jobs:
       packages: write
     strategy:
       matrix:
-        context:
-          - ubuntu2204_exatrkx
-          - ubuntu2204
-          - ubuntu2204_cuda
-          - ubuntu2204_cuda_oneapi
-          - ubuntu2204_rocm_clang
-          - ubuntu2204_rocm_clang_cxx20
-          - ubuntu2404
-          - ubuntu2404_clang19
-          - ubuntu2404_cuda
-          - ubuntu2404_cuda_oneapi
-          - ubuntu2404_rocm_oneapi
-          - ubuntu2404_oneapi
-          - ubuntu2404_tensorrt
-          - alma9-base
-          - alma9_rocm_oneapi
-          - alma9_cuda_oneapi
+        include:
+          - context: ubuntu2204_exatrkx
+            platforms: linux/amd64
+
+          - context: ubuntu2204
+            platforms: linux/amd64
+
+          - context: ubuntu2204_cuda
+            platforms: linux/amd64
+
+          - context: ubuntu2204_cuda_oneapi
+            platforms: linux/amd64
+
+          - context: ubuntu2204_rocm_clang
+            platforms: linux/amd64
+
+          - context: ubuntu2204_rocm_clang_cxx20
+            platforms: linux/amd64
+
+          - context: ubuntu2404
+            platforms: linux/amd64,linux/arm64
+
+          - context: ubuntu2404_clang19
+            platforms: linux/amd64
+
+          - context: ubuntu2404_cuda
+            platforms: linux/amd64
+
+          - context: ubuntu2404_cuda_oneapi
+            platforms: linux/amd64
+
+          - context: ubuntu2404_rocm_oneapi
+            platforms: linux/amd64
+
+          - context: ubuntu2404_oneapi
+            platforms: linux/amd64
+
+          - context: ubuntu2404_tensorrt
+            platforms: linux/amd64
+
+          - context: alma9-base
+            platforms: linux/amd64
+
+          - context: alma9_rocm_oneapi
+            platforms: linux/amd64
+
+          - context: alma9_cuda_oneapi
+            platforms: linux/amd64
     steps:
       - uses: actions/checkout@v4
 
@@ -98,6 +129,7 @@ jobs:
         with:
           context: ${{ matrix.context }}
           push: true
+          platforms: ${{ matrix.platforms }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner  }}/${{ matrix.context }}:buildcache

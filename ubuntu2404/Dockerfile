@@ -6,7 +6,7 @@ LABEL maintainer="Stephen Nicholas Swatman <stephen.nicholas.swatman@cern.ch>"
 LABEL version="1"
 
 # DEBIAN_FRONTEND ensures non-blocking operation (tzdata is a problem)
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # install dependencies from the package manager.
 #
@@ -50,20 +50,3 @@ RUN apt-get update -y \
     unzip \
     file \
   && apt-get clean -y
-
-ENV ONNXRUNTIME_VERSION=1.18.1
-
-# Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
-RUN git clone https://github.com/microsoft/onnxruntime src \
-  && (cd src && git checkout v${ONNXRUNTIME_VERSION}) \
-  &&  ./src/build.sh \
-    --config MinSizeRel \
-    --cmake_extra_defines CMAKE_INSTALL_PREFIX=/usr/local \
-    --build_shared_lib \
-    --build_dir build \
-    --skip_tests \
-    --allow_running_as_root \
-    --parallel 0 \
-  && cmake --build build/MinSizeRel -- install \
-  && rm -rf build src
-
