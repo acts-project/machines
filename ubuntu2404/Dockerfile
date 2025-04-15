@@ -75,6 +75,6 @@ curl --location --silent --create-dirs \$url \
 mkdir /onnxruntime_dl/onnxruntime
 mv /onnxruntime_dl/include/* /onnxruntime_dl/onnxruntime
 mv /onnxruntime_dl/onnxruntime /onnxruntime_dl/include
-rsync -r /onnxruntime_dl/ /usr/local/
+rsync -rl /onnxruntime_dl/ /usr/local/
 
 EOT
