@@ -75,6 +75,10 @@ curl --location --silent --create-dirs \$url \
 mkdir /onnxruntime_dl/onnxruntime
 mv /onnxruntime_dl/include/* /onnxruntime_dl/onnxruntime
 mv /onnxruntime_dl/onnxruntime /onnxruntime_dl/include
+
+# Patch up `lib64 folder not existing in Ubuntu`
+sed -i s/lib64/lib/g /onnxruntime_dl/lib/cmake/onnxruntime/onnxruntimeTargets-release.cmake
+
 rsync -rl /onnxruntime_dl/ /usr/local/
 
 EOT
