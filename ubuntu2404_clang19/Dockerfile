@@ -55,6 +55,7 @@ RUN apt-get update -y \
     time \
     clang-19 \
     clang-tools-19 \
+    gfortran \
     unzip \
     file \
   && apt-get clean -y
