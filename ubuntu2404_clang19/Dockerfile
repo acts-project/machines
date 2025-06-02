@@ -55,6 +55,7 @@ RUN apt-get update -y \
     time \
     clang-19 \
     clang-tools-19 \
+    gfortran \
     unzip \
     file \
   && apt-get clean -y
@@ -62,19 +63,33 @@ RUN apt-get update -y \
 ENV CXX clang++-19
 ENV CC clang-19
 
-ENV ONNXRUNTIME_VERSION=1.18.1
+ENV ONNXRUNTIME_VERSION=1.21.0
 
-# Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
-RUN git clone https://github.com/microsoft/onnxruntime src \
-  && (cd src && git checkout v${ONNXRUNTIME_VERSION}) \
-  &&  ./src/build.sh \
-    --config MinSizeRel \
-    --cmake_extra_defines CMAKE_INSTALL_PREFIX=/usr/local \
-    --build_shared_lib \
-    --build_dir build \
-    --skip_tests \
-    --allow_running_as_root \
-    --parallel 0 \
-  && cmake --build build/MinSizeRel -- install \
-  && rm -rf build src
+RUN <<EOT bash
+set -eux
+set -o pipefail
 
+_ARCH=\$(uname -m)
+
+if [[ \$_ARCH == "x86_64" ]]; then
+  url=https://github.com/microsoft/onnxruntime/releases/download/v${ONNXRUNTIME_VERSION}/onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}.tgz
+elif [[ \$_ARCH == "aarch64" || \$_ARCH == "arm64" ]]; then
+  url=https://github.com/microsoft/onnxruntime/releases/download/v${ONNXRUNTIME_VERSION}/onnxruntime-linux-aarch64-${ONNXRUNTIME_VERSION}.tgz
+fi
+echo \$url
+
+mkdir /onnxruntime_dl
+curl --location --silent --create-dirs \$url \
+  | tar -xz --strip-components=1 --directory /onnxruntime_dl
+
+
+mkdir /onnxruntime_dl/onnxruntime
+mv /onnxruntime_dl/include/* /onnxruntime_dl/onnxruntime
+mv /onnxruntime_dl/onnxruntime /onnxruntime_dl/include
+
+# Patch up `lib64 folder not existing in Ubuntu`
+sed -i s/lib64/lib/g /onnxruntime_dl/lib/cmake/onnxruntime/onnxruntimeTargets-release.cmake
+
+rsync -rl /onnxruntime_dl/ /usr/local/
+
+EOT
