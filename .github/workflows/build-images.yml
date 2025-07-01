@@ -17,9 +17,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - context: ubuntu2204_exatrkx
-            platforms: linux/amd64
-
           - context: ubuntu2404_exatrkx
             platforms: linux/amd64
 
