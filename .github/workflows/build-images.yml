@@ -20,21 +20,6 @@ jobs:
           - context: ubuntu2404_exatrkx
             platforms: linux/amd64
 
-          - context: ubuntu2204
-            platforms: linux/amd64
-
-          - context: ubuntu2204_cuda
-            platforms: linux/amd64
-
-          - context: ubuntu2204_cuda_oneapi
-            platforms: linux/amd64
-
-          - context: ubuntu2204_rocm_clang
-            platforms: linux/amd64
-
-          - context: ubuntu2204_rocm_clang_cxx20
-            platforms: linux/amd64
-
           - context: ubuntu2404
             platforms: linux/amd64,linux/arm64
 
@@ -83,7 +68,7 @@ jobs:
           password: ${{ secrets.GITLAB_REGISTRY_PUSH_TOKEN }}
 
       - name: Remove packages for ExaTrkX build
-        if: ${{ matrix.context == 'ubuntu2204_exatrkx' }}
+        if: ${{ matrix.context == 'ubuntu2404_exatrkx' }}
         run: |
           df -h
           sudo apt-get update
