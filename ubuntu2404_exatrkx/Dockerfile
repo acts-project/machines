@@ -53,7 +53,7 @@ ENV PREFIX /usr/local
 ENV CUDA_ARCH 86
 
 RUN ${GET} -o libtorch.zip https://download.pytorch.org/libtorch/cu128/libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcu128.zip \
-  | bsdtar -xz --strip-components=1 --directory ${PREFIX}
+  | bsdtar -xz --strip-components=1 --directory /usr/local
 
 ENV ONNXRUNTIME_URL=https://github.com/microsoft/onnxruntime/releases/download/v1.21.0/onnxruntime-linux-x64-gpu-1.21.0.tgz
 
