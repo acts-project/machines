@@ -67,18 +67,7 @@ elif [[ \$_ARCH == "aarch64" || \$_ARCH == "arm64" ]]; then
 fi
 echo \$url
 
-mkdir /onnxruntime_dl
 curl --location --silent --create-dirs \$url \
-  | tar -xz --strip-components=1 --directory /onnxruntime_dl
-
-
-mkdir /onnxruntime_dl/onnxruntime
-mv /onnxruntime_dl/include/* /onnxruntime_dl/onnxruntime
-mv /onnxruntime_dl/onnxruntime /onnxruntime_dl/include
-
-# Patch up `lib64 folder not existing in Ubuntu`
-sed -i s/lib64/lib/g /onnxruntime_dl/lib/cmake/onnxruntime/onnxruntimeTargets-release.cmake
-
-rsync -rl /onnxruntime_dl/ /usr/local/
+  | tar -xz --strip-components=1 --directory /usr/local
 
 EOT

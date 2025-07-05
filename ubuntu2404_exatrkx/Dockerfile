@@ -1,5 +1,5 @@
-FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
-LABEL description="Ubuntu 20.04 with Acts dependencies for the Exa.TrkX Plugin"
+FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04
+LABEL description="Ubuntu 24.04 with Acts dependencies for the Exa.TrkX Plugin"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
 # increase whenever any of the RUN commands change
 LABEL version="1"
@@ -42,6 +42,8 @@ RUN apt-get update -y \
     ccache \
     libsqlite3-dev \
     time \
+    libarchive-tools \
+    cmake \
   && apt-get clean -y
 
 # manual builds for hep-specific packages
@@ -50,32 +52,18 @@ ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
 ENV PREFIX /usr/local
 ENV CUDA_ARCH 86
 
-ENV XXHASH_VERSION=0.7.3
-ENV JSON_VERSION=3.11.2
-ENV ROOT_VERSION=6.28.06
+RUN ${GET} https://download.pytorch.org/libtorch/cu128/libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcu128.zip \
+  | bsdtar -xz --strip-components=1 --directory /usr/local
+
+ENV ONNXRUNTIME_URL=https://github.com/microsoft/onnxruntime/releases/download/v1.21.0/onnxruntime-linux-x64-gpu-1.21.0.tgz
+
+
+ENV ONNXRUNTIME_VERSION=1.21.0
+
+RUN curl --location --silent --create-dirs $ONNXRUNTIME_URL \
+  | tar -xz --strip-components=1 --directory /usr/local
+
 ENV TORCH_SCATTER_VERSION=2.1.2
-ENV ONNXRUNTIME_VERSION=1.18.1
-
-# libtorch (unzip cannot be used in a pipe...)
-ENV LIBTORCH_URL_GPU https://download.pytorch.org/libtorch/cu121/libtorch-cxx11-abi-shared-with-deps-2.3.1%2Bcu121.zip
-
-RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
-    | tar -xz --strip-components=1 --directory ${PREFIX}
-
-# xxHash
-RUN mkdir -p src \
-  && ${GET} https://github.com/Cyan4973/xxHash/archive/v${XXHASH_VERSION}.tar.gz \
-    | ${UNPACK_TO_SRC} \
-  && cmake -B build -S src/cmake_unofficial -GNinja\
-    -DCMAKE_BUILD_TYPE=MinSizeRel \
-    -DCMAKE_CXX_STANDARD=20 \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-  && cmake --build build -- install -j$(nproc) \
-  && rm -rf build src
-
-
-RUN ${GET} https://acts.web.cern.ch/ACTS/ci/exatrkx/libtorch-cxx11-abi-shared-with-deps-2.3.1+cu121.tar.zst \
-    | tar -I zstd -x --strip-components=1 --directory ${PREFIX}
 
 # torch-scatter
 # I have absolutely no clue why I need this __CUDA_NO_HALF_CONVERSIONS__, but it fails to compile if not set...
@@ -92,23 +80,4 @@ RUN mkdir src \
     -DCMAKE_CUDA_FLAGS=-D__CUDA_NO_HALF_CONVERSIONS__ \
     -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
   && cmake --build build -- install -j$(nproc) \
-  && rm -rf build src
-
-# Onnx (download of tar.gz does not work out of the box, since the build.sh script requires a git repository)
-RUN git clone https://github.com/microsoft/onnxruntime src \
-  && (cd src && git checkout v${ONNXRUNTIME_VERSION}) \
-  && ./src/build.sh \
-    --config MinSizeRel \
-    --build_shared_lib \
-    --build_dir build \
-    --use_cuda \
-    --cuda_home /usr/local/cuda \
-    --cudnn_home /usr/local/cuda \
-    --skip_tests \
-    --parallel 0 \
-    --allow_running_as_root \
-    --cmake_extra_defines \
-      CMAKE_INSTALL_PREFIX=${PREFIX} \
-      CMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
-  && cmake --build build/MinSizeRel -- install \
   && rm -rf build src
