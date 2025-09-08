@@ -11,6 +11,7 @@ FROM ghcr.io/acts-project/ubuntu2404:68
 # Some description for the image.
 LABEL description="Ubuntu 24.04 with Acts dependencies and ROCm/HIP + oneAPI"
 LABEL maintainer="Stephen Nicholas Swatman <stephen.nicholas.swatman@cern.ch>"
+LABEL version="1"
 
 # Set up the ROCm package signing key.
 RUN mkdir --parents --mode=0755 /etc/apt/keyrings && \
