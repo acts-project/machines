@@ -12,6 +12,7 @@ FROM ghcr.io/acts-project/ubuntu2404:68
 LABEL description="Ubuntu 24.04 with Acts dependencies and oneAPI"
 LABEL maintainer="Stephen Nicholas Swatman <stephen.nicholas.swatman@cern.ch>"
 LABEL version="2"
+ARG CACHEBUST=0
 
 # Set up the Intel package signing key.
 RUN mkdir --parents --mode=0755 /etc/apt/keyrings && \

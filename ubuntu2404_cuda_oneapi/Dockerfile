@@ -12,6 +12,7 @@ FROM ghcr.io/acts-project/ubuntu2404:68
 LABEL description="Ubuntu 24.04 with Acts dependencies and CUDA + oneAPI"
 LABEL maintainer="Stephen Nicholas Swatman <stephen.nicholas.swatman@cern.ch>"
 LABEL version="2"
+ARG CACHEBUST=0
 
 # Add the Ubuntu 24.04 CUDA repository.
 RUN curl -SL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb \

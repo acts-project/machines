@@ -3,6 +3,7 @@ LABEL description="Ubuntu 24.04 with Acts dependencies for the Exa.TrkX Plugin"
 LABEL maintainer="Paul Gessinger <paul.gessinger@cern.ch"
 # increase whenever any of the RUN commands change
 LABEL version="2"
+ARG CACHEBUST=0
 
 # DEBIAN_FRONTEND ensures non-blocking operation (tzdata is a problem)
 ENV DEBIAN_FRONTEND noninteractive

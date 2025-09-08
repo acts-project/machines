@@ -4,6 +4,7 @@
 FROM nvcr.io/nvidia/tensorrt:24.12-py3
 LABEL description="Ubuntu 24.04 with dependencies to build TensorRT inference component"
 LABEL maintainer="Benjamin Huth <benjamin.huth@cern.ch"
+ARG CACHEBUST=0
 
 # increase whenever any of the RUN commands change
 LABEL version="2"
