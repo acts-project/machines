@@ -6,7 +6,7 @@ LABEL description="Ubuntu 24.04 with dependencies to build TensorRT inference co
 LABEL maintainer="Benjamin Huth <benjamin.huth@cern.ch"
 
 # increase whenever any of the RUN commands change
-LABEL version="1"
+LABEL version="2"
 
 # DEBIAN_FRONTEND ensures non-blocking operation (tzdata is a problem)
 ENV DEBIAN_FRONTEND noninteractive
