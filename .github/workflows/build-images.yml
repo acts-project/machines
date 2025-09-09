@@ -67,8 +67,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITLAB_REGISTRY_PUSH_TOKEN }}
 
-      - name: Remove packages for ExaTrkX build
-        if: ${{ matrix.context == 'ubuntu2404_exatrkx' }}
+      - name: Remove packages for GNN build
+        if: ${{ matrix.context == 'ubuntu2404_gnn' }}
         run: |
           df -h
           sudo apt-get update
