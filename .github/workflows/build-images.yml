@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - context: ubuntu2404_exatrkx
+          - context: ubuntu2404_gnn
             platforms: linux/amd64
 
           - context: ubuntu2404
