@@ -29,12 +29,6 @@ jobs:
           - context: ubuntu2404_cuda
             platforms: linux/amd64
 
-          - context: ubuntu2404_cuda_oneapi
-            platforms: linux/amd64
-
-          - context: ubuntu2404_rocm_oneapi
-            platforms: linux/amd64
-
           - context: ubuntu2404_oneapi
             platforms: linux/amd64
 
@@ -42,12 +36,6 @@ jobs:
             platforms: linux/amd64
 
           - context: alma9-base
-            platforms: linux/amd64
-
-          - context: alma9_rocm_oneapi
-            platforms: linux/amd64
-
-          - context: alma9_cuda_oneapi
             platforms: linux/amd64
     steps:
       - uses: actions/checkout@v4
