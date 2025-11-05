@@ -51,7 +51,7 @@ jobs:
 
 
       - name: Remove packages for GNN build
-        if: ${{ matrix.context == 'ubuntu2404_gnn' }}
+        if: ${{ matrix.context == 'ubuntu2404_gnn' || matrix.context == 'ubuntu2404_tensorrt' }}
         run: |
           df -h
           sudo apt-get update
