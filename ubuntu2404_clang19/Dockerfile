@@ -59,6 +59,7 @@ RUN apt-get update -y \
     gfortran \
     unzip \
     file \
+    bc \
   && apt-get clean -y
 
 ENV CXX clang++-19

@@ -47,6 +47,7 @@ RUN apt-get update -y \
     ccache \
     libsqlite3-dev \
     time \
+    bc \
   && apt-get clean -y
 
 # manual builds for hep-specific packages

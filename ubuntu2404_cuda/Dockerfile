@@ -1,5 +1,5 @@
 # @TODO: Update this
-FROM ghcr.io/acts-project/ubuntu2404:53
+FROM ghcr.io/acts-project/ubuntu2404:82
 
 LABEL description="Ubuntu 24.04 with Acts dependencies and CUDA"
 LABEL maintainer="Stephen Nicholas Swatman <stephen.nicholas.swatman@cern.ch>"
