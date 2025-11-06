@@ -45,6 +45,7 @@ RUN apt-get update -y \
     time \
     libarchive-tools \
     cmake \
+    bc \
   && apt-get clean -y
 
 # manual builds for hep-specific packages

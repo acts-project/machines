@@ -51,6 +51,7 @@ RUN apt-get update -y \
     gfortran \
     unzip \
     file \
+    bc \
   && apt-get clean -y
 
 ENV ONNXRUNTIME_VERSION=1.21.0

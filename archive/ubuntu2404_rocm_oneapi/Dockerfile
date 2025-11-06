@@ -6,7 +6,7 @@
 
 # Start from the (at the time of writing) latest Acts Ubuntu 24.04 image.
 # @TODO: Update this
-FROM ghcr.io/acts-project/ubuntu2404:68
+FROM ghcr.io/acts-project/ubuntu2404:82
 
 # Some description for the image.
 LABEL description="Ubuntu 24.04 with Acts dependencies and ROCm/HIP + oneAPI"
