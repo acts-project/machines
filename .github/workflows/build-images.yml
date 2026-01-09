@@ -35,6 +35,9 @@ jobs:
           - context: ubuntu2404_tensorrt
             platforms: linux/amd64
 
+          - context: ubuntu2404_docs
+            platforms: linux/amd64
+
           - context: alma9-base
             platforms: linux/amd64
     steps:
