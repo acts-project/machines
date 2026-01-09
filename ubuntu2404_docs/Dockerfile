@@ -10,6 +10,15 @@ LABEL version="1"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y graphviz texlive-bibtex-extra libeigen3-dev libboost-dev cmake && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+      build-essential \
+      curl \
+      graphviz \
+      texlive-bibtex-extra \
+      libeigen3-dev \
+      libboost-dev \
+      ninja-build \
+      cmake && \
     apt-get clean -y
 
