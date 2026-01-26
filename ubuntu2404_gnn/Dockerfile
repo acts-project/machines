@@ -47,12 +47,3 @@ RUN apt-get update -y \
     cmake \
     bc \
   && apt-get clean -y
-
-# manual builds for hep-specific packages
-ENV GET curl --location --silent --create-dirs
-ENV UNPACK_TO_SRC tar -xz --strip-components=1 --directory src
-ENV PREFIX /usr/local
-ENV CUDA_ARCH 86
-
-RUN ${GET} https://download.pytorch.org/libtorch/cu128/libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcu128.zip \
-  | bsdtar -xz --strip-components=1 --directory /usr/local
