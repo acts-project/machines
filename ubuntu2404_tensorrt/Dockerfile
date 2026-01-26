@@ -49,3 +49,16 @@ RUN apt-get update -y \
     time \
     bc \
   && apt-get clean -y
+
+# manual builds for hep-specific packages
+ENV GET="curl --location --silent --create-dirs"
+ENV PREFIX=/usr/local
+
+# libtorch (unzip cannot be used in a pipe...)
+ENV LIBTORCH_URL_GPU=https://download.pytorch.org/libtorch/cu121/libtorch-cxx11-abi-shared-with-deps-2.3.1%2Bcu121.zip
+
+RUN ${GET} https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.tar.gz \
+    | tar -xz --strip-components=1 --directory ${PREFIX}
+
+RUN ${GET} https://acts.web.cern.ch/ACTS/ci/exatrkx/libtorch-cxx11-abi-shared-with-deps-2.3.1+cu121.tar.zst \
+    | tar -I zstd -x --strip-components=1 --directory ${PREFIX}
