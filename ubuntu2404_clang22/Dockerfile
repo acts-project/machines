@@ -14,7 +14,7 @@ RUN apt-get update -y \
   && apt-get install -y wget
 
 RUN wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
-RUN echo "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-21 main" >> /etc/apt/sources.list
+RUN echo "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-22 main" >> /etc/apt/sources.list
 
 # install dependencies from the package manager.
 #
@@ -54,16 +54,16 @@ RUN apt-get update -y \
     python3-venv \
     libsqlite3-dev \
     time \
-    clang-21 \
-    clang-tools-21 \
+    clang-22 \
+    clang-tools-22 \
     gfortran \
     unzip \
     file \
     bc \
   && apt-get clean -y
 
-ENV CXX clang++-21
-ENV CC clang-21
+ENV CXX clang++-22
+ENV CC clang-22
 
 ENV ONNXRUNTIME_VERSION=1.21.0
 
