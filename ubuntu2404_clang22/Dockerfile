@@ -65,33 +65,3 @@ RUN apt-get update -y \
 ENV CXX clang++-22
 ENV CC clang-22
 
-ENV ONNXRUNTIME_VERSION=1.21.0
-
-RUN <<EOT bash
-set -eux
-set -o pipefail
-
-_ARCH=\$(uname -m)
-
-if [[ \$_ARCH == "x86_64" ]]; then
-  url=https://github.com/microsoft/onnxruntime/releases/download/v${ONNXRUNTIME_VERSION}/onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}.tgz
-elif [[ \$_ARCH == "aarch64" || \$_ARCH == "arm64" ]]; then
-  url=https://github.com/microsoft/onnxruntime/releases/download/v${ONNXRUNTIME_VERSION}/onnxruntime-linux-aarch64-${ONNXRUNTIME_VERSION}.tgz
-fi
-echo \$url
-
-mkdir /onnxruntime_dl
-curl --location --silent --create-dirs \$url \
-  | tar -xz --strip-components=1 --directory /onnxruntime_dl
-
-
-mkdir /onnxruntime_dl/onnxruntime
-mv /onnxruntime_dl/include/* /onnxruntime_dl/onnxruntime
-mv /onnxruntime_dl/onnxruntime /onnxruntime_dl/include
-
-# Patch up `lib64 folder not existing in Ubuntu`
-sed -i s/lib64/lib/g /onnxruntime_dl/lib/cmake/onnxruntime/onnxruntimeTargets-release.cmake
-
-rsync -rl /onnxruntime_dl/ /usr/local/
-
-EOT
