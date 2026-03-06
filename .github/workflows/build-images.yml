@@ -23,6 +23,9 @@ jobs:
           - context: ubuntu2404
             platforms: linux/amd64,linux/arm64
 
+          - context: ubuntu2604
+            platforms: linux/amd64,linux/arm64
+
           - context: ubuntu2404_clang22
             platforms: linux/amd64
 
