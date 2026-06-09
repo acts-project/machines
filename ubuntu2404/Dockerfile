@@ -3,7 +3,7 @@ FROM ubuntu:24.04
 LABEL description="Ubuntu 24.04 with Acts dependencies"
 LABEL maintainer="Stephen Nicholas Swatman <stephen.nicholas.swatman@cern.ch>"
 # increase whenever any of the RUN commands change
-LABEL version="2"
+LABEL version="3"
 ARG CACHEBUST=0
 
 # DEBIAN_FRONTEND ensures non-blocking operation (tzdata is a problem)
@@ -28,7 +28,7 @@ RUN apt-get update -y \
     libgsl-dev \
     liblz4-dev \
     liblzma-dev \
-    libpcre3-dev \
+    libpcre2-dev \
     libx11-dev \
     libxext-dev \
     libxft-dev \

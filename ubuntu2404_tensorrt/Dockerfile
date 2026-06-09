@@ -7,7 +7,7 @@ LABEL maintainer="Benjamin Huth <benjamin.huth@cern.ch"
 ARG CACHEBUST=0
 
 # increase whenever any of the RUN commands change
-LABEL version="2"
+LABEL version="3"
 
 # DEBIAN_FRONTEND ensures non-blocking operation (tzdata is a problem)
 ENV DEBIAN_FRONTEND=noninteractive
@@ -29,7 +29,7 @@ RUN apt-get update -y \
     libgsl-dev \
     liblz4-dev \
     liblzma-dev \
-    libpcre3-dev \
+    libpcre2-dev \
     libx11-dev \
     libxext-dev \
     libxft-dev \
