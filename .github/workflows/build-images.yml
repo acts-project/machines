@@ -43,6 +43,9 @@ jobs:
 
           - context: alma9-base
             platforms: linux/amd64
+
+          - context: alma10-base
+            platforms: linux/amd64
     steps:
       - uses: actions/checkout@v4
 
