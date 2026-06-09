@@ -1,4 +1,4 @@
-build:
+build_all:
   #!/bin/bash
   files=$(find . -maxdepth 2 -type f -name "Dockerfile")
   for f in $files; do
@@ -6,6 +6,11 @@ build:
     docker build $context -f $f
   done
 
+build context:
+  docker build {{context}} -t {{context}}
+
+run context: (build context)
+  docker run --rm -it {{context}}
 
 bump:
   #!/usr/bin/env python3
