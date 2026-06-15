@@ -36,6 +36,7 @@ RUN apt-get update -y \
     libxerces-c-dev \
     libxxhash-dev \
     libzstd-dev \
+    libcrypt-dev \
     zstd \
     ninja-build \
     python3 \
