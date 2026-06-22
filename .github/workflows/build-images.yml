@@ -32,6 +32,9 @@ jobs:
           - context: ubuntu2404_cuda
             platforms: linux/amd64
 
+          - context: ubuntu2404_rocm
+            platforms: linux/amd64
+
           - context: ubuntu2404_oneapi
             platforms: linux/amd64
 
