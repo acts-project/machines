@@ -7,7 +7,7 @@ ARG CACHEBUST=0
 
 RUN dnf install -y epel-release \
   && dnf install -y https://linuxsoft.cern.ch/wlcg/el9/x86_64/HEP_OSlibs-9.2.6-3.el9.x86_64.rpm \
-  && dnf install -y unzip gcc-toolset-15 ninja-build \
+  && dnf install -y unzip gcc-toolset-15 ninja-build expat-devel \
   && dnf -y clean all
 
 ENV CXX=/opt/rh/gcc-toolset-15/root/bin/g++
