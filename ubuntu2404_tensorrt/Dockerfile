@@ -24,6 +24,7 @@ RUN apt-get update -y \
     freeglut3-dev \
     libexpat-dev \
     libftgl-dev \
+    libgl1-mesa-dev \
     libgl2ps-dev \
     libglew-dev \
     libgsl-dev \
