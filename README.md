@@ -7,6 +7,10 @@ All images are intended to be used in the continuous integration pipeline.
 
 The `archive` folder contains image definitions that are not actively used.
 
+The `ubuntu2604_gcc16` image includes the Ubuntu 26.04 dependencies and GCC 16,
+selected through `CC` and `CXX`. Ubuntu currently packages this compiler as an
+experimental snapshot. The standard `ubuntu2604` image keeps its default compiler.
+
 How to build an image
 ---------------------
 
